@@ -4,7 +4,7 @@
     "builds": [
         {
             "src": "api/index.php",
-            "use": "@fwdmo/percel"
+            "use": "vercel-php@0.6.1"
         },
         {
             "src": "/public/**",
