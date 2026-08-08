@@ -11,8 +11,8 @@ Route::get('/setup-database-mig-temp', function () {
     }
 });
 
+require __DIR__ . '/debug.php';
+
 Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '.*');
-
-require __DIR__ . '/debug.php';
