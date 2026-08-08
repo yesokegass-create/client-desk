@@ -13,12 +13,13 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'cf_token' => 'required|string',
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8',
+                'cf_token' => 'required|string',
+            ]);
 
         // Verify Turnstile token with Cloudflare
         $turnstileResponse = \Illuminate\Support\Facades\Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
@@ -54,6 +55,9 @@ class AuthController extends Controller
         }
 
         return response()->json(['message' => 'User registered successfully. Please check your email.']);
+        } catch (\Throwable $e) {
+            return response()->json(['message' => 'Exception in register: ' . $e->getMessage() . ' at line ' . $e->getLine()], 500);
+        }
     }
 
     public function login(Request $request)
