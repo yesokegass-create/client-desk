@@ -47,4 +47,4 @@ RUN a2enmod rewrite
 EXPOSE 80
 
 # On container start, run migrations and start Apache
-CMD php artisan config:cache && php artisan route:cache && php artisan migrate --force && apache2-foreground
+CMD php artisan config:cache && php artisan route:cache && php artisan migrate:fresh --force && apache2-foreground
