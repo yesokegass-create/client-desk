@@ -51,7 +51,7 @@ class AuthController extends Controller
             // Fallback: If SMTP fails, auto-verify the user so they can still login and test the app
             $user->email_verified_at = now();
             $user->save();
-            return response()->json(['message' => 'Akun berhasil dibuat. (Catatan: Pengiriman email gagal, namun akun Anda diverifikasi otomatis)']);
+            return response()->json(['message' => 'Akun berhasil dibuat. (Catatan: Pengiriman email gagal karena: ' . $e->getMessage() . ')']);
         }
 
         return response()->json(['message' => 'User registered successfully. Please check your email.']);
@@ -158,7 +158,7 @@ class AuthController extends Controller
         try {
             \Illuminate\Support\Facades\Mail::to($user->email)->send(new \App\Mail\ResetPasswordMailable($resetUrl));
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Gagal mengirim email. Pastikan kredensial SMTP di file .env sudah diatur dengan benar.'], 500);
+            return response()->json(['message' => 'Gagal mengirim email: ' . $e->getMessage()], 500);
         }
 
         return response()->json(['message' => 'Jika email Anda terdaftar, Anda akan menerima link reset password.']);
