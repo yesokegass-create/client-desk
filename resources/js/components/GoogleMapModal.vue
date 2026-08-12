@@ -14,9 +14,17 @@
             v-model="searchQuery" 
             placeholder="Cari tempat di peta..." 
             class="map-search-input"
+            @input="debouncedSearch"
             @keydown.enter.prevent="searchLocation"
           />
           <MapPin class="search-icon" :size="16" />
+          
+          <!-- Autocomplete Dropdown -->
+          <ul v-if="searchResults.length > 0 && showSuggestions" class="autocomplete-list">
+            <li v-for="result in searchResults" :key="result.place_id" @click="selectSearchResult(result)">
+              {{ result.display_name }}
+            </li>
+          </ul>
         </div>
         <button class="btn-location" @click="getCurrentLocation">
           <Navigation :size="14" class="mr-1" /> Lokasi Saya
@@ -24,7 +32,7 @@
       </div>
 
       <div class="map-container" ref="mapContainer">
-        <!-- Google Map will be rendered here -->
+        <!-- Leaflet Map will be rendered here -->
       </div>
       
       <div class="map-modal-footer">
@@ -41,9 +49,22 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, nextTick, onBeforeUnmount } from 'vue';
-import { Loader } from '@googlemaps/js-api-loader';
+import { ref, onMounted, watch, nextTick } from 'vue';
 import { MapPin, Navigation } from 'lucide-vue-next';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Fix for default marker icons in Leaflet with bundlers
+import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
+import iconUrl from 'leaflet/dist/images/marker-icon.png';
+import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+});
 
 const props = defineProps({
   show: Boolean,
@@ -55,121 +76,108 @@ const emit = defineEmits(['close', 'select']);
 const mapContainer = ref(null);
 const searchInput = ref(null);
 const searchQuery = ref('');
+const searchResults = ref([]);
+const showSuggestions = ref(false);
+let searchTimeout = null;
 
 let map = null;
 let marker = null;
-let geocoder = null;
-let searchBox = null;
 
 const currentPosition = ref({ lat: -6.200000, lng: 106.816666 }); // Default Jakarta
 const selectedAddress = ref('');
 
-const initMap = async () => {
-  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyPlaceholderKeyForDevelopmentOnly';
+const initMap = () => {
+  if (map) {
+    map.remove();
+  }
   
-  const loader = new Loader({
-    apiKey: apiKey,
-    version: 'weekly',
-    libraries: ['places']
+  map = L.map(mapContainer.value).setView([currentPosition.value.lat, currentPosition.value.lng], 15);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  marker = L.marker([currentPosition.value.lat, currentPosition.value.lng], {
+    draggable: true
+  }).addTo(map);
+
+  marker.on('dragend', (e) => {
+    const position = marker.getLatLng();
+    currentPosition.value = { lat: position.lat, lng: position.lng };
+    reverseGeocode(currentPosition.value);
   });
 
+  map.on('click', (e) => {
+    marker.setLatLng(e.latlng);
+    currentPosition.value = { lat: e.latlng.lat, lng: e.latlng.lng };
+    reverseGeocode(currentPosition.value);
+  });
+
+  if (props.initialAddress) {
+    searchQuery.value = props.initialAddress;
+    searchLocation();
+  } else {
+    getCurrentLocation();
+  }
+  
+  // Close suggestions if clicked outside map area
+  map.on('mousedown', () => {
+    showSuggestions.value = false;
+  });
+};
+
+const reverseGeocode = async (latlng) => {
   try {
-    const { Map } = await loader.importLibrary('maps');
-    const { AdvancedMarkerElement } = await loader.importLibrary('marker');
-    await loader.importLibrary('places');
-    geocoder = new google.maps.Geocoder();
-
-    map = new Map(mapContainer.value, {
-      center: currentPosition.value,
-      zoom: 15,
-      mapTypeControl: true,
-      streetViewControl: false,
-      fullscreenControl: true,
-      mapId: 'DEMO_MAP_ID', // Required for AdvancedMarkerElement
-    });
-
-    marker = new AdvancedMarkerElement({
-      map,
-      position: currentPosition.value,
-      gmpDraggable: true,
-      title: 'Pilih Lokasi'
-    });
-
-    marker.addListener('dragend', () => {
-      const position = marker.position;
-      currentPosition.value = { lat: position.lat, lng: position.lng };
-      reverseGeocode(currentPosition.value);
-    });
-
-    map.addListener('click', (e) => {
-      const position = e.latLng.toJSON();
-      marker.position = position;
-      currentPosition.value = position;
-      reverseGeocode(position);
-    });
-
-    // Initialize SearchBox
-    if (searchInput.value) {
-      searchBox = new google.maps.places.SearchBox(searchInput.value);
-      
-      searchBox.addListener('places_changed', () => {
-        const places = searchBox.getPlaces();
-        if (places.length == 0) return;
-
-        const place = places[0];
-        if (!place.geometry || !place.geometry.location) return;
-
-        const position = place.geometry.location.toJSON();
-        map.setCenter(position);
-        map.setZoom(17);
-        marker.position = position;
-        currentPosition.value = position;
-        
-        searchQuery.value = place.formatted_address || place.name;
-        selectedAddress.value = searchQuery.value;
-      });
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latlng.lat}&lon=${latlng.lng}`);
+    const data = await response.json();
+    if (data && data.display_name) {
+      searchQuery.value = data.display_name;
+      selectedAddress.value = data.display_name;
     }
-
-    // Try to geocode initial address if provided
-    if (props.initialAddress) {
-      searchQuery.value = props.initialAddress;
-      searchLocation();
-    } else {
-      getCurrentLocation();
-    }
-
-  } catch (e) {
-    console.error("Google Maps API could not be loaded", e);
+  } catch (err) {
+    console.error('Reverse geocoding failed', err);
   }
 };
 
-const reverseGeocode = (latlng) => {
-  if (!geocoder) return;
-  geocoder.geocode({ location: latlng }, (results, status) => {
-    if (status === 'OK') {
-      if (results[0]) {
-        searchQuery.value = results[0].formatted_address;
-        selectedAddress.value = results[0].formatted_address;
-      }
+const debouncedSearch = () => {
+  clearTimeout(searchTimeout);
+  if (!searchQuery.value || searchQuery.value.length < 3) {
+    searchResults.value = [];
+    showSuggestions.value = false;
+    return;
+  }
+  
+  searchTimeout = setTimeout(async () => {
+    try {
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(searchQuery.value)}`);
+      const data = await response.json();
+      searchResults.value = data;
+      showSuggestions.value = true;
+    } catch (err) {
+      console.error('Search failed', err);
     }
-  });
+  }, 500);
 };
 
 const searchLocation = () => {
-  if (!geocoder || !searchQuery.value) return;
-  geocoder.geocode({ address: searchQuery.value }, (results, status) => {
-    if (status === 'OK') {
-      const position = results[0].geometry.location.toJSON();
-      map.setCenter(position);
-      map.setZoom(17);
-      marker.position = position;
-      currentPosition.value = position;
-      selectedAddress.value = results[0].formatted_address;
-    } else {
-      // Don't show alert, just silently fail or log
-      console.warn('Lokasi tidak ditemukan: ' + status);
-    }
-  });
+  if (searchResults.value.length > 0) {
+    selectSearchResult(searchResults.value[0]);
+  }
+};
+
+const selectSearchResult = (result) => {
+  const lat = parseFloat(result.lat);
+  const lng = parseFloat(result.lon);
+  
+  map.setView([lat, lng], 17);
+  marker.setLatLng([lat, lng]);
+  currentPosition.value = { lat, lng };
+  
+  searchQuery.value = result.display_name;
+  selectedAddress.value = result.display_name;
+  
+  showSuggestions.value = false;
+  searchResults.value = [];
 };
 
 const getCurrentLocation = () => {
@@ -181,21 +189,22 @@ const getCurrentLocation = () => {
           lng: position.coords.longitude,
         };
         if (map && marker) {
-          map.setCenter(pos);
-          map.setZoom(17);
-          marker.position = pos;
+          map.setView([pos.lat, pos.lng], 17);
+          marker.setLatLng([pos.lat, pos.lng]);
         }
         currentPosition.value = pos;
         reverseGeocode(pos);
       },
-      () => {
-        console.warn('Geolocation failed or permission denied.');
-      }
+      (error) => {
+        console.warn('Geolocation failed or permission denied:', error.message);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
   }
 };
 
 const closeModal = () => {
+  showSuggestions.value = false;
   emit('close');
 };
 
@@ -207,15 +216,7 @@ const confirmLocation = () => {
 watch(() => props.show, async (newVal) => {
   if (newVal) {
     await nextTick();
-    if (!map) {
-      initMap();
-    } else {
-      // Reset position if opened again with new address
-      if (props.initialAddress) {
-        searchQuery.value = props.initialAddress;
-        searchLocation();
-      }
-    }
+    initMap();
   }
 });
 </script>
@@ -239,7 +240,7 @@ watch(() => props.show, async (newVal) => {
   width: 90%;
   max-width: 700px;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: visible; /* Important for dropdown */
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
@@ -301,6 +302,39 @@ watch(() => props.show, async (newVal) => {
   border-color: #111827;
 }
 
+.autocomplete-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-top: 4px;
+  padding: 0;
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 2000;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.autocomplete-list li {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.9rem;
+  color: #111827;
+}
+
+.autocomplete-list li:hover {
+  background: #f9fafb;
+}
+
+.autocomplete-list li:last-child {
+  border-bottom: none;
+}
+
 .btn-location {
   display: flex;
   align-items: center;
@@ -323,6 +357,7 @@ watch(() => props.show, async (newVal) => {
   width: 100%;
   height: 400px;
   background: #e5e7eb;
+  z-index: 10;
 }
 
 .map-modal-footer {
@@ -332,6 +367,7 @@ watch(() => props.show, async (newVal) => {
   align-items: center;
   background: #f9fafb;
   border-top: 1px solid #e5e7eb;
+  z-index: 20;
 }
 
 .footer-hint {

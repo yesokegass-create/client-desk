@@ -219,4 +219,133 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Kata sandi berhasil diperbarui.']);
     }
+
+    public function getGoogleAuthUrl()
+    {
+        try {
+            $clientId = config('services.google.client_id');
+            $redirectUri = config('services.google.redirect'); // Use the exact same URI from Google config
+            
+            $query = http_build_query([
+                'client_id' => $clientId,
+                'redirect_uri' => $redirectUri,
+                'response_type' => 'code',
+                'scope' => 'openid email profile',
+                'access_type' => 'offline',
+                'prompt' => 'consent',
+                'state' => 'login'
+            ]);
+
+            $authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' . $query;
+
+            return response()->json([
+                'status' => 'success',
+                'url' => $authUrl
+            ]);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Google Auth URL Error: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to generate auth url: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function handleGoogleCallback(Request $request)
+    {
+        $code = $request->query('code');
+
+        if (!$code) {
+            return response()->json(['error' => 'No authorization code provided'], 400);
+        }
+
+        try {
+            $redirectUri = config('services.google.redirect');
+            $response = \Illuminate\Support\Facades\Http::post('https://oauth2.googleapis.com/token', [
+                'client_id' => config('services.google.client_id'),
+                'client_secret' => config('services.google.client_secret'),
+                'redirect_uri' => $redirectUri,
+                'grant_type' => 'authorization_code',
+                'code' => $code,
+            ]);
+
+            $token = $response->json();
+
+            if (isset($token['error'])) {
+                throw new \Exception($token['error_description'] ?? 'Error fetching access token');
+            }
+
+            // Get user info
+            $userInfoResponse = \Illuminate\Support\Facades\Http::withToken($token['access_token'])
+                ->get('https://www.googleapis.com/oauth2/v2/userinfo');
+
+            $googleUser = $userInfoResponse->json();
+
+            if (!isset($googleUser['email'])) {
+                throw new \Exception('Email not found from Google profile');
+            }
+
+            $user = User::where('email', $googleUser['email'])->first();
+
+            if (!$user) {
+                // Create user if not exists
+                $user = User::create([
+                    'name' => $googleUser['name'] ?? 'User',
+                    'email' => $googleUser['email'],
+                    'google_id' => $googleUser['id'] ?? null,
+                    'avatar' => $googleUser['picture'] ?? null,
+                    'password' => \Illuminate\Support\Facades\Hash::make(\Illuminate\Support\Str::random(24)),
+                    'email_verified_at' => now(), // Automatically verify email
+                ]);
+            } else {
+                // Update existing user
+                if (!$user->google_id) {
+                    $user->google_id = $googleUser['id'] ?? null;
+                }
+                if (!$user->avatar && isset($googleUser['picture'])) {
+                    $user->avatar = $googleUser['picture'];
+                }
+                if (!$user->email_verified_at) {
+                    $user->email_verified_at = now();
+                }
+                $user->save();
+            }
+
+            $sanctumToken = $user->createToken('auth_token')->plainTextToken;
+
+            return response("
+                <html>
+                <body>
+                    <script>
+                        if (window.opener) {
+                            window.opener.postMessage({ 
+                                type: 'GOOGLE_LOGIN_SUCCESS', 
+                                token: '" . $sanctumToken . "' 
+                            }, '*');
+                            window.close();
+                        } else {
+                            document.write('Login berhasil. Anda dapat menutup halaman ini.');
+                        }
+                    </script>
+                </body>
+                </html>
+            ");
+
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Google Login Callback Error: ' . $e->getMessage());
+            return response("
+                <html>
+                <body>
+                    <h2>Terjadi Kesalahan Login</h2>
+                    <p>" . htmlspecialchars($e->getMessage()) . "</p>
+                    <script>
+                        if (window.opener) {
+                            window.opener.postMessage({ type: 'GOOGLE_LOGIN_FAILED', error: '" . addslashes($e->getMessage()) . "' }, '*');
+                        }
+                    </script>
+                </body>
+                </html>
+            ");
+        }
+    }
 }

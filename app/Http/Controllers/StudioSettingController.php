@@ -87,6 +87,7 @@ class StudioSettingController extends Controller
             'vendor_name' => $settings->vendor_name,
             'custom_url' => $settings->custom_url,
             'form_booking_settings' => $settings->form_booking_settings,
+            'logo_url' => $settings->logo_url,
         ]);
     }
 

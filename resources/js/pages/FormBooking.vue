@@ -428,7 +428,10 @@
                
                <!-- mockup body -->
                <div class="mockup-body">
-                 <div class="mockup-avatar">
+                 <div v-if="vendorLogo" class="mockup-avatar" style="background: transparent;">
+                   <img :src="vendorLogo" alt="Vendor Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;" />
+                 </div>
+                 <div v-else class="mockup-avatar">
                    {{ vendorName ? vendorName.charAt(0).toUpperCase() : 'F' }}
                  </div>
                  <h3 class="mockup-vendor-name">{{ vendorName || 'fariz' }}</h3>
@@ -437,13 +440,13 @@
                    <div class="mockup-form-card">
                       <!-- Steps List -->
                       <div class="mockup-steps-list">
-                        <div class="mockup-step active" :style="{ backgroundColor: brandColor + '20', borderColor: brandColor }">
-                          <span class="step-num" :style="{ backgroundColor: brandColor, color: '#fff' }">1</span>
-                          <span class="step-text" :style="{ color: '#000' }">{{ langStrings.clientInfo }}</span>
+                        <div class="mockup-step" :style="{ backgroundColor: '#f0fdf4', borderColor: '#22c55e' }">
+                          <span class="step-num" :style="{ backgroundColor: '#22c55e', color: '#fff' }">1</span>
+                          <span class="step-text" :style="{ color: '#166534', fontWeight: 600 }">{{ langStrings.clientInfo }}</span>
                         </div>
-                        <div class="mockup-step">
-                          <span class="step-num">2</span>
-                          <span class="step-text">{{ langStrings.packageAddon }}</span>
+                        <div class="mockup-step active" :style="{ backgroundColor: brandColor + '20', borderColor: brandColor }">
+                          <span class="step-num" :style="{ backgroundColor: brandColor, color: '#fff' }">2</span>
+                          <span class="step-text" :style="{ color: '#000', fontWeight: 600 }">{{ langStrings.packageAddon }}</span>
                         </div>
                         <div class="mockup-step">
                           <span class="step-num">3</span>
@@ -470,14 +473,17 @@
                            <select class="mockup-select phone-code">
                              <option>ID +62</option>
                            </select>
-                           <input type="text" class="mockup-input" placeholder="8123456789" value="85878067644" />
+                           <input type="number" class="mockup-input" placeholder="8123456789" value="85878067644" />
                          </div>
                        </div>
 
-                       <div class="mockup-field">
-                         <label><Instagram :size="12" /> Instagram</label>
-                         <input type="text" class="mockup-input" placeholder="@ username" value="@ djnfjke" />
-                       </div>
+                         <div class="mockup-field">
+                           <label><Instagram :size="12" /> Instagram</label>
+                           <div class="mockup-phone-input">
+                             <div style="padding: 0 16px; background: #f9fafb; color: #6b7280; border: 1px solid #e5e7eb; border-right: none; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; width: auto; font-weight: 600;">@</div>
+                             <input type="text" class="mockup-input" placeholder="username" value="djnfjke" style="border-top-left-radius: 0; border-bottom-left-radius: 0;" />
+                           </div>
+                         </div>
                      </div>
 
                       <!-- Detail Sesi/Acara Section -->
@@ -507,16 +513,14 @@
                          <div class="mockup-field">
                            <label><Calendar :size="12" /> Jadwal Sesi/Acara <span class="req">*</span></label>
                            <div class="mockup-input-icon">
-                             <input type="text" class="mockup-input" placeholder="mm/dd/yyyy" />
-                             <Calendar :size="14" class="icon-right" />
+                             <input type="date" class="mockup-input" />
                            </div>
                          </div>
 
                          <div class="mockup-field">
                            <label><Clock :size="12" /> Jam <span class="req">*</span></label>
                            <div class="mockup-input-icon">
-                             <input type="text" class="mockup-input" placeholder="--:-- --" />
-                             <Clock :size="14" class="icon-right" />
+                             <input type="time" class="mockup-input" />
                            </div>
                          </div>
 
@@ -545,14 +549,17 @@
                            </div>
                            <div class="mockup-field">
                              <label><List :size="12" /> Instagram Pasangan</label>
-                             <input type="text" class="mockup-input" placeholder="Instagram Pasangan" />
+                             <div class="mockup-phone-input">
+                               <div style="padding: 0 16px; background: #f9fafb; color: #6b7280; border: 1px solid #e5e7eb; border-right: none; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; width: auto; font-weight: 600;">@</div>
+                               <input type="text" class="mockup-input" placeholder="username pasangan" style="border-top-left-radius: 0; border-bottom-left-radius: 0;" />
+                             </div>
                            </div>
                          </template>
 
                          <template v-if="['Wedding', 'Akad', 'Resepsi', 'Lamaran'].includes(mockupTipeAcara)">
                            <div class="mockup-field">
                              <label><List :size="12" /> Estimasi Tamu</label>
-                             <input type="text" class="mockup-input" placeholder="Estimasi Tamu" />
+                             <input type="number" class="mockup-input" placeholder="Estimasi Tamu" />
                            </div>
                          </template>
 
@@ -619,6 +626,10 @@
                        </template>
                      </div>
 
+                      <div class="form-error-alert" style="color: #ef4444; background: #fee2e2; border: 1px solid #fca5a5; padding: 1rem; border-radius: 8px; margin: 1rem 1.5rem 0; font-size: 0.9rem;">
+                        Mohon lengkapi semua field yang wajib.
+                      </div>
+
                       <!-- Footer -->
                       <div class="mockup-footer">
                         <button class="mockup-btn-next" :style="{ backgroundColor: brandColor, borderColor: brandColor }">{{ langStrings.btnNext }}</button>
@@ -668,6 +679,7 @@ import {
 const { isActive, currentStep, completeStep } = useTour();
 const isNameSet = ref(true);
 const vendorName = ref('');
+const vendorLogo = ref('');
 const customUrl = ref('');
 const mockupTipeAcara = ref('');
 const previewKey = ref(0);
@@ -999,6 +1011,7 @@ onMounted(async () => {
 
     if (settingsRes.data) {
       vendorName.value = settingsRes.data.vendor_name || '';
+      vendorLogo.value = settingsRes.data.logo_url || '';
       customUrl.value = settingsRes.data.custom_url || '';
       if (settingsRes.data.form_booking_settings) {
         const fb = settingsRes.data.form_booking_settings;

@@ -464,6 +464,7 @@ const form = ref({
   templateCetak: '',
   wajibPilihKuota: false,
   tampilkanPublik: true,
+  isActive: true,
   tipeAcara: [],
   kota: [],
   biayaOperasional: []
@@ -489,6 +490,7 @@ const openModal = () => {
     templateCetak: '',
     wajibPilihKuota: false,
     tampilkanPublik: true,
+    isActive: true,
     tipeAcara: [],
     kota: [],
     biayaOperasional: []
@@ -604,6 +606,7 @@ const saveService = async () => {
       template_cetak: form.value.templateCetak,
       wajib_pilih_kuota: form.value.wajibPilihKuota,
       tampilkan_publik: form.value.tampilkanPublik,
+      is_active: form.value.isActive,
       tipe_acara: form.value.tipeAcara,
       kota: form.value.kota,
       biaya_operasional: form.value.biayaOperasional,
@@ -687,6 +690,7 @@ const editService = (svc) => {
     templateCetak: svc.template_cetak || '',
     wajibPilihKuota: svc.wajib_pilih_kuota,
     tampilkanPublik: svc.tampilkan_publik,
+    isActive: svc.is_active,
     tipeAcara: svc.tipe_acara || [],
     kota: svc.kota || [],
     biayaOperasional: svc.biaya_operasional || []
