@@ -229,38 +229,22 @@
             
             <div class="form-group-row">
               <div class="form-group flex-1">
-                <label><User :size="14" /> Nama Vendor/Studio</label>
+                <label><User :size="14" /> Nama Vendor/Studio <span class="text-danger">*</span></label>
                 <input type="text" 
                        class="form-control highlight-input" 
+                       :class="{ 'has-error': errors.vendorName }"
                        id="tour-target-studio"
                        v-model="vendorName"
                        placeholder="Misal: Memori Studio" />
+                <span v-if="errors.vendorName" class="error-msg">Nama Studio wajib diisi</span>
               </div>
               <div class="form-group flex-1">
-                <label><Phone :size="14" /> Nomor WhatsApp Studio</label>
-              <div class="input-group">
-                <div class="country-dropdown-container">
-                  <button class="country-selector-btn" @click="toggleCountryDropdown">
-                    <span class="flag-icon" :class="'flag-icon-' + selectedCountry.code.toLowerCase()"></span>
-                    <span class="country-code">{{ selectedCountry.code }} {{ selectedCountry.dial_code }}</span>
-                    <span class="dropdown-arrow">&#9662;</span>
-                  </button>
-                  
-                  <div v-if="showCountryDropdown" class="country-dropdown-menu">
-                    <div class="country-search">
-                      <Search :size="14" class="search-icon" />
-                      <input type="text" v-model="countrySearchQuery" placeholder="Cari negara..." @click.stop />
-                    </div>
-                    <ul class="country-list">
-                      <li v-for="country in filteredCountries" :key="country.code" @click="selectCountry(country)">
-                        <span class="flag-icon" :class="'flag-icon-' + country.code.toLowerCase()"></span>
-                        <span>{{ country.name }} ({{ country.dial_code }})</span>
-                      </li>
-                    </ul>
-                  </div>
+                <label><Phone :size="14" /> Nomor WhatsApp Studio <span class="text-danger">*</span></label>
+                <div class="input-group" :class="{ 'has-error': errors.phoneNumber }">
+                  <span class="input-addon">ID +62</span>
+                  <input type="text" class="form-control border-0" v-model="phoneNumber" placeholder="812 3456 7890" />
                 </div>
-                <input type="text" class="form-control" v-model="phoneNumber" placeholder="000 0000 000" />
-              </div>
+                <span v-if="errors.phoneNumber" class="error-msg">Nomor WhatsApp wajib diisi dengan benar</span>
               </div>
             </div>
             
@@ -430,8 +414,8 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, onMounted, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { useTour } from '../composables/useTour';
@@ -443,6 +427,8 @@ import {
 } from 'lucide-vue-next';
 
 const route = useRoute();
+const router = useRouter();
+
 const currentTab = computed(() => route.query.tab);
 const { isActive, currentStep, completeStep } = useTour();
 
@@ -473,50 +459,7 @@ watch(disableSlug, (newVal) => {
   }
 });
 
-// --- 2. Country Code Logic ---
-const showCountryDropdown = ref(false);
-const countrySearchQuery = ref('');
-const countries = ref([]);
-const selectedCountry = ref({ code: 'ID', name: 'Indonesia', dial_code: '+62' });
-
-onMounted(async () => {
-  try {
-    const response = await fetch('https://countriesnow.space/api/v0.1/countries/codes');
-    const result = await response.json();
-    if (!result.error) {
-      countries.value = result.data;
-      // Default to Indonesia if found
-      const idCode = result.data.find(c => c.code === 'ID');
-      if (idCode) selectedCountry.value = idCode;
-    }
-  } catch (error) {
-    console.error('Failed to fetch country codes:', error);
-    // Fallback to basic list if API fails
-    countries.value = [
-      { code: 'ID', name: 'Indonesia', dial_code: '+62' },
-      { code: 'US', name: 'United States', dial_code: '+1' }
-    ];
-  }
-});
-
-const filteredCountries = computed(() => {
-  const query = countrySearchQuery.value.toLowerCase();
-  return countries.value.filter(c => 
-    c.name.toLowerCase().includes(query) || 
-    c.dial_code.includes(query) || 
-    c.code.toLowerCase().includes(query)
-  );
-});
-
-const selectCountry = (country) => {
-  selectedCountry.value = country;
-  showCountryDropdown.value = false;
-  countrySearchQuery.value = '';
-};
-
-const toggleCountryDropdown = () => {
-  showCountryDropdown.value = !showCountryDropdown.value;
-};
+// --- 2. Country Code Logic (Removed) ---
 
 // --- 3. Logo Upload & Crop Logic ---
 const logoOrientation = ref('horizontal'); // 'horizontal' | 'persegi'
@@ -617,13 +560,8 @@ const fetchSettings = async () => {
       vendorName.value = data.vendor_name || '';
       customUrl.value = data.custom_url || '';
       
-      // We must wait for countries API to load before setting this safely, but we can do it directly:
-      if (countries.value.length > 0 && data.phone_country_code) {
-        selectedCountry.value = countries.value.find(c => c.code === data.phone_country_code) || countries.value[0];
-      } else if (data.phone_country_code) {
-        // If countries haven't loaded yet, just store the code for now
-        selectedCountry.value = { code: data.phone_country_code, dial_code: '', name: '' };
-      }
+      // Country code is now hardcoded to 'ID' for +62
+      // so we don't need to load the country API or set selectedCountry
       
       phoneNumber.value = data.phone_number || '';
       disableSlug.value = data.disable_slug || false;
@@ -644,13 +582,38 @@ const fetchSettings = async () => {
   }
 };
 
+const errors = ref({
+  vendorName: false,
+  phoneNumber: false
+});
+
 const saveSettings = async () => {
+  if (isSaving.value) return;
+
+  // Cleanup phone number (remove leading 0 or +62)
+  if (phoneNumber.value) {
+    let cleaned = phoneNumber.value.replace(/\s+/g, '');
+    if (cleaned.startsWith('0')) cleaned = cleaned.substring(1);
+    else if (cleaned.startsWith('+62')) cleaned = cleaned.substring(3);
+    else if (cleaned.startsWith('62')) cleaned = cleaned.substring(2);
+    phoneNumber.value = cleaned;
+  }
+
+  // Validation
+  errors.value.vendorName = !vendorName.value.trim();
+  errors.value.phoneNumber = !phoneNumber.value || phoneNumber.value.length < 8;
+
+  if (errors.value.vendorName || errors.value.phoneNumber) {
+    alert('Mohon perbaiki field yang wajib diisi.');
+    return;
+  }
+
   isSaving.value = true;
   try {
     await axios.post('/api/settings', {
       vendor_name: vendorName.value,
       custom_url: customUrl.value,
-      phone_country_code: selectedCountry.value.code,
+      phone_country_code: 'ID',
       phone_number: phoneNumber.value,
       disable_slug: disableSlug.value,
       logo_url: uploadedLogoUrl.value,
@@ -660,12 +623,13 @@ const saveSettings = async () => {
       working_days: workingDays.value,
     });
     
-    // Show toast
+    // Show toast and redirect
     showToast.value = true;
     completeStep('setup-studio');
     setTimeout(() => {
       showToast.value = false;
-    }, 3000);
+      router.push('/dashboard');
+    }, 1000); // Redirect after 1 second
   } catch (error) {
     console.error('Error saving settings:', error);
     alert('Failed to save settings.');
@@ -712,6 +676,29 @@ onMounted(() => {
   font-size: 0.85rem;
   color: #a0a0a0;
   margin: 0;
+}
+
+.text-danger {
+  color: #ef4444;
+}
+
+.error-msg {
+  font-size: 0.75rem;
+  color: #ef4444;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.form-control.has-error {
+  border-color: #ef4444;
+}
+
+.input-group.has-error {
+  border-color: #ef4444;
+}
+
+.border-0 {
+  border: none !important;
 }
 
 /* Settings Grid */
@@ -1231,82 +1218,7 @@ input:checked + .slider:before {
 }
 .btn-white-solid:hover { opacity: 0.9; }
 
-/* Country Dropdown */
-.country-dropdown-container {
-  position: relative;
-}
-.country-selector-btn {
-  cursor: pointer;
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-right: none;
-  padding: 0.75rem 1rem;
-  color: #a0a0a0;
-  font-size: 0.85rem;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  height: 100%;
-}
-.country-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  width: 250px;
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  z-index: 50;
-  overflow: hidden;
-}
-.country-search {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-.country-search input {
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-size: 0.85rem;
-  padding: 0.5rem;
-  width: 100%;
-  outline: none;
-}
-.country-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-height: 200px;
-  overflow-y: auto;
-}
-.country-item {
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  font-size: 0.85rem;
-}
-.country-item:hover, .country-item.selected {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-.country-code {
-  color: #888;
-  font-weight: 600;
-  width: 30px;
-}
-.country-name {
-  color: #fff;
-  flex: 1;
-}
-.country-dial {
-  color: #a0a0a0;
-}
+/* Country Dropdown Logic Removed */
 
 /* Logo Preview */
 .logo-preview-box {

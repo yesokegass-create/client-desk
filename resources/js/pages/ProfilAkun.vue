@@ -38,13 +38,14 @@
         <!-- Form Fields -->
         <div class="form-section">
           <div class="form-group">
-            <label>Nama</label>
-            <input type="text" v-model="form.nama" class="form-control" id="tour-target-nama" />
+            <label>Nama <span class="text-danger">*</span></label>
+            <input type="text" v-model="form.nama" class="form-control" :class="{ 'has-error': errors.nama }" id="tour-target-nama" :disabled="isLoading" :placeholder="isLoading ? 'Memuat data...' : ''" />
+            <span v-if="errors.nama" class="error-msg">Nama wajib diisi</span>
           </div>
 
           <div class="form-group">
             <label>Email</label>
-            <input type="email" v-model="form.email" class="form-control" disabled />
+            <input type="email" v-model="form.email" class="form-control" disabled :placeholder="isLoading ? 'Memuat data...' : ''" />
             <span class="help-text">Email tidak dapat diubah</span>
           </div>
 
@@ -72,9 +73,10 @@
 
         <!-- Action Buttons -->
         <div class="action-buttons">
-          <button class="btn-primary" @click="saveProfile">
-            <Save :size="16" class="mr-2" />
-            Simpan Perubahan
+          <button class="btn-primary" @click="saveProfile" :disabled="isSaving">
+            <Save :size="16" class="mr-2" v-if="!isSaving" />
+            <span v-if="isSaving">Menyimpan...</span>
+            <span v-else>Simpan Perubahan</span>
           </button>
           <button class="btn-secondary">
             <KeyRound :size="16" class="mr-2" />
@@ -102,6 +104,12 @@ const form = ref({
   email: ''
 });
 
+const isLoading = ref(true);
+const isSaving = ref(false);
+const errors = ref({
+  nama: false
+});
+
 const userInitials = computed(() => {
   if (!form.value.nama) return 'U';
   return form.value.nama.charAt(0).toUpperCase();
@@ -122,12 +130,39 @@ onMounted(async () => {
     }
   } catch (error) {
     console.error('Failed to fetch user data', error);
+  } finally {
+    isLoading.value = false;
   }
 });
 
-const saveProfile = () => {
-  completeStep('setup-profile');
-  alert('Profil berhasil disimpan');
+const saveProfile = async () => {
+  if (isSaving.value) return;
+  
+  // Validation
+  errors.value.nama = !form.value.nama.trim();
+  if (errors.value.nama) {
+    alert('Mohon isi field yang wajib diisi.');
+    return;
+  }
+  
+  isSaving.value = true;
+  
+  try {
+    const token = localStorage.getItem('auth_token');
+    await axios.put('/api/user', {
+      name: form.value.nama
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    
+    completeStep('setup-profile');
+    alert('Profil berhasil disimpan secara permanen di server!');
+  } catch (error) {
+    console.error('Failed to save profile', error);
+    alert('Gagal menyimpan profil, periksa koneksi Anda.');
+  } finally {
+    isSaving.value = false;
+  }
 };
 </script>
 
@@ -322,6 +357,20 @@ const saveProfile = () => {
   color: #888;
   cursor: not-allowed;
   border-color: rgba(59, 130, 246, 0.2);
+}
+
+.form-control.has-error {
+  border-color: #ef4444;
+}
+
+.error-msg {
+  font-size: 0.75rem;
+  color: #ef4444;
+  margin-top: 0.25rem;
+}
+
+.text-danger {
+  color: #ef4444;
 }
 
 .help-text {

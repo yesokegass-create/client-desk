@@ -178,15 +178,15 @@
                   <div class="bank-form-grid">
                     <div class="form-group-sm">
                       <label>Nama Bank</label>
-                      <input type="text" class="form-control" v-model="bank.bank_name" placeholder="BCA / BNI / Mandiri / dll" />
+                      <input type="text" class="form-control" :class="{ 'has-error': bank.hasError }" v-model="bank.bank_name" placeholder="BCA / BNI / Mandiri / dll" />
                     </div>
                     <div class="form-group-sm">
                       <label>Nomor Rekening</label>
-                      <input type="text" class="form-control" v-model="bank.account_number" placeholder="1234567890" />
+                      <input type="text" class="form-control" :class="{ 'has-error': bank.hasError }" v-model="bank.account_number" placeholder="1234567890" />
                     </div>
                     <div class="form-group-sm">
                       <label>Atas Nama</label>
-                      <input type="text" class="form-control" v-model="bank.account_name" placeholder="Nama Pemilik Rekening" />
+                      <input type="text" class="form-control" :class="{ 'has-error': bank.hasError }" v-model="bank.account_name" placeholder="Nama Pemilik Rekening" />
                     </div>
                   </div>
                 </div>
@@ -757,6 +757,7 @@ const formatDp = (type) => {
 };
 
 const bankAccounts = ref([]);
+const bankErrors = ref(false);
 
 const eventPrices = computed(() => {
   const mapping = {};
@@ -953,6 +954,31 @@ const openInNewTab = () => {
 };
 
 const saveSettings = async (silent = false) => {
+  bankErrors.value = false;
+  
+  if (activePaymentMethods.value.transfer_bank) {
+    let hasError = false;
+    if (bankAccounts.value.length === 0) {
+      if (!silent) alert('Jika transfer bank aktif, minimal harus ada 1 rekening bank.');
+      return;
+    }
+    
+    bankAccounts.value.forEach(bank => {
+      if (!bank.bank_name.trim() || !bank.account_number.trim() || !bank.account_name.trim()) {
+        bank.hasError = true;
+        hasError = true;
+      } else {
+        bank.hasError = false;
+      }
+    });
+    
+    if (hasError) {
+      bankErrors.value = true;
+      if (!silent) alert('Mohon lengkapi data rekening bank yang masih kosong.');
+      return;
+    }
+  }
+
   try {
     const token = localStorage.getItem('auth_token');
     const formSettings = {
@@ -2327,4 +2353,10 @@ select.form-control option {
 :root[data-theme="light"] .preview-empty-icon {
   background-color: #f3f4f6;
 }
+
+.text-danger { color: #ef4444; }
+.error-msg { font-size: 0.75rem; color: #ef4444; margin-top: 0.25rem; display: block; }
+.form-control.has-error { border-color: #ef4444; }
+.has-error-box { border: 1px solid #ef4444; border-radius: 8px; padding: 0.5rem; }
+
 </style>

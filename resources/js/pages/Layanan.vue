@@ -220,8 +220,9 @@
             </div>
             
             <div class="form-group mb-4">
-              <label>Nama Layanan</label>
-              <input type="text" class="form-control" v-model="form.namaLayanan" placeholder="e.g.: Wedding Photography" />
+              <label>Nama Layanan <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" :class="{ 'has-error': formErrors.namaLayanan }" v-model="form.namaLayanan" placeholder="e.g.: Wedding Photography" />
+              <span v-if="formErrors.namaLayanan" class="error-msg">Nama Layanan wajib diisi</span>
             </div>
             
             <div class="form-group mb-4">
@@ -238,8 +239,9 @@
             </div>
             
             <div class="form-group mb-4">
-              <label>Harga (Rp)</label>
-              <input type="text" class="form-control" v-model="form.harga" @input="form.harga = formatCurrency($event.target.value)" placeholder="2.500.000" />
+              <label>Harga (Rp) <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" :class="{ 'has-error': formErrors.harga }" v-model="form.harga" @input="form.harga = formatCurrency($event.target.value)" placeholder="2.500.000" />
+              <span v-if="formErrors.harga" class="error-msg">Harga wajib diisi</span>
             </div>
             
             <div class="form-group mb-4">
@@ -289,9 +291,10 @@
             </div>
             
             <div class="form-group mb-4">
-              <label>Tipe Acara</label>
+              <label>Tipe Acara <span class="text-danger">*</span></label>
+              <span v-if="formErrors.tipeAcara" class="error-msg mb-2">Pilih minimal 1 tipe acara</span>
               <p class="help-text mb-2">Kosongkan jika paket ini untuk semua tipe acara.</p>
-              <div class="event-types-grid">
+              <div class="event-types-grid" :class="{ 'has-error-box': formErrors.tipeAcara }">
                 <label v-for="type in eventTypes" :key="type" class="checkbox-label type-label">
                   <input type="checkbox" class="custom-checkbox mr-2" :value="type" v-model="form.tipeAcara" />
                   {{ type }}
@@ -470,6 +473,12 @@ const form = ref({
   biayaOperasional: []
 });
 
+const formErrors = ref({
+  namaLayanan: false,
+  harga: false,
+  tipeAcara: false
+});
+
 const eventTypes = [
   'Umum', 'Wedding', 'Akad', 'Resepsi', 'Lamaran', 'Prewedding', 
   'Wisuda', 'Maternity', 'Newborn', 'Family', 'Komersil', 'Custom/Lainnya'
@@ -477,6 +486,7 @@ const eventTypes = [
 
 const openModal = () => {
   editingId.value = null;
+  formErrors.value = { namaLayanan: false, harga: false, tipeAcara: false };
   form.value = {
     jenisLayanan: 'paket',
     namaLayanan: '',
@@ -590,7 +600,14 @@ const showSuccessToast = (msg) => {
 };
 
 const saveService = async () => {
-  if (!form.value.namaLayanan || !form.value.harga) return;
+  formErrors.value.namaLayanan = !form.value.namaLayanan.trim();
+  formErrors.value.harga = !form.value.harga || form.value.harga === '0' || form.value.harga === '';
+  formErrors.value.tipeAcara = form.value.tipeAcara.length === 0;
+
+  if (formErrors.value.namaLayanan || formErrors.value.harga || formErrors.value.tipeAcara) {
+    alert('Mohon lengkapi field yang wajib diisi.');
+    return;
+  }
   
   isSaving.value = true;
   try {
@@ -677,6 +694,7 @@ const togglePublic = async (svc) => {
 
 const editService = (svc) => {
   editingId.value = svc.id;
+  formErrors.value = { namaLayanan: false, harga: false, tipeAcara: false };
   form.value = {
     jenisLayanan: svc.jenis_layanan,
     namaLayanan: svc.nama_layanan,

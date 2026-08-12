@@ -22,13 +22,17 @@
             <div class="progress-bar-bg">
               <div class="progress-bar-fill" :style="{ width: progressPercent + '%' }"></div>
             </div>
-            <button class="btn-primary mt-3 w-100">
-              Lanjutkan setup <ArrowRight :size="16" />
+            <button class="btn-primary mt-3 w-100" :disabled="isLoadingSetup">
+              <span v-if="isLoadingSetup">Memeriksa status...</span>
+              <span v-else>Lanjutkan setup <ArrowRight :size="16" /></span>
             </button>
           </div>
         </div>
 
-        <div class="setup-list">
+        <div v-if="isLoadingSetup" style="padding: 2rem; text-align: center; color: #888;">
+          Sedang memeriksa progress setup Anda...
+        </div>
+        <div v-else class="setup-list">
           <!-- Step 1 -->
           <div class="setup-item" :class="{ 'completed': setupStatus.step1_completed }">
             <div class="item-icon"><User :size="18" /></div>
@@ -397,6 +401,7 @@ import {
 
 const userName = ref('Johnathan Baker');
 const hideNominal = ref(false);
+const isLoadingSetup = ref(true);
 const setupStatus = ref({
   step1_completed: false,
   step2_completed: false,
@@ -427,6 +432,7 @@ const startTourGuide = (stepId = 0) => {
 };
 
 const fetchSetupStatus = async () => {
+  isLoadingSetup.value = true;
   try {
     const token = localStorage.getItem('auth_token');
     const response = await axios.get('/api/setup-status', {
@@ -437,6 +443,8 @@ const fetchSetupStatus = async () => {
     }
   } catch (error) {
     console.error('Could not fetch setup status', error);
+  } finally {
+    isLoadingSetup.value = false;
   }
 };
 

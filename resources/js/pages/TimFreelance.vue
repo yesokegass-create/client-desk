@@ -205,8 +205,9 @@
             
             <div class="modal-body">
               <div class="form-group">
-                <label>Nama</label>
-                <input type="text" class="form-control" v-model="form.nama" placeholder="Misal: Budi Santoso" />
+                <label>Nama <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" :class="{ 'has-error': formErrors.nama }" v-model="form.nama" placeholder="Misal: Budi Santoso" />
+                <span v-if="formErrors.nama" class="error-msg">Nama wajib diisi</span>
               </div>
               
               <div class="form-group mt-4">
@@ -251,7 +252,7 @@
                       </ul>
                     </div>
                   </div>
-                  <input type="tel" autocomplete="tel" class="form-control phone-input" v-model="form.phone_number" placeholder="8123456789" />
+                  <input type="tel" autocomplete="tel" class="form-control phone-input" :class="{ 'has-error': formErrors.phone_number }" v-model="form.phone_number" placeholder="8123456789" />
                 </div>
               </div>
 
@@ -333,6 +334,10 @@ const filterPeran = ref('');
 const filterTag = ref('');
 
 const showAddModal = ref(false);
+const formErrors = ref({
+  nama: false,
+  phone_number: false
+});
 const isEditing = ref(false);
 const editingId = ref(null);
 
@@ -393,6 +398,7 @@ const toggleCountryDropdown = () => {
 
 const openAddModal = () => {
   isEditing.value = false;
+  formErrors.value = { nama: false, phone_number: false };
   editingId.value = null;
   form.value = {
     nama: '', peran: 'Photographer', phone_country_code: 'ID', phone_number: '', email: '', tags: [], pricelist: []
@@ -406,6 +412,7 @@ const closeAddModal = () => {
 
 const editTeamMember = (member) => {
   isEditing.value = true;
+  formErrors.value = { nama: false, phone_number: false };
   editingId.value = member.id;
   // Create a deep copy for the form
   form.value = JSON.parse(JSON.stringify(member));
@@ -475,6 +482,23 @@ const filteredTeamMembers = computed(() => {
 });
 
 const saveTeamMember = async () => {
+  formErrors.value.nama = !form.value.nama.trim();
+  formErrors.value.phone_number = !form.value.phone_number || form.value.phone_number.length < 8;
+
+  if (formErrors.value.nama || formErrors.value.phone_number) {
+    alert('Mohon lengkapi field yang wajib diisi.');
+    return;
+  }
+
+  // Phone number smart cleanup if ID +62
+  if (form.value.phone_country_code === '62' && form.value.phone_number) {
+     let cleaned = form.value.phone_number.replace(/\s+/g, '');
+     if (cleaned.startsWith('0')) cleaned = cleaned.substring(1);
+     else if (cleaned.startsWith('+62')) cleaned = cleaned.substring(3);
+     else if (cleaned.startsWith('62')) cleaned = cleaned.substring(2);
+     form.value.phone_number = cleaned;
+  }
+  
   try {
     const token = localStorage.getItem('auth_token');
     const payload = { ...form.value };
@@ -1558,4 +1582,10 @@ const removeTag = (index) => {
     justify-content: center;
   }
 }
+
+.text-danger { color: #ef4444; }
+.error-msg { font-size: 0.75rem; color: #ef4444; margin-top: 0.25rem; display: block; }
+.form-control.has-error { border-color: #ef4444; }
+.has-error-box { border: 1px solid #ef4444; border-radius: 8px; padding: 0.5rem; }
+
 </style>

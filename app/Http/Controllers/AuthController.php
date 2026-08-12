@@ -98,6 +98,19 @@ class AuthController extends Controller
         ]);
     }
 
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        
+        $user = $request->user();
+        $user->name = $request->name;
+        $user->save();
+        
+        return response()->json(['message' => 'Profil berhasil diperbarui', 'user' => $user]);
+    }
+
     public function verifyEmail(Request $request)
     {
         $request->validate([
