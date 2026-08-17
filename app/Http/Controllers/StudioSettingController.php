@@ -71,11 +71,16 @@ class StudioSettingController extends Controller
             ['name' => 'Test User', 'password' => bcrypt('password')]
         );
 
-        $settings = $user->studioSetting;
-        $isNameSet = $settings && !empty($settings->vendor_name);
-        $hasServices = \App\Models\Service::where('user_id', $user->id)->exists();
-        $hasTeamMembers = \App\Models\TeamMember::where('user_id', $user->id)->exists();
-        $hasProfileName = !empty($user->name) && $user->name !== 'Test User';
+        $status = \App\Models\User::select('users.name', 'studio_settings.vendor_name')
+            ->leftJoin('studio_settings', 'users.id', '=', 'studio_settings.user_id')
+            ->withExists(['services', 'teamMembers'])
+            ->where('users.id', $user->id)
+            ->first();
+
+        $isNameSet = !empty($status->vendor_name);
+        $hasServices = (bool) $status->services_exists;
+        $hasTeamMembers = (bool) $status->team_members_exists;
+        $hasProfileName = !empty($status->name) && $status->name !== 'Test User';
 
         return response()->json([
             'step1_completed' => $hasProfileName,
