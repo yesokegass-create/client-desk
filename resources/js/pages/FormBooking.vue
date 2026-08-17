@@ -657,7 +657,9 @@ import { ref, computed, onMounted, watch, nextTick } from 'vue';
 import axios from 'axios';
 
 import GoogleMapModal from '../components/GoogleMapModal.vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const showMapModal = ref(false);
 const mockupLokasi = ref('');
 
@@ -676,7 +678,7 @@ import {
   Copy, ExternalLink, Trash2
 } from 'lucide-vue-next';
 
-const { isActive, currentStep, completeStep } = useTour();
+const { isActive, currentStep, completeStep, endTour } = useTour();
 const isNameSet = ref(true);
 const vendorName = ref('');
 const vendorLogo = ref('');
@@ -997,8 +999,20 @@ const saveSettings = async (silent = false) => {
     }, {
       headers: { Authorization: `Bearer ${token}` }
     });
+    const setupStatus = JSON.parse(localStorage.getItem('vender_setup_status') || '{}');
+    const isFirstSetup = !setupStatus.step5_completed;
+
     completeStep('setup-form');
-    if (!silent) alert('Pengaturan berhasil disimpan!');
+    
+    if (!silent) {
+
+      if (isActive.value || isFirstSetup) {
+        if (isActive.value) endTour();
+        window.location.href = '/dashboard';
+      } else {
+        alert('Pengaturan berhasil disimpan!');
+      }
+    }
   } catch (error) {
     console.error('Failed to save settings', error);
     if (!silent) alert('Gagal menyimpan pengaturan.');

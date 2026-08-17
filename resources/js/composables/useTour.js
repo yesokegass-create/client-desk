@@ -1,8 +1,16 @@
-import { ref, reactive } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
-const isActive = ref(false);
-const currentStepIndex = ref(0);
+const isActive = ref(sessionStorage.getItem('tour_isActive') === 'true');
+const currentStepIndex = ref(parseInt(sessionStorage.getItem('tour_currentStepIndex') || '0', 10));
+
+watch(isActive, (newVal) => {
+  sessionStorage.setItem('tour_isActive', newVal);
+});
+
+watch(currentStepIndex, (newVal) => {
+  sessionStorage.setItem('tour_currentStepIndex', newVal);
+});
 
 // Global state for the tour
 const tourState = reactive({
@@ -61,6 +69,62 @@ const tourState = reactive({
       nextRoute: '/dashboard',
       targetSelector: '#metode-pembayaran-section',
       completed: false
+    },
+    {
+      id: 'add-booking',
+      title: 'Mulai dari data klien',
+      description: 'Isi identitas dasar klien dulu di bagian ini, seperti nama dan nomor WhatsApp.\nLengkapi data klien utama di sini sebelum lanjut ke detail sesi.',
+      path: '/bookings/new',
+      targetSelector: '#tour-target-informasi-klien',
+      completed: true
+    },
+    {
+      id: 'add-booking-2',
+      title: 'Lanjut ke detail sesi',
+      description: 'Di bagian ini kamu mengatur tipe acara, tanggal, jam, lokasi, dan paket utama booking.\nLengkapi detail sesi utama di sini agar booking pertamamu siap disimpan.',
+      path: '/bookings/new',
+      targetSelector: '#tour-target-detail-sesi',
+      completed: true
+    },
+    {
+      id: 'add-booking-3',
+      title: 'Simpan booking pertamamu',
+      description: 'Kalau data utama sudah terisi, simpan booking ini untuk menyelesaikan langkah onboarding.\nGunakan tombol simpan ini untuk membuat booking pertamamu dan lanjut ke langkah berikutnya.',
+      path: '/bookings/new',
+      targetSelector: '#tour-target-simpan-booking',
+      completed: false
+    },
+    {
+      id: 'view-booking-list',
+      title: 'Lihat booking pertamamu di daftar',
+      description: 'Halaman ini menampilkan daftar booking yang sudah masuk, termasuk booking pertama yang baru kamu buat.\nGunakan area ini untuk mengenali daftar booking, mencari data, dan membuka aksi utama tiap booking.',
+      path: '/daftar-booking',
+      targetSelector: '#tour-target-daftar-booking',
+      completed: false
+    },
+    {
+      id: 'view-status-booking',
+      title: 'Pantau status booking di sini',
+      description: 'Di halaman ini kamu memantau progres booking, antrian, dan link tracking yang bisa dibagikan ke klien.\nGunakan tabel atau kartu ini untuk melihat status booking dan mengakses link tracking klien.',
+      path: '/status-booking',
+      targetSelector: '#tour-target-status-booking',
+      completed: false
+    },
+    {
+      id: 'view-integration-calendar',
+      title: 'Hubungkan Google Calendar',
+      description: 'Hubungkan akun Google jika kamu ingin sinkron kalender berjalan otomatis.\nGunakan kartu ini untuk menghubungkan Google Calendar dari halaman Pengaturan.',
+      path: '/pengaturan?tab=google',
+      targetSelector: '#tour-target-google-calendar',
+      completed: true
+    },
+    {
+      id: 'view-integration-drive',
+      title: 'Hubungkan Google Drive',
+      description: 'Hubungkan akun Google jika kamu ingin file dan folder kerja berjalan otomatis.\nGunakan kartu ini untuk menghubungkan Google Drive dari halaman Pengaturan.',
+      path: '/pengaturan?tab=google',
+      targetSelector: '#tour-target-google-drive',
+      completed: true
     }
   ]
 });
@@ -115,6 +179,25 @@ export function useTour() {
     const step = tourState.steps.find(s => s.id === stepId);
     if (step) {
       step.completed = true;
+    }
+    
+    // Optimistically update Dashboard cache
+    try {
+      const cached = localStorage.getItem('vender_setup_status');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (stepId === 'setup-profile') parsed.step1_completed = true;
+        if (stepId === 'setup-studio') parsed.step2_completed = true;
+        if (stepId === 'add-service') parsed.step3_completed = true;
+        if (stepId === 'add-team') parsed.step4_completed = true;
+        if (stepId === 'setup-form') parsed.step5_completed = true;
+        if (stepId === 'add-booking-3') parsed.step6_completed = true;
+        if (stepId === 'view-booking-list') parsed.step7_completed = true;
+        if (stepId === 'view-status-booking') parsed.step8_completed = true;
+        localStorage.setItem('vender_setup_status', JSON.stringify(parsed));
+      }
+    } catch (e) {
+      console.error('Failed to update local setup cache', e);
     }
   };
 

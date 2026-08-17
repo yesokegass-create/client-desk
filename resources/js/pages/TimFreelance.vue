@@ -252,7 +252,7 @@
                       </ul>
                     </div>
                   </div>
-                  <input type="tel" autocomplete="tel" class="form-control phone-input" :class="{ 'has-error': formErrors.phone_number }" v-model="form.phone_number" placeholder="8123456789" />
+                  <input type="tel" autocomplete="tel" class="form-control phone-input" :class="{ 'has-error': formErrors.phone_number }" :value="form.phone_number" @input="handlePhoneInput" placeholder="8123456789" />
                 </div>
               </div>
 
@@ -296,7 +296,7 @@
                     <label class="mt-3">Harga</label>
                     <div class="input-prefix">
                       <span class="prefix">Rp</span>
-                      <input type="text" class="form-control" :value="formatRupiah(item.harga)" @input="e => updateHarga(index, e.target.value)" placeholder="0" />
+                      <input type="tel" class="form-control" :value="formatRupiah(item.harga)" @input="e => updateHarga(index, e)" placeholder="0" />
                     </div>
                   </div>
                 </div>
@@ -304,7 +304,11 @@
             </div>
 
             <div class="modal-footer">
-              <button class="btn-white-solid" @click="saveTeamMember">Simpan</button>
+              <button class="btn-cancel" @click="closeAddModal" :disabled="isSaving">Batal</button>
+              <button class="btn-submit" @click="saveTeamMember" :disabled="isSaving">
+                <span v-if="isSaving">Menyimpan...</span>
+                <span v-else>Simpan</span>
+              </button>
             </div>
           </div>
         </div>
@@ -317,16 +321,19 @@
 <script setup>
 import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useTour } from '../composables/useTour';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { 
   ArrowUpDown, Plus, Palette, Users, X, ChevronDown, Search, Trash2, Check, SlidersHorizontal, MessageCircle, Edit2, ChevronLeft, ChevronRight
 } from 'lucide-vue-next';
 
-const { isActive, currentStep, completeStep } = useTour();
+const { isActive, currentStep, completeStep, endTour } = useTour();
+const router = useRouter();
 
 const teamMembers = ref([]);
 const isLoading = ref(true);
+const isSaving = ref(false);
 
 const searchQuery = ref('');
 const filterStatus = ref('');
@@ -352,6 +359,18 @@ const form = ref({
 });
 
 const showCountryDropdown = ref(false);
+
+const handlePhoneInput = (e) => {
+  let val = e.target.value;
+  val = val.replace(/\D/g, '');
+  if (val.startsWith('0')) {
+    val = val.substring(1);
+  } else if (val.startsWith('62')) {
+    val = val.substring(2);
+  }
+  form.value.phone_number = val;
+  e.target.value = val;
+};
 const countrySearchQuery = ref('');
 const countries = ref([]);
 const selectedCountry = ref({ code: 'ID', name: 'Indonesia', dial_code: '+62' });
@@ -485,10 +504,15 @@ const saveTeamMember = async () => {
   formErrors.value.nama = !form.value.nama.trim();
   formErrors.value.phone_number = !form.value.phone_number || form.value.phone_number.length < 8;
 
+  formErrors.value.nama = !form.value.nama.trim();
+  formErrors.value.phone_number = !form.value.phone_number.trim();
+  
   if (formErrors.value.nama || formErrors.value.phone_number) {
     alert('Mohon lengkapi field yang wajib diisi.');
     return;
   }
+  
+  isSaving.value = true;
 
   // Phone number smart cleanup if ID +62
   if (form.value.phone_country_code === '62' && form.value.phone_number) {
@@ -518,10 +542,22 @@ const saveTeamMember = async () => {
       teamMembers.value.unshift(response.data.data);
     }
     
+    const setupStatus = JSON.parse(localStorage.getItem('vender_setup_status') || '{}');
+    const isFirstSetup = !setupStatus.step4_completed;
+
     completeStep('add-team');
-    closeAddModal();
+    
+    if (isActive.value || isFirstSetup) {
+      if (isActive.value) endTour();
+      window.location.href = '/dashboard';
+    } else {
+      closeAddModal();
+      isSaving.value = false;
+    }
   } catch (error) {
     console.error('Failed to save team member', error);
+    alert('Gagal menyimpan anggota tim. Mohon periksa kembali form Anda.');
+    isSaving.value = false;
   }
 };
 
@@ -562,9 +598,11 @@ const formatRupiah = (value) => {
   return rupiah;
 };
 
-const updateHarga = (index, value) => {
-  const cleanValue = value.replace(/[^,\d]/g, '');
+const updateHarga = (index, event) => {
+  const value = event.target.value;
+  const cleanValue = value.replace(/\D/g, ''); // Strip all non-digits
   form.value.pricelist[index].harga = cleanValue;
+  event.target.value = formatRupiah(cleanValue);
 };
 
 const tagInput = ref('');

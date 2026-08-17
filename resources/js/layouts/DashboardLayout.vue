@@ -28,7 +28,7 @@
               </router-link>
             </li>
             <li>
-              <router-link to="/daftar-booking" class="menu-item" active-class="active" :title="isCollapsed ? 'Daftar Booking' : ''">
+              <router-link to="/daftar-booking" class="menu-item" active-class="active" :class="{ 'active': $route.path === '/bookings/new' }" :title="isCollapsed ? 'Daftar Booking' : ''">
                 <ListTodo :size="18" />
                 <span>Daftar Booking</span>
               </router-link>
@@ -266,7 +266,8 @@ const pageTitle = computed(() => {
     'FormBookingKhusus': 'Form Booking Khusus',
     'VoucherKupon': 'Voucher & Kupon',
     'Pengaturan': 'Pengaturan',
-    'ProfilAkun': 'Profil',
+    'ProfilAkun': 'Profil Akun',
+    'TambahBooking': 'Tambah Klien Baru'
   };
   return names[route.name] || route.name;
 });

@@ -21,7 +21,7 @@
             <Zap :size="16" />
             Batch Import
           </button>
-          <button class="btn-primary">
+          <button class="btn-primary" @click="$router.push('/bookings/new')">
             <Plus :size="16" />
             Tambah Klien Baru
           </button>
@@ -72,7 +72,7 @@
         </div>
 
         <!-- Table -->
-        <div class="table-responsive">
+        <div id="tour-target-daftar-booking" class="table-responsive">
           <table class="data-table">
             <thead>
               <tr>
@@ -323,9 +323,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
+import { useTour } from '../composables/useTour';
 import { 
   Download, SlidersHorizontal, Zap, Plus, 
   Search, ListFilter, Folder, Archive, Settings2,
@@ -430,9 +431,22 @@ const fetchBookings = async () => {
   }
 };
 
+const closeModals = () => {
+  showFreelanceModal.value = false;
+  activeBookingForFreelance.value = null;
+};
+
+const { isActive, currentStep, completeStep } = useTour();
+
 // Global click listener to close dropdowns
 onMounted(() => {
   fetchBookings();
+  
+  // Auto-complete tour step 7 if active
+  if (isActive.value && currentStep()?.id === 'view-booking-list') {
+    completeStep('view-booking-list');
+  }
+
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.split-btn.purple') && !e.target.closest('.dropdown-menu-copy')) {
       activeCopyDropdown.value = null;

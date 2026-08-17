@@ -186,7 +186,7 @@
         </a>
 
         <!-- 12 Integrasi -->
-        <a href="#" class="setting-card">
+        <router-link to="/pengaturan?tab=google" class="setting-card">
           <div class="card-icon-wrap border-blue">
             <LinkIcon :size="20" class="text-blue-light" />
           </div>
@@ -198,7 +198,7 @@
             <p class="card-desc">Hubungkan Google, Fastpik, dan Bot Telegram untuk otomasi studio.</p>
           </div>
           <ChevronRight :size="16" class="card-chevron" />
-        </a>
+        </router-link>
       </div>
 
       <!-- Tab Content: Umum -->
@@ -242,7 +242,7 @@
                 <label><Phone :size="14" /> Nomor WhatsApp Studio <span class="text-danger">*</span></label>
                 <div class="input-group" :class="{ 'has-error': errors.phoneNumber }">
                   <span class="input-addon">ID +62</span>
-                  <input type="text" class="form-control border-0" v-model="phoneNumber" placeholder="812 3456 7890" />
+                  <input type="text" class="form-control border-0" :value="phoneNumber" @input="handlePhoneInput" placeholder="812 3456 7890" />
                 </div>
                 <span v-if="errors.phoneNumber" class="error-msg">Nomor WhatsApp wajib diisi dengan benar</span>
               </div>
@@ -255,19 +255,20 @@
               <a href="#" class="help-link mt-2 inline-flex items-center gap-1"><Globe :size="12" /> Mau hubungkan ke domain milikmu sendiri? Cek di sini ya!</a>
             </div>
 
-            <div class="setting-toggle-row mt-6">
-              <div class="setting-toggle-info">
+            <div class="setting-toggle-row mt-6" style="opacity: 0.6; cursor: not-allowed;">
+              <div class="setting-toggle-info" style="pointer-events: none;">
                 <h4>Disable slug</h4>
                 <p>Saat aktif, custom domain bisa akses form booking tanpa slug.</p>
                 <p class="help-text mt-1">Domain utama selalu memakai URL dengan slug vendor.</p>
               </div>
               <div class="setting-toggle">
-                <div class="switch mr-3">
-                  <input type="checkbox" v-model="disableSlug">
-                  <span class="slider round"></span>
+                <div class="switch mr-3" style="cursor: not-allowed;">
+                  <input type="checkbox" v-model="disableSlug" disabled style="pointer-events: none;">
+                  <span class="slider round" style="cursor: not-allowed; pointer-events: none;"></span>
                 </div>
-                Disable slug           </div>
-          </div>
+                <span style="cursor: not-allowed; pointer-events: none;">Disable slug</span>
+              </div>
+            </div>
 
           <hr class="section-divider" />
 
@@ -387,15 +388,16 @@
         </div>
         
         <div class="crop-modal-body">
-          <div class="crop-container" :class="logoOrientation">
-            <!-- Simulated crop area with image -->
-            <img :src="tempImageUrl" class="crop-image" :style="{ transform: `scale(${zoomLevel / 50})` }" />
-            <div class="crop-overlay"></div>
-            <div class="crop-frame" 
-                 :style="{ transform: `translate(${cropX}px, ${cropY}px)` }"
-                 @mousedown="startDrag">
+            <div class="crop-container" :class="logoOrientation">
+              <!-- Simulated crop area with image -->
+              <img ref="imageElement" :src="tempImageUrl" class="crop-image" :style="{ transform: `scale(${zoomLevel / 50})` }" />
+              <div class="crop-overlay"></div>
+              <div ref="frameElement" class="crop-frame" 
+                   :style="{ transform: `translate(${cropX}px, ${cropY}px)` }"
+                   @mousedown="startDrag"
+                   @touchstart.passive="startDrag">
+              </div>
             </div>
-          </div>
           
           <div class="crop-zoom-control">
             <ZoomOut :size="16" class="text-gray-400" />
@@ -410,6 +412,87 @@
         </div>
       </div>
     </div>
+
+      <!-- Tab Content: Google Integrasi -->
+      <div v-else-if="currentTab === 'google'" class="tab-content">
+        <div class="tab-header">
+          <router-link to="/pengaturan" class="back-link">
+            <ArrowLeft :size="18" />
+          </router-link>
+          <div>
+            <h2 style="display:flex; align-items:center; gap:8px;">
+              <span style="display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; background:white; color:black; font-size:14px; font-weight:900;">G</span> 
+              Google
+            </h2>
+            <p>Hubungkan Google Calendar, Google Drive, dan Google Spreadsheet serta format otomatisnya.</p>
+          </div>
+        </div>
+        
+        <div class="settings-form-card">
+          <div class="form-section">
+            <div class="form-section-header">
+              <h3><span style="color:#4285F4; font-weight:800; margin-right:4px;">G</span> Integrasi Google</h3>
+              <p>Hubungkan akun Google untuk sinkronisasi kalender, penyimpanan file, dan auto export spreadsheet.</p>
+            </div>
+            
+            <div style="display:flex; gap:24px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:12px; margin-bottom:24px; overflow-x:auto;">
+              <div style="color:white; font-weight:600; font-size:14px; display:flex; align-items:center; gap:6px; cursor:pointer;">
+                Google Calendar <X :size="14" style="color:#666;" />
+              </div>
+              <div style="color:#888; font-size:14px; display:flex; align-items:center; gap:6px; cursor:pointer;">
+                Google Drive <X :size="14" style="color:#666;" />
+              </div>
+              <div style="color:#888; font-size:14px; display:flex; align-items:center; gap:6px; cursor:pointer;">
+                Google Spreadsheet <X :size="14" style="color:#666;" />
+              </div>
+            </div>
+
+            <div id="tour-target-google-calendar" style="background:#171717; border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:20px; margin-bottom:20px;">
+              <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+                <div style="background:#4285F4; color:white; width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;">
+                  <span style="font-weight:700; font-size:20px;">31</span>
+                </div>
+                <div>
+                  <h4 style="font-size:16px; font-weight:600; margin:0 0 4px 0; color:white;">Google Calendar</h4>
+                  <p style="font-size:13px; color:#a0a0a0; margin:0;">Sinkronisasi jadwal sesi ke Google Calendar</p>
+                </div>
+              </div>
+              <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:16px; display:flex; align-items:center; gap:8px;">
+                <X :size="14" style="color:#a0a0a0;" />
+                <span style="color:#a0a0a0; font-size:13px;">Belum terhubung</span>
+              </div>
+            </div>
+
+            <div id="tour-target-google-drive" style="background:#171717; border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:20px;">
+              <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+                <div style="background:#0F9D58; color:white; width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;">
+                  <HardDrive :size="24" />
+                </div>
+                <div>
+                  <h4 style="font-size:16px; font-weight:600; margin:0 0 4px 0; color:white;">Google Drive</h4>
+                  <p style="font-size:13px; color:#a0a0a0; margin:0;">Hubungkan akun Google Drive</p>
+                </div>
+              </div>
+              <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:16px; display:flex; align-items:center; gap:8px;">
+                <X :size="14" style="color:#a0a0a0;" />
+                <span style="color:#a0a0a0; font-size:13px;">Belum terhubung</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Save Actions -->
+          <div class="settings-actions">
+            <button class="btn-primary" @click="saveSettings('google')">
+              <Save :size="16" class="mr-2" /> Simpan
+            </button>
+            <button class="btn-text" style="margin-left: 1rem;">
+              <RefreshCw :size="16" class="mr-2" /> Balik ke Default
+            </button>
+          </div>
+        </div>
+      </div>
+      
   </DashboardLayout>
 </template>
 
@@ -420,9 +503,9 @@ import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { useTour } from '../composables/useTour';
 import { 
-  Building2, Calendar, MapPin, UploadCloud, Link as LinkIcon, 
-  Trash2, Search, ArrowRight, User, HelpCircle, FileText, CheckCircle2,
-  Clock, X, Phone, Globe, Image as ImageIcon, Save,
+  ChevronRight, ArrowLeft, Building2, Smartphone, MonitorSmartphone, Store, Link as LinkIcon, Edit, Clock,
+  LayoutTemplate, Settings as SettingsIcon, MessageCircle, Info, UploadCloud, X, Save, FileText, Image as ImageIcon,
+  Calendar as CalendarIcon, HardDrive, Search, ArrowRight, User, HelpCircle, CheckCircle2, Phone, Globe,
   Maximize2, Search as SearchIcon, Check, ZoomIn, ZoomOut
 } from 'lucide-vue-next';
 
@@ -519,20 +602,68 @@ const handleFileSelect = (event) => {
   event.target.value = '';
 };
 
-const cancelCrop = () => {
-  showCropModal.value = false;
-  tempImageUrl.value = null;
-  cropX.value = 0;
-  cropY.value = 0;
-};
+const imageElement = ref(null);
+const frameElement = ref(null);
 
 const applyCrop = () => {
-  uploadedLogoUrl.value = tempImageUrl.value;
+  if (!imageElement.value || !frameElement.value) return;
+
+  const img = imageElement.value;
+  const frame = frameElement.value;
+  
+  // Get DOM bounding rects
+  const imgRect = img.getBoundingClientRect();
+  const frameRect = frame.getBoundingClientRect();
+
+  // The img element has object-fit: contain.
+  // This means the actual rendered pixels of the image don't necessarily fill imgRect.
+  // We need to calculate the actual rendered bounds of the image inside imgRect.
+  const fitScale = Math.min(imgRect.width / img.naturalWidth, imgRect.height / img.naturalHeight);
+  
+  const renderedWidth = img.naturalWidth * fitScale;
+  const renderedHeight = img.naturalHeight * fitScale;
+  const renderedLeft = imgRect.left + (imgRect.width - renderedWidth) / 2;
+  const renderedTop = imgRect.top + (imgRect.height - renderedHeight) / 2;
+
+  // Create canvas for output
+  const canvas = document.createElement('canvas');
+  const outputWidth = logoOrientation.value === 'horizontal' ? 800 : 400;
+  const outputHeight = logoOrientation.value === 'horizontal' ? 450 : 400;
+  canvas.width = outputWidth;
+  canvas.height = outputHeight;
+  const ctx = canvas.getContext('2d');
+
+  // Calculate the scale from screen pixels to destination canvas pixels
+  const destScale = outputWidth / frameRect.width;
+  
+  // Calculate destination coordinates and dimensions
+  const destX = (renderedLeft - frameRect.left) * destScale;
+  const destY = (renderedTop - frameRect.top) * destScale;
+  const destWidth = renderedWidth * destScale;
+  const destHeight = renderedHeight * destScale;
+  
+  // Fill with white background (optional, but good for logos with transparent backgrounds if converted to jpeg, 
+  // but we are using PNG so we keep it transparent. Let's keep it transparent as intended).
+  
+  // Draw the image onto the canvas
+  // By using the 5-argument drawImage, we avoid any clipping issues with negative source bounds!
+  ctx.drawImage(img, destX, destY, destWidth, destHeight);
+
+  const croppedDataUrl = canvas.toDataURL('image/png');
+
+  uploadedLogoUrl.value = croppedDataUrl;
   showCropModal.value = false;
 };
 
 const removeLogo = () => {
   uploadedLogoUrl.value = null;
+};
+
+const cancelCrop = () => {
+  showCropModal.value = false;
+  tempImageUrl.value = null;
+  cropX.value = 0;
+  cropY.value = 0;
 };
 
 // --- 4. Working Hours Logic ---
@@ -587,10 +718,22 @@ const errors = ref({
   phoneNumber: false
 });
 
+const handlePhoneInput = (e) => {
+  let val = e.target.value;
+  val = val.replace(/\D/g, '');
+  if (val.startsWith('0')) {
+    val = val.substring(1);
+  } else if (val.startsWith('62')) {
+    val = val.substring(2);
+  }
+  phoneNumber.value = val;
+  e.target.value = val;
+};
+
 const saveSettings = async () => {
   if (isSaving.value) return;
 
-  // Cleanup phone number (remove leading 0 or +62)
+  // Cleanup phone number just in case
   if (phoneNumber.value) {
     let cleaned = phoneNumber.value.replace(/\s+/g, '');
     if (cleaned.startsWith('0')) cleaned = cleaned.substring(1);

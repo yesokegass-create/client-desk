@@ -238,16 +238,16 @@
               </div>
             </div>
             
-            <div class="form-group mb-4">
-              <label>Harga (Rp) <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" :class="{ 'has-error': formErrors.harga }" v-model="form.harga" @input="form.harga = formatCurrency($event.target.value)" placeholder="2.500.000" />
-              <span v-if="formErrors.harga" class="error-msg">Harga wajib diisi</span>
-            </div>
-            
-            <div class="form-group mb-4">
-              <label>Harga Coret <span class="text-optional">(opsional)</span></label>
-              <input type="text" class="form-control" v-model="form.hargaCoret" @input="form.hargaCoret = formatCurrency($event.target.value)" placeholder="3.500.000" />
-            </div>
+              <div class="form-group mb-4">
+                <label>Harga (Rp) <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" :class="{ 'has-error': formErrors.harga }" :value="form.harga" @input="handleHargaInput('harga', $event)" placeholder="2.500.000" />
+                <span v-if="formErrors.harga" class="error-msg">Harga wajib diisi</span>
+              </div>
+              
+              <div class="form-group mb-4">
+                <label>Harga Coret <span class="text-optional">(opsional)</span></label>
+                <input type="tel" class="form-control" :value="form.hargaCoret" @input="handleHargaInput('hargaCoret', $event)" placeholder="3.500.000" />
+              </div>
             
             <div class="form-group mb-4">
               <label>Durasi</label>
@@ -443,6 +443,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { useTour } from '../composables/useTour';
@@ -450,7 +451,8 @@ import {
   ArrowUpDown, Settings2, Plus, Package, X, Save, Copy, ClipboardPaste, Trash2, ChevronDown, Search, CheckCircle2, Edit2, Eye, EyeOff, ArrowUp, ArrowDown, Clock, ToggleRight, ToggleLeft
 } from 'lucide-vue-next';
 
-const { isActive, currentStep, completeStep } = useTour();
+const router = useRouter();
+const { isActive, currentStep, completeStep, endTour } = useTour();
 
 const showAddModal = ref(false);
 
@@ -526,7 +528,13 @@ const formatCurrency = (value) => {
   const numericString = value.toString().replace(/\D/g, '');
   if (!numericString) return '';
   // Format dengan titik sebagai pemisah ribuan
-  return numericString.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  return parseInt(numericString, 10).toLocaleString('id-ID');
+};
+
+const handleHargaInput = (field, event) => {
+  const formatted = formatCurrency(event.target.value);
+  form.value[field] = formatted;
+  event.target.value = formatted;
 };
 
 const showCityDropdown = ref(false);
@@ -629,6 +637,9 @@ const saveService = async () => {
       biaya_operasional: form.value.biayaOperasional,
     };
     
+    const setupStatus = JSON.parse(localStorage.getItem('vender_setup_status') || '{}');
+    const isFirstSetup = !setupStatus.step3_completed;
+
     if (editingId.value) {
       const res = await axios.put(`/api/services/${editingId.value}`, payload);
       const index = services.value.findIndex(s => s.id === editingId.value);
@@ -641,7 +652,13 @@ const saveService = async () => {
       completeStep('add-service');
     }
     
-    closeModal();
+    if (isActive.value || isFirstSetup) {
+      if (isActive.value) endTour();
+      window.location.href = '/dashboard';
+    } else {
+      closeModal();
+      isSaving.value = false;
+    }
   } catch (err) {
     console.error("Gagal menyimpan layanan:", err);
     let errorMsg = "Terjadi kesalahan.";
@@ -649,7 +666,6 @@ const saveService = async () => {
       errorMsg = err.response.data.message;
     }
     alert("Gagal menyimpan layanan: " + errorMsg);
-  } finally {
     isSaving.value = false;
   }
 };

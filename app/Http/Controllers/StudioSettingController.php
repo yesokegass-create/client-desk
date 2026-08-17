@@ -30,9 +30,9 @@ class StudioSettingController extends Controller
 
         $data = $request->validate([
             'vendor_name' => 'nullable|string',
-            'custom_url' => 'nullable|string',
-            'phone_country_code' => 'nullable|string',
-            'phone_number' => 'nullable|string',
+            'custom_url' => 'nullable|string|max:255',
+            'phone_country_code' => 'nullable|string|max:10',
+            'phone_number' => 'nullable|string|max:20',
             'disable_slug' => 'boolean',
             'logo_url' => 'nullable|string',
             'address' => 'nullable|string',
@@ -41,6 +41,20 @@ class StudioSettingController extends Controller
             'working_days' => 'nullable|array',
             'form_booking_settings' => 'nullable|array',
         ]);
+
+        if (!empty($data['logo_url']) && str_starts_with($data['logo_url'], 'data:image')) {
+            $image_parts = explode(";base64,", $data['logo_url']);
+            if (count($image_parts) == 2) {
+                $image_type_aux = explode("image/", $image_parts[0]);
+                $image_type = $image_type_aux[1] ?? 'png';
+                $image_base64 = base64_decode($image_parts[1]);
+                
+                $fileName = 'logo_' . $user->id . '_' . time() . '.' . $image_type;
+                \Illuminate\Support\Facades\Storage::disk('public')->put('logos/' . $fileName, $image_base64);
+                
+                $data['logo_url'] = '/storage/logos/' . $fileName;
+            }
+        }
 
         $settings = $user->studioSetting()->updateOrCreate(
             ['user_id' => $user->id],

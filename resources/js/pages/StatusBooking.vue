@@ -74,7 +74,7 @@
         </div>
 
         <!-- Table -->
-        <div class="table-responsive">
+        <div id="tour-target-status-booking" class="table-responsive">
           <table class="data-table">
             <thead>
               <tr>
@@ -122,12 +122,23 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
+import { useTour } from '../composables/useTour';
 import { 
   Activity, SlidersHorizontal, Search, Table, Kanban, 
   ListFilter, Folder, Archive, Settings2,
   ChevronLeft, ChevronRight 
 } from 'lucide-vue-next';
+
+const { isActive, currentStep, completeStep } = useTour();
+
+onMounted(() => {
+  // Auto-complete tour step 8 if active
+  if (isActive.value && currentStep()?.id === 'view-status-booking') {
+    completeStep('view-status-booking');
+  }
+});
 </script>
 
 <style scoped>

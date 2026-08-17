@@ -17,7 +17,7 @@ const route = useRoute();
 // Sembunyikan navbar dan footer di halaman auth
 const hideNavAndFooter = computed(() => {
   if (route.name === 'PublicBooking') return true;
-  return ['/login', '/register', '/auth/callback', '/forgot-password', '/reset-password', '/dashboard', '/daftar-booking', '/status-booking', '/kalender', '/services', '/team', '/rating-ulasan', '/freelance-portal', '/ringkasan-keuangan', '/kas-keuangan', '/invoice-pelunasan', '/pembayaran-tim', '/form-booking', '/form-pelunasan', '/form-booking-khusus', '/voucher-kupon', '/pengaturan', '/profil'].includes(route.path);
+  return ['/login', '/register', '/auth/callback', '/forgot-password', '/reset-password', '/dashboard', '/daftar-booking', '/status-booking', '/kalender', '/services', '/team', '/rating-ulasan', '/freelance-portal', '/ringkasan-keuangan', '/kas-keuangan', '/invoice-pelunasan', '/pembayaran-tim', '/form-booking', '/form-pelunasan', '/form-booking-khusus', '/voucher-kupon', '/pengaturan', '/profil', '/bookings/new'].includes(route.path);
 });
 </script>
 

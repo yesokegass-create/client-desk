@@ -31,20 +31,27 @@
           <button class="btn-text" @click="endTour">Lewati</button>
         </div>
         <button class="btn-primary-sm" @click="nextStep" :disabled="!currentStep().completed">
-          Lanjut <ArrowRight :size="14" />
+          <span v-if="isLastStep">Selesai</span>
+          <span v-else class="flex items-center">Lanjut <ArrowRight :size="14" class="ml-1" /></span>
         </button>
       </div>
     </div>
-  </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { watch, onMounted, onUnmounted, nextTick } from 'vue';
-import { useTour } from '../composables/useTour';
+import { ref, watch, onMounted, onUnmounted, computed, nextTick } from 'vue';
+import { useRoute } from 'vue-router';
 import { Sparkles, X, ArrowLeft, ArrowRight } from 'lucide-vue-next';
+import { useTour } from '../composables/useTour';
 
-const { isActive, currentStepIndex, currentStep, nextStep, prevStep, endTour } = useTour();
+const route = useRoute();
+const { isActive, currentStep, nextStep, prevStep, endTour, steps, currentStepIndex } = useTour();
+
+const isLastStep = computed(() => {
+  return currentStepIndex.value === steps.length - 1;
+});
 
 let activeHighlightElement = null;
 

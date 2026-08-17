@@ -22,17 +22,14 @@
             <div class="progress-bar-bg">
               <div class="progress-bar-fill" :style="{ width: progressPercent + '%' }"></div>
             </div>
-            <button class="btn-primary mt-3 w-100" :disabled="isLoadingSetup">
+            <button class="btn-primary mt-3 w-100" :disabled="isLoadingSetup" @click="continueSetup">
               <span v-if="isLoadingSetup">Memeriksa status...</span>
               <span v-else>Lanjutkan setup <ArrowRight :size="16" /></span>
             </button>
           </div>
         </div>
 
-        <div v-if="isLoadingSetup" style="padding: 2rem; text-align: center; color: #888;">
-          Sedang memeriksa progress setup Anda...
-        </div>
-        <div v-else class="setup-list">
+        <div class="setup-list" :class="{ 'opacity-50 pointer-events-none': isLoadingSetup }">
           <!-- Step 1 -->
           <div class="setup-item" :class="{ 'completed': setupStatus.step1_completed }">
             <div class="item-icon"><User :size="18" /></div>
@@ -114,42 +111,51 @@
           </div>
 
           <!-- Step 6 -->
-          <div class="setup-item">
+          <div class="setup-item" :class="{ 'completed': setupStatus.step6_completed }">
             <div class="item-icon"><Sparkles :size="18" /></div>
             <div class="item-content">
               <div class="item-title-row">
                 <h3>6. Buat Booking Pertama</h3>
-                <span class="status-badge pending"><Circle :size="12" /> Belum</span>
+                <span v-if="setupStatus.step6_completed" class="status-badge success"><CheckCircle2 :size="12" /> Selesai</span>
+                <span v-else class="status-badge pending"><Circle :size="12" /> Belum</span>
               </div>
               <p>Masukkan satu booking pertama agar kamu bisa melihat alur kerja Vender.id berjalan end-to-end.</p>
             </div>
-            <button class="btn-white">Buka panduan</button>
+            <button :class="setupStatus.step6_completed ? 'btn-outline' : 'btn-white'" @click="startTourGuide('add-booking')">
+              {{ setupStatus.step6_completed ? 'Lihat lagi' : 'Buka panduan' }}
+            </button>
           </div>
           
           <!-- Step 7 -->
-          <div class="setup-item">
+          <div class="setup-item" :class="{ 'completed': setupStatus.step7_completed }">
             <div class="item-icon"><ListChecks :size="18" /></div>
             <div class="item-content">
               <div class="item-title-row">
                 <h3>7. Pantau Halaman Daftar Booking</h3>
-                <span class="status-badge pending"><Circle :size="12" /> Belum</span>
+                <span v-if="setupStatus.step7_completed" class="status-badge success"><CheckCircle2 :size="12" /> Selesai</span>
+                <span v-else class="status-badge pending"><Circle :size="12" /> Belum</span>
               </div>
               <p>Lihat booking yang baru tersimpan dan kenali area daftar booking beserta aksi utamanya.</p>
             </div>
-            <button class="btn-white">Buka panduan</button>
+            <button :class="setupStatus.step7_completed ? 'btn-outline' : 'btn-white'" @click="startTourGuide('view-booking-list')">
+              {{ setupStatus.step7_completed ? 'Lihat lagi' : 'Buka panduan' }}
+            </button>
           </div>
 
           <!-- Step 8 -->
-          <div class="setup-item">
+          <div class="setup-item" :class="{ 'completed': setupStatus.step8_completed }">
             <div class="item-icon"><Activity :size="18" /></div>
             <div class="item-content">
               <div class="item-title-row">
                 <h3>8. Pantau Halaman Status Booking</h3>
-                <span class="status-badge pending"><Circle :size="12" /> Belum</span>
+                <span v-if="setupStatus.step8_completed" class="status-badge success"><CheckCircle2 :size="12" /> Selesai</span>
+                <span v-else class="status-badge pending"><Circle :size="12" /> Belum</span>
               </div>
               <p>Setelah ada booking, pantau progres klien dan gunakan link tracking dari halaman status booking.</p>
             </div>
-            <button class="btn-white">Buka panduan</button>
+            <button :class="setupStatus.step8_completed ? 'btn-outline' : 'btn-white'" @click="startTourGuide('view-status-booking')">
+              {{ setupStatus.step8_completed ? 'Lihat lagi' : 'Buka panduan' }}
+            </button>
           </div>
         </div>
 
@@ -401,13 +407,17 @@ import {
 
 const userName = ref('Johnathan Baker');
 const hideNominal = ref(false);
-const isLoadingSetup = ref(true);
-const setupStatus = ref({
+const cachedSetup = localStorage.getItem('vender_setup_status');
+const isLoadingSetup = ref(!cachedSetup);
+const setupStatus = ref(cachedSetup ? JSON.parse(cachedSetup) : {
   step1_completed: false,
   step2_completed: false,
   step3_completed: false,
   step4_completed: false,
-  step5_completed: false
+  step5_completed: false,
+  step6_completed: false,
+  step7_completed: false,
+  step8_completed: false
 });
 
 const completedSteps = computed(() => {
@@ -417,30 +427,48 @@ const completedSteps = computed(() => {
   if (setupStatus.value.step3_completed) count++;
   if (setupStatus.value.step4_completed) count++;
   if (setupStatus.value.step5_completed) count++;
+  if (setupStatus.value.step6_completed) count++;
+  if (setupStatus.value.step7_completed) count++;
+  if (setupStatus.value.step8_completed) count++;
   // Add other steps as they are implemented
   return count;
 });
 
-const progressPercent = computed(() => {
-  return Math.round((completedSteps.value / 8) * 100);
-});
+  const progressPercent = computed(() => {
+    return Math.round((completedSteps.value / 8) * 100);
+  });
+  
+  const { startTour } = useTour();
+  
+  const startTourGuide = (stepId = 0) => {
+    startTour(stepId);
+  };
 
-const { startTour } = useTour();
-
-const startTourGuide = (stepId = 0) => {
-  startTour(stepId);
-};
-
-const fetchSetupStatus = async () => {
-  isLoadingSetup.value = true;
+  const continueSetup = () => {
+    if (!setupStatus.value.step1_completed) return startTourGuide('setup-profile');
+    if (!setupStatus.value.step2_completed) return startTourGuide('setup-studio');
+    if (!setupStatus.value.step3_completed) return startTourGuide('add-service');
+    if (!setupStatus.value.step4_completed) return startTourGuide('add-team');
+    if (!setupStatus.value.step5_completed) return startTourGuide('setup-form');
+    if (!setupStatus.value.step6_completed) return startTourGuide('add-booking');
+    if (!setupStatus.value.step7_completed) return startTourGuide('view-booking-list');
+    if (!setupStatus.value.step8_completed) return startTourGuide('view-status-booking');
+  };
+  
+  const fetchSetupStatus = async () => {
+  if (!localStorage.getItem('vender_setup_status')) {
+    isLoadingSetup.value = true;
+  }
   try {
     const token = localStorage.getItem('auth_token');
     const response = await axios.get('/api/setup-status', {
       headers: { Authorization: `Bearer ${token}` }
     });
-    if (response.data) {
-      setupStatus.value = response.data;
-    }
+      if (response.data) {
+        const existing = JSON.parse(localStorage.getItem('vender_setup_status') || '{}');
+        setupStatus.value = { ...existing, ...response.data };
+        localStorage.setItem('vender_setup_status', JSON.stringify(setupStatus.value));
+      }
   } catch (error) {
     console.error('Could not fetch setup status', error);
   } finally {

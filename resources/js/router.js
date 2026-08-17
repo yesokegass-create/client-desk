@@ -23,6 +23,7 @@ import PembayaranTim from './pages/PembayaranTim.vue';
 import FormBooking from './pages/FormBooking.vue';
 import FormPelunasan from './pages/FormPelunasan.vue';
 import FormBookingKhusus from './pages/FormBookingKhusus.vue';
+import TambahBooking from './pages/TambahBooking.vue';
 import VoucherKupon from './pages/VoucherKupon.vue';
 import Pengaturan from './pages/Pengaturan.vue';
 import ProfilAkun from './pages/ProfilAkun.vue';
@@ -108,6 +109,11 @@ const routes = [
     path: '/form-pelunasan',
     name: 'FormPelunasan',
     component: FormPelunasan
+  },
+  {
+    path: '/bookings/new',
+    name: 'TambahBooking',
+    component: TambahBooking
   },
   {
     path: '/form-booking-khusus',

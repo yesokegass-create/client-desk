@@ -92,12 +92,14 @@
 import { ref, computed, onMounted } from 'vue';
 import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
+import { useRouter } from 'vue-router';
 import { useTour } from '../composables/useTour';
 import { 
   ArrowLeft, Camera, Flame, RefreshCw, Save, KeyRound 
 } from 'lucide-vue-next';
 
-const { completeStep } = useTour();
+const router = useRouter();
+const { isActive, endTour, completeStep } = useTour();
 
 const form = ref({
   nama: '',
@@ -155,12 +157,21 @@ const saveProfile = async () => {
       headers: { Authorization: `Bearer ${token}` }
     });
     
+    const setupStatus = JSON.parse(localStorage.getItem('vender_setup_status') || '{}');
+    const isFirstSetup = !setupStatus.step1_completed;
+
     completeStep('setup-profile');
-    alert('Profil berhasil disimpan secara permanen di server!');
+    
+    if (isActive.value || isFirstSetup) {
+      if (isActive.value) endTour();
+      window.location.href = '/dashboard';
+    } else {
+      alert('Profil berhasil disimpan secara permanen di server!');
+      isSaving.value = false;
+    }
   } catch (error) {
     console.error('Failed to save profile', error);
     alert('Gagal menyimpan profil, periksa koneksi Anda.');
-  } finally {
     isSaving.value = false;
   }
 };
