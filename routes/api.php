@@ -7,7 +7,22 @@ use App\Http\Controllers\AuthController;
 Route::get('/reset-db-now', function () {
     try {
         \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
-        return 'DATABASE RESET SUCCESSFUL! Silakan kembali ke web dan refresh.';
+        return response("
+            <html><body style='background: #111; color: #fff; font-family: sans-serif; text-align: center; padding-top: 20%;'>
+            <h2>DATABASE & BROWSER MEMORY RESET SUCCESSFUL!</h2>
+            <p>Mengarahkan Anda kembali ke halaman Login dalam 3 detik...</p>
+            <script>
+                // Hapus semua memori browser (termasuk progress tutorial)
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Redirect ke halaman login setelah 3 detik
+                setTimeout(function() {
+                    window.location.href = '/login';
+                }, 3000);
+            </script>
+            </body></html>
+        ");
     } catch (\Exception $e) {
         return 'Error: ' . $e->getMessage();
     }
