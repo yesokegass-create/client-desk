@@ -206,25 +206,24 @@
             <div class="modal-body">
               <div class="form-group">
                 <label class="form-label">Nama Tim / Freelance *</label>
-              <input type="text" :class="getInputClass('nama')" v-model="form.nama" placeholder="Contoh: Budi Santoso" @input="clearError('nama')" />
-              <span v-if="errors.nama" class="error-text">{{ errors.nama }}</span>
-                <span v-if="formErrors.nama" class="error-msg">Nama wajib diisi</span>
+                <input type="text" :class="getInputClass('nama')" v-model="form.nama" placeholder="Contoh: Budi Santoso" @input="clearError('nama')" />
+                <span v-if="errors.nama" class="error-text">{{ errors.nama }}</span>
               </div>
               
               <div class="form-group mt-4">
                 <label class="form-label">Peran *</label>
-              <select :class="getInputClass('peran')" v-model="form.peran" @change="clearError('peran')">
-                <option value="Photographer">Photographer</option>
-                <option value="Videographer">Videographer</option>
-                <option value="Editor">Editor</option>
-                <option value="Makeup Artist">Makeup Artist</option>
-                <option value="Lainnya">Lainnya</option>
-              </select>
-              <span v-if="errors.peran" class="error-text">{{ errors.peran }}</span>      <option value="Asisten">Asisten</option>
+                <div class="select-wrapper">
+                  <select :class="getInputClass('peran', 'form-control select-control')" v-model="form.peran" @change="clearError('peran')">
+                    <option value="Photographer">Photographer</option>
+                    <option value="Videographer">Videographer</option>
+                    <option value="Editor">Editor</option>
+                    <option value="Makeup Artist">Makeup Artist</option>
+                    <option value="Asisten">Asisten</option>
                     <option value="Lainnya">Lainnya</option>
                   </select>
                   <ChevronDown :size="16" class="select-icon" />
                 </div>
+                <span v-if="errors.peran" class="error-text">{{ errors.peran }}</span>
               </div>
 
               <div class="form-group mt-4">
