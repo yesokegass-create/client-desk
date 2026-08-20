@@ -610,6 +610,7 @@ const saveProfile = async () => {
 
 :root[data-theme="light"] .btn-secondary:hover {
   background-color: #f9fafb;
+}
 .has-error {
   border-color: #ef4444 !important;
 }
