@@ -31,7 +31,7 @@ class StudioSettingController extends Controller
         $data = $request->validate([
             'vendor_name' => 'required|string|min:2|max:255',
             'custom_url' => 'nullable|string|max:255',
-            'phone_country_code' => 'required|string|max:10',
+            'phone_country_code' => 'nullable|string|max:10',
             'phone_number' => 'required|string|min:8|max:20',
             'disable_slug' => 'boolean',
             'logo_url' => 'nullable|string',
