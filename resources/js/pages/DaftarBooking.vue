@@ -91,9 +91,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-if="isLoading">
-                <td colspan="12" class="empty-state">
-                  <p>Memuat data...</p>
+              <tr v-if="isLoading && bookings.length === 0">
+                <td colspan="12" class="p-0">
+                  <div class="skeleton-row" v-for="i in 5" :key="i">
+                    <div class="skeleton-cell w-8"></div>
+                    <div class="skeleton-cell w-32"></div>
+                    <div class="skeleton-cell w-24"></div>
+                    <div class="skeleton-cell w-32"></div>
+                    <div class="skeleton-cell w-32"></div>
+                    <div class="skeleton-cell w-24"></div>
+                    <div class="skeleton-cell w-16"></div>
+                    <div class="skeleton-cell w-32"></div>
+                    <div class="skeleton-cell w-24"></div>
+                    <div class="skeleton-cell w-24"></div>
+                    <div class="skeleton-cell w-24"></div>
+                    <div class="skeleton-cell w-20"></div>
+                  </div>
                 </td>
               </tr>
               <tr v-else-if="bookings.length === 0">
@@ -418,12 +431,25 @@ const saveFreelanceAssignment = async () => {
 };
 
 const fetchBookings = async () => {
+  // SWR Cache: load from cache first
+  const cached = localStorage.getItem('cached_bookings');
+  if (cached) {
+    try {
+      bookings.value = JSON.parse(cached);
+      // Still set isLoading to false if we have cache? 
+      // No, let it show actual data immediately, but keep fetching silently
+    } catch(e) {}
+  } else {
+    isLoading.value = true;
+  }
+
   try {
     const token = localStorage.getItem('auth_token');
     const res = await axios.get('/api/bookings', {
       headers: { Authorization: `Bearer ${token}` }
     });
     bookings.value = res.data;
+    localStorage.setItem('cached_bookings', JSON.stringify(res.data));
   } catch (error) {
     console.error('Failed to fetch bookings:', error);
   } finally {
@@ -665,6 +691,34 @@ const copyTemplateFreelance = (booking) => {
 </script>
 
 <style scoped>
+/* Skeleton Loader */
+.skeleton-row {
+  display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  gap: 1rem;
+  align-items: center;
+}
+
+.skeleton-cell {
+  height: 20px;
+  background: linear-gradient(90deg, #1f1f1f 25%, #2a2a2a 50%, #1f1f1f 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.w-8 { flex: 0 0 32px; }
+.w-16 { flex: 0 0 64px; }
+.w-20 { flex: 0 0 80px; }
+.w-24 { flex: 0 0 96px; }
+.w-32 { flex: 0 0 128px; }
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 .booking-page {
   display: flex;
   flex-direction: column;

@@ -298,9 +298,18 @@ const fetchUser = async () => {
     // axios default header setup for subsequent requests can be done in a separate file, but for now we set it here
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     
+    // SWR Cache: Use local cache first for instant load
+    const cachedUser = localStorage.getItem('vender_user_profile');
+    if (cachedUser) {
+      const parsedUser = JSON.parse(cachedUser);
+      if (parsedUser.name) userName.value = parsedUser.name;
+    }
+    
+    // Fetch fresh data in background
     const response = await axios.get('/api/user');
     if (response.data && response.data.name) {
       userName.value = response.data.name;
+      localStorage.setItem('vender_user_profile', JSON.stringify(response.data));
     }
   } catch (error) {
     console.error('Failed to fetch user', error);
@@ -325,6 +334,8 @@ const handleLogout = async () => {
   } finally {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('vender_setup_status');
+    localStorage.removeItem('vender_user_profile');
+    localStorage.removeItem('cached_bookings');
     window.location.href = '/login';
   }
 };
