@@ -6,7 +6,14 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/reset-db-now', function () {
     try {
-        \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        if (\Illuminate\Support\Facades\DB::getDriverName() === 'pgsql') {
+            \Illuminate\Support\Facades\DB::statement('DROP SCHEMA public CASCADE');
+            \Illuminate\Support\Facades\DB::statement('CREATE SCHEMA public');
+            \Illuminate\Support\Facades\Artisan::call('migrate', ['--seed' => true, '--force' => true]);
+        } else {
+            \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--seed' => true, '--force' => true]);
+        }
+        
         return response("
             <html><body style='background: #111; color: #fff; font-family: sans-serif; text-align: center; padding-top: 20%;'>
             <h2>DATABASE & BROWSER MEMORY RESET SUCCESSFUL!</h2>
