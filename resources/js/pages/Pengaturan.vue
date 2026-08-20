@@ -716,10 +716,6 @@ const fetchSettings = async () => {
   }
 };
 
-const errors = ref({
-  vendorName: false,
-  phoneNumber: false
-});
 
 const handlePhoneInput = (e) => {
   let val = e.target.value;
