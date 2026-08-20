@@ -466,7 +466,12 @@ const completedSteps = computed(() => {
     });
       if (response.data) {
         const existing = JSON.parse(localStorage.getItem('vender_setup_status') || '{}');
-        setupStatus.value = { ...existing, ...response.data };
+        const defaultState = {
+          step1_completed: false, step2_completed: false, step3_completed: false,
+          step4_completed: false, step5_completed: false, step6_completed: false,
+          step7_completed: false, step8_completed: false
+        };
+        setupStatus.value = { ...defaultState, ...existing, ...response.data };
         localStorage.setItem('vender_setup_status', JSON.stringify(setupStatus.value));
       }
   } catch (error) {

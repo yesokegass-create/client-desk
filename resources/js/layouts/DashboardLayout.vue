@@ -324,6 +324,7 @@ const handleLogout = async () => {
     console.error(e);
   } finally {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('vender_setup_status');
     window.location.href = '/login';
   }
 };

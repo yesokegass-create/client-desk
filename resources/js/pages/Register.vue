@@ -199,6 +199,7 @@ onUnmounted(() => {
 const handleWindowMessage = (event) => {
   if (event.data && event.data.type === 'GOOGLE_LOGIN_SUCCESS') {
     localStorage.setItem('auth_token', event.data.token);
+    localStorage.removeItem('vender_setup_status');
     router.push('/dashboard');
   } else if (event.data && event.data.type === 'GOOGLE_LOGIN_FAILED') {
     alert('Daftar dengan Google gagal: ' + event.data.error);

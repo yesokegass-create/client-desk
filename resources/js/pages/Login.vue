@@ -135,6 +135,7 @@ onUnmounted(() => {
 const handleWindowMessage = (event) => {
   if (event.data && event.data.type === 'GOOGLE_LOGIN_SUCCESS') {
     localStorage.setItem('auth_token', event.data.token);
+    localStorage.removeItem('vender_setup_status');
     router.push('/dashboard');
   } else if (event.data && event.data.type === 'GOOGLE_LOGIN_FAILED') {
     alert('Login Google gagal: ' + event.data.error);
@@ -173,6 +174,7 @@ const handleLogin = async () => {
     
     // Simpan token di localStorage (standar Sanctum/API)
     localStorage.setItem('auth_token', response.data.access_token);
+    localStorage.removeItem('vender_setup_status');
     
     // Redirect ke dashboard
     router.push('/dashboard');
