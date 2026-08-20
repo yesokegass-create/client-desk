@@ -31,6 +31,7 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/bootstrap/cache
 
 # Install PHP dependencies
+ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-dev --optimize-autoloader
 
 # Install Node dependencies & build Vue/Vite assets
