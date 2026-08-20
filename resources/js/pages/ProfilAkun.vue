@@ -38,8 +38,8 @@
         <!-- Form Fields -->
         <div class="form-section">
           <div class="form-group">
-            <label class="form-label">Nama <span class="text-danger">*</span></label>
-            <input type="text" v-model="form.nama" :class="getInputClass('nama')" id="tour-target-nama" :disabled="isLoading" :placeholder="isLoading ? 'Memuat data...' : ''" @input="clearError('nama')" />
+            <label>Nama <span class="text-danger">*</span></label>
+            <input type="text" v-model="form.nama" :class="getInputClass('nama', 'form-control')" id="tour-target-nama" :disabled="isLoading" :placeholder="isLoading ? 'Memuat data...' : ''" @input="clearError('nama')" />
             <span v-if="errors.nama" class="error-text">{{ errors.nama }}</span>
           </div>
 
@@ -140,11 +140,14 @@ onMounted(async () => {
 const saveProfile = async () => {
   if (isSaving.value) return;
   
-  // Validation
+  let hasError = false;
+  
   if (!form.value.nama.trim()) {
-    errors.value.nama = 'Nama wajib diisi';
-    return;
+    errors.value.nama = 'Nama lengkap harus diisi';
+    hasError = true;
   }
+  
+  if (hasError) return;
   
   isSaving.value = true;
   
@@ -157,28 +160,30 @@ const saveProfile = async () => {
     });
     
     const setupStatus = JSON.parse(localStorage.getItem('vender_setup_status') || '{}');
+    
+    // Update local cache to immediately reflect in header without reload
+    const currentProfile = JSON.parse(localStorage.getItem('vender_user_profile') || '{}');
+    currentProfile.name = form.value.nama;
+    localStorage.setItem('vender_user_profile', JSON.stringify(currentProfile));
+    
+    // Dispatch event to trigger header update
+    window.dispatchEvent(new Event('profile-updated'));
+
     const isFirstSetup = !setupStatus.step1_completed;
 
     completeStep('setup-profile');
     
-    // Also update local cache for Dashboard Layout SWR
-    const cachedProfile = localStorage.getItem('vender_user_profile');
-    if (cachedProfile) {
-      try {
-        const parsed = JSON.parse(cachedProfile);
-        parsed.name = form.value.nama;
-        localStorage.setItem('vender_user_profile', JSON.stringify(parsed));
-      } catch (e) {}
-    }
-
-    if (isActive.value) {
-      endTour();
+    if (isActive.value || isFirstSetup) {
+      if (isActive.value) endTour();
       window.location.href = '/dashboard';
+    } else {
+      alert('Profil berhasil disimpan secara permanen di server!');
+      isSaving.value = false;
     }
   } catch (error) {
     console.error('Failed to update profile', error);
     if (!handleValidationErrors(error)) {
-      alert('Gagal memperbarui profil.');
+      alert('Gagal menyimpan profil. Server mengalami gangguan.');
     }
   } finally {
     isSaving.value = false;
@@ -497,37 +502,29 @@ const saveProfile = async () => {
   transition: opacity 0.2s;
 }
 
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
 .btn-secondary {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #1f2937;
-  color: #fff;
-  border: 1px solid #374151;
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s;
 }
 
 .btn-secondary:hover {
-  background-color: #374151;
+  background-color: #2a2a2a;
 }
-
-.error-input {
-  border-color: #ef4444 !important;
-}
-
-.error-text {
-  color: #ef4444;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  display: block;
-}
-
-/* Mobile Responsiveness */
-
 
 /* Responsive */
 @media (max-width: 640px) {
@@ -613,5 +610,18 @@ const saveProfile = async () => {
 
 :root[data-theme="light"] .btn-secondary:hover {
   background-color: #f9fafb;
+.has-error {
+  border-color: #ef4444 !important;
+}
+
+.error-input {
+  border-color: #ef4444 !important;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
 }
 </style>

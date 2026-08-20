@@ -205,19 +205,20 @@
             
             <div class="modal-body">
               <div class="form-group">
-                <label class="form-label">Nama Tim / Freelance *</label>
-                <input type="text" :class="getInputClass('nama')" v-model="form.nama" placeholder="Contoh: Budi Santoso" @input="clearError('nama')" />
+                <label>Nama <span class="text-danger">*</span></label>
+                <input type="text" :class="getInputClass('nama', 'form-control')" v-model="form.nama" placeholder="Misal: Budi Santoso" @input="clearError('nama')" />
                 <span v-if="errors.nama" class="error-text">{{ errors.nama }}</span>
               </div>
               
               <div class="form-group mt-4">
-                <label class="form-label">Peran *</label>
+                <label>Peran / Role</label>
                 <div class="select-wrapper">
                   <select :class="getInputClass('peran', 'form-control select-control')" v-model="form.peran" @change="clearError('peran')">
                     <option value="Photographer">Photographer</option>
                     <option value="Videographer">Videographer</option>
+                    <option value="Hybrid Shooter">Hybrid Shooter</option>
+                    <option value="WCC">WCC</option>
                     <option value="Editor">Editor</option>
-                    <option value="Makeup Artist">Makeup Artist</option>
                     <option value="Asisten">Asisten</option>
                     <option value="Lainnya">Lainnya</option>
                   </select>
@@ -252,15 +253,17 @@
                       </ul>
                     </div>
                   </div>
-                  <input type="tel" autocomplete="tel" class="form-control phone-input" :class="{ 'has-error': formErrors.phone_number }" :value="form.phone_number" @input="handlePhoneInput" placeholder="8123456789" />
+                  <input type="tel" autocomplete="tel" :class="getInputClass('phone_number', 'form-control phone-input')" :value="form.phone_number" @input="(e) => { handlePhoneInput(e); clearError('phone_number'); }" placeholder="8123456789" />
                 </div>
+                <span v-if="errors.phone_number" class="error-text">{{ errors.phone_number }}</span>
               </div>
 
               <div class="form-group mt-4">
-                <label class="form-label">Email <span class="text-gray-500">(Opsional)</span></label>
-                <input type="email" :class="getInputClass('email')" v-model="form.email" placeholder="email@contoh.com (untuk kalender)" @input="clearError('email')" />
+                <label>Google Email</label>
+                <input type="email" autocomplete="email" :class="getInputClass('email', 'form-control')" v-model="form.email" placeholder="email@gmail.com (untuk kalender)" @input="clearError('email')" />
                 <span v-if="errors.email" class="error-text">{{ errors.email }}</span>
               </div>
+
               <div class="form-group mt-4">
                 <label>Tags</label>
                 <input type="text" class="form-control" v-model="tagInput" @keydown="addTag" placeholder="Ketik tag lalu Enter..." />
@@ -319,16 +322,15 @@
 </template>
 
 <script setup>
+import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
 import { useTour } from '../composables/useTour';
+import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { useFormValidation } from '../composables/useFormValidation';
 import { 
-  Users, Search, Plus, Filter, MoreVertical, 
-  Mail, Phone, ShieldCheck, MapPin, Tag, ChevronDown, Check, Briefcase, Camera, Video, Scissors, Brush, PenTool
+  ArrowUpDown, Plus, Palette, Users, X, ChevronDown, Search, Trash2, Check, SlidersHorizontal, MessageCircle, Edit2, ChevronLeft, ChevronRight
 } from 'lucide-vue-next';
-import DashboardLayout from '../layouts/DashboardLayout.vue';
 
 const { isActive, currentStep, completeStep, endTour } = useTour();
 const router = useRouter();
@@ -339,16 +341,12 @@ const isSaving = ref(false);
 
 const searchQuery = ref('');
 const filterStatus = ref('');
-const filterPeran = ref('');
-const filterTag = ref('');
-
 const showAddModal = ref(false);
-const formErrors = ref({
-  nama: false,
-  phone_number: false
-});
 const isEditing = ref(false);
 const editingId = ref(null);
+const tagInput = ref('');
+
+const { errors, clearErrors, clearError, handleValidationErrors, isValidPhone, isValidEmail, getInputClass } = useFormValidation();
 
 const form = ref({
   nama: '',
@@ -376,8 +374,6 @@ const handlePhoneInput = (e) => {
 const countrySearchQuery = ref('');
 const countries = ref([]);
 const selectedCountry = ref({ code: 'ID', name: 'Indonesia', dial_code: '+62' });
-
-const { errors, clearErrors, clearError, handleValidationErrors, isValidEmail, isValidPhone, getInputClass } = useFormValidation();
 
 onMounted(async () => {
   fetchTeamMembers();
@@ -525,9 +521,7 @@ const saveTeamMember = async () => {
     hasError = true;
   }
   
-  if (hasError) {
-    return; // Don't use alert, show inline errors
-  }
+  if (hasError) return;
   
   isSaving.value = true;
 
@@ -623,8 +617,6 @@ const updateHarga = (index, event) => {
   form.value.pricelist[index].harga = cleanValue;
   event.target.value = formatRupiah(cleanValue);
 };
-
-const tagInput = ref('');
 
 const addTag = (e) => {
   if (e.key === 'Enter' || e.key === ',') {
@@ -1213,30 +1205,78 @@ const removeTag = (index) => {
 }
 
 .phone-input {
-  flex: 1;
-  background-color: transparent;
-  border: none;
-  color: #fff;
-  font-size: 0.95rem;
-  padding: 0.5rem 0.75rem;
+  background-color: #1d1e26;
 }
 
-.phone-input:focus {
+/* Country Dropdown */
+.country-dropdown-container {
+  position: relative;
+}
+
+.country-selector-btn {
+  cursor: pointer;
+  background-color: transparent;
+  border: 1px solid #333;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  white-space: nowrap;
+  height: 100%;
+}
+
+.country-code-text {
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.dropdown-arrow-icon {
+  color: #a0a0a0;
+}
+
+.country-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 320px;
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  z-index: 50;
+  overflow: hidden;
+}
+
+.country-search-wrapper {
+  padding: 0.75rem;
+  border-bottom: 1px solid #333;
+}
+
+.country-search {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 20px;
+  padding: 0.4rem 0.75rem;
+}
+
+.country-search .search-icon {
+  color: #a0a0a0;
+  margin-right: 0.5rem;
+}
+
+.country-search input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 0.85rem;
+  width: 100%;
   outline: none;
 }
 
-.error-input {
-  border-color: #ef4444 !important;
-}
-
-.error-text {
-  color: #ef4444;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  display: block;
-}
-
-/* Tag Styles */
 .country-list {
   list-style: none;
   margin: 0;
@@ -1594,7 +1634,22 @@ const removeTag = (index) => {
 
 .text-danger { color: #ef4444; }
 .error-msg { font-size: 0.75rem; color: #ef4444; margin-top: 0.25rem; display: block; }
-.form-control.has-error { border-color: #ef4444; }
+.form-control.has-error {
+  border-color: #ef4444 !important;
+}
+
+.error-input {
+  border-color: #ef4444 !important;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* Mobile */
 .has-error-box { border: 1px solid #ef4444; border-radius: 8px; padding: 0.5rem; }
 
 </style>

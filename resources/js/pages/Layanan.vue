@@ -220,9 +220,9 @@
             </div>
             
             <div class="form-group mb-4">
-                <label class="form-label">Nama Paket / Layanan *</label>
-                <input type="text" :class="getInputClass('nama_layanan')" v-model="form.nama_layanan" placeholder="Misal: Paket Prewedding Basic" @input="clearError('nama_layanan')" />
-                <span v-if="errors.nama_layanan" class="error-text">{{ errors.nama_layanan }}</span>
+              <label>Nama Layanan <span class="text-danger">*</span></label>
+              <input type="text" :class="getInputClass('namaLayanan', 'form-control')" v-model="form.namaLayanan" placeholder="e.g.: Wedding Photography" @input="clearError('namaLayanan')" />
+              <span v-if="errors.namaLayanan" class="error-text">{{ errors.namaLayanan }}</span>
             </div>
             
             <div class="form-group mb-4">
@@ -239,12 +239,9 @@
             </div>
             
               <div class="form-group mb-4">
-                <label class="form-label">Harga *</label>
-                  <div class="input-with-prefix">
-                    <span class="prefix">Rp</span>
-                    <input type="number" :class="getInputClass('harga')" v-model="form.harga" placeholder="0" @input="clearError('harga')" />
-                  </div>
-                  <span v-if="errors.harga" class="error-text">{{ errors.harga }}</span>
+                <label>Harga (Rp) <span class="text-danger">*</span></label>
+                <input type="tel" :class="getInputClass('harga', 'form-control')" :value="form.harga" @input="(e) => { handleHargaInput('harga', e); clearError('harga'); }" placeholder="2.500.000" />
+                <span v-if="errors.harga" class="error-text">{{ errors.harga }}</span>
               </div>
               
               <div class="form-group mb-4">
@@ -313,7 +310,19 @@
                 <div class="custom-dropdown-trigger mb-2" @click="showCityDropdown = true">
                   <span v-if="form.kota.length > 0">{{ form.kota.length }} kota / kabupaten dipilih</span>
                   <span v-else>Bebas semua kota / kabupaten</span>
-                  <ChevronDown :size="16" class="text-gray" />
+                </div>
+                <div class="dropdown-wrapper">
+                  <div class="dropdown-header" :class="getInputClass('tipeAcara', 'form-control form-control-multi')" @click="showTipeAcaraDropdown = !showTipeAcaraDropdown">
+                    <span v-if="form.tipeAcara.length === 0" class="text-placeholder">Pilih minimal 1...</span>
+                    <div v-else class="selected-tags">
+                      <span v-for="(tipe, index) in form.tipeAcara" :key="index" class="selected-tag">
+                        {{ tipe }}
+                        <X :size="12" class="tag-close" @click.stop="removeTipeAcara(index)" />
+                      </span>
+                    </div>
+                    <ChevronDown :size="16" class="dropdown-arrow" :class="{'rotate-180': showTipeAcaraDropdown}" />
+                  </div>
+                  <span v-if="errors.tipeAcara" class="error-text">{{ errors.tipeAcara }}</span>
                 </div>
 
                 <!-- Custom Dropdown Panel -->
@@ -452,8 +461,7 @@ import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { useTour } from '../composables/useTour';
 import { useFormValidation } from '../composables/useFormValidation';
 import { 
-  Plus, MoreVertical, Edit2, Copy, Trash2, 
-  Search, Filter, Users, Calendar, MapPin, DollarSign, Image, PackageOpen, Check, HelpCircle, Palette, MonitorPlay, Off, ArrowUp, ArrowDown, Clock, ToggleRight, ToggleLeft
+  ArrowUpDown, Settings2, Plus, Package, X, Save, Copy, ClipboardPaste, Trash2, ChevronDown, Search, CheckCircle2, Edit2, Eye, EyeOff, ArrowUp, ArrowDown, Clock, ToggleRight, ToggleLeft
 } from 'lucide-vue-next';
 
 const router = useRouter();
@@ -480,38 +488,33 @@ const form = ref({
   biayaOperasional: []
 });
 
-const formErrors = ref({
-  namaLayanan: false,
-  harga: false,
-  tipeAcara: false
-});
-
 const eventTypes = [
   'Umum', 'Wedding', 'Akad', 'Resepsi', 'Lamaran', 'Prewedding', 
   'Wisuda', 'Maternity', 'Newborn', 'Family', 'Komersil', 'Custom/Lainnya'
 ];
 
-const openAddModal = () => {
-  isEditing.value = false;
+const { errors, clearErrors, clearError, handleValidationErrors, getInputClass } = useFormValidation();
+
+const openModal = () => {
   editingId.value = null;
   clearErrors();
-  
   form.value = {
-    jenis_layanan: 'Paket / Katalog',
-    nama_layanan: '',
+    jenisLayanan: 'paket',
+    namaLayanan: '',
     deskripsi: '',
+    warnaPaket: '#000000',
     harga: '',
-    harga_coret: '',
-    durasi_kuota: '',
-    wajib_pilih_kuota: false,
-    tampilkan_publik: true,
-    is_active: true,
-    tipe_acara: [],
+    hargaCoret: '',
+    durasiJam: '2',
+    durasiMenit: '0',
+    jumlahEdit: '',
+    templateCetak: '',
+    wajibPilihKuota: false,
+    tampilkanPublik: true,
+    isActive: true,
+    tipeAcara: [],
     kota: [],
-    biaya_operasional: [],
-    warna_paket: 'purple',
-    jumlah_edit: null,
-    template_cetak: ''
+    biayaOperasional: []
   };
   showAddModal.value = true;
 };
@@ -547,11 +550,9 @@ const showCityDropdown = ref(false);
 const searchQuery = ref('');
 const allCities = ref([]);
 const filteredCities = ref([]);
-const isHoveringFile = ref(false);
+const isLoadingCities = ref(false);
 
-const { errors, clearErrors, clearError, handleValidationErrors, getInputClass } = useFormValidation();
-
-const formatRupiah = (value) => {
+const formatTitleCase = (str) => {
   return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 };
 
@@ -618,19 +619,22 @@ const showSuccessToast = (msg) => {
 const saveService = async () => {
   let hasError = false;
   
-  if (!form.value.nama_layanan.trim()) {
-    errors.value.nama_layanan = 'Nama layanan harus diisi';
+  if (!form.value.namaLayanan.trim()) {
+    errors.value.namaLayanan = 'Nama layanan harus diisi';
     hasError = true;
   }
   
-  if (form.value.harga === '' || form.value.harga === null) {
+  if (!form.value.harga || form.value.harga === '0' || form.value.harga === '') {
     errors.value.harga = 'Harga harus diisi';
     hasError = true;
   }
   
-  if (hasError) {
-    return;
+  if (form.value.tipeAcara.length === 0) {
+    errors.value.tipeAcara = 'Pilih minimal 1 tipe acara';
+    hasError = true;
   }
+  
+  if (hasError) return;
   
   isSaving.value = true;
   try {
@@ -671,11 +675,11 @@ const saveService = async () => {
       if (isActive.value) endTour();
       window.location.href = '/dashboard';
     } else {
-      closeAddModal();
+      closeModal();
       isSaving.value = false;
     }
   } catch (error) {
-    console.error('Failed to save service', error);
+    console.error("Gagal menyimpan layanan:", error);
     if (!handleValidationErrors(error)) {
       alert('Gagal menyimpan layanan. Server mengalami gangguan.');
     }
@@ -721,13 +725,27 @@ const togglePublic = async (svc) => {
   }
 };
 
-const editService = (service) => {
-  isEditing.value = true;
-  editingId.value = service.id;
+const editService = (svc) => {
+  editingId.value = svc.id;
   clearErrors();
-  
-  // Clone to prevent direct mutation
-  form.value = JSON.parse(JSON.stringify(service));
+  form.value = {
+    jenisLayanan: svc.jenis_layanan,
+    namaLayanan: svc.nama_layanan,
+    deskripsi: svc.deskripsi || '',
+    warnaPaket: svc.warna_paket || '#000000',
+    harga: svc.harga,
+    hargaCoret: svc.harga_coret || '',
+    durasiJam: svc.durasi_kuota ? svc.durasi_kuota.split(' jam ')[0] : '2',
+    durasiMenit: svc.durasi_kuota ? (svc.durasi_kuota.split(' jam ')[1] || '0 menit').replace(' menit', '') : '0',
+    jumlahEdit: svc.jumlah_edit || '',
+    templateCetak: svc.template_cetak || '',
+    wajibPilihKuota: svc.wajib_pilih_kuota,
+    tampilkanPublik: svc.tampilkan_publik,
+    isActive: svc.is_active,
+    tipeAcara: svc.tipe_acara || [],
+    kota: svc.kota || [],
+    biayaOperasional: svc.biaya_operasional || []
+  };
   showAddModal.value = true;
 };
 
@@ -872,6 +890,24 @@ onMounted(() => {
   max-width: 400px;
 }
 
+/* Validation Classes */
+.has-error {
+  border-color: #ef4444 !important;
+}
+
+.error-input {
+  border-color: #ef4444 !important;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+@media (max-width: 640px) {}
+
 .icon-container {
   margin-bottom: 1.5rem;
   opacity: 0.5;
@@ -919,18 +955,7 @@ onMounted(() => {
   border-color: #e5e7eb;
 }
 
-.error-input {
-  border-color: #ef4444 !important;
-}
-
-.error-text {
-  color: #ef4444;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  display: block;
-}
-
-/* Modal Checkbox Card */
+/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;

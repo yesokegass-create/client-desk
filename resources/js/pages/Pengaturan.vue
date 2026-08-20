@@ -231,20 +231,20 @@
               <div class="form-group flex-1">
                 <label><User :size="14" /> Nama Vendor/Studio <span class="text-danger">*</span></label>
                 <input type="text" 
-                       :class="getInputClass('vendor_name')" 
+                       :class="getInputClass('vendorName', 'form-control highlight-input')" 
                        id="tour-target-studio"
                        v-model="vendorName"
-                       @input="clearError('vendor_name')"
+                       @input="clearError('vendorName')"
                        placeholder="Misal: Memori Studio" />
-                <span v-if="errors.vendor_name" class="error-text">{{ errors.vendor_name }}</span>
+                <span v-if="errors.vendorName" class="error-text">{{ errors.vendorName }}</span>
               </div>
               <div class="form-group flex-1">
                 <label><Phone :size="14" /> Nomor WhatsApp Studio <span class="text-danger">*</span></label>
-                <div class="input-group" :class="{ 'has-error': errors.phone_number }">
+                <div class="input-group" :class="{ 'has-error': errors.phoneNumber }">
                   <span class="input-addon">ID +62</span>
-                  <input type="text" :class="getInputClass('phone_number', 'form-control border-0')" :value="phoneNumber" @input="(e) => { handlePhoneInput(e); clearError('phone_number'); }" placeholder="812 3456 7890" />
+                  <input type="text" :class="getInputClass('phoneNumber', 'form-control border-0')" :value="phoneNumber" @input="(e) => { handlePhoneInput(e); clearError('phoneNumber'); }" placeholder="812 3456 7890" />
                 </div>
-                <span v-if="errors.phone_number" class="error-text">{{ errors.phone_number }}</span>
+                <span v-if="errors.phoneNumber" class="error-text">{{ errors.phoneNumber }}</span>
               </div>
             </div>
             
@@ -501,13 +501,13 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
-import { useFormValidation } from '../composables/useFormValidation';
 import { useTour } from '../composables/useTour';
+import { useFormValidation } from '../composables/useFormValidation';
 import { 
   ChevronRight, ArrowLeft, Building2, Smartphone, MonitorSmartphone, Store, Link as LinkIcon, Edit, Clock,
-  LayoutTemplate, Settings as SettingsIcon, MessageCircle, Info, UploadCloud, X, Save, FileText, Image as ImageIcon,
-  Calendar as CalendarIcon, HardDrive, Search, ArrowRight, User, HelpCircle, CheckCircle2, Phone, Globe,
-  Maximize2, Search as SearchIcon, Check, ZoomIn, ZoomOut
+  MapPin, Settings, Check, CreditCard, Plus, HelpCircle, FileText, Download, CalendarDays, Upload, Building, Trash2, Camera, Bell, MessageSquare, Star, Shield, Activity, Tag, Save, User, Phone, Image as ImageIcon,
+  Calendar as CalendarIcon, HardDrive, Search, ArrowRight, HelpCircle as HelpCircle2, CheckCircle2, Globe,
+  Maximize2, Search as SearchIcon, ZoomIn, ZoomOut
 } from 'lucide-vue-next';
 
 const route = useRoute();
@@ -716,7 +716,6 @@ const fetchSettings = async () => {
   }
 };
 
-
 const handlePhoneInput = (e) => {
   let val = e.target.value;
   val = val.replace(/\D/g, '');
@@ -744,15 +743,15 @@ const saveSettings = async () => {
   let hasError = false;
   
   if (!vendorName.value.trim()) {
-    errors.value.vendor_name = 'Nama vendor harus diisi';
+    errors.value.vendorName = 'Nama vendor harus diisi';
     hasError = true;
   }
   
   if (!phoneNumber.value.trim()) {
-    errors.value.phone_number = 'Nomor telepon harus diisi';
+    errors.value.phoneNumber = 'Nomor telepon harus diisi';
     hasError = true;
   } else if (!isValidPhone(phoneNumber.value)) {
-    errors.value.phone_number = 'Format nomor telepon tidak valid';
+    errors.value.phoneNumber = 'Format nomor telepon tidak valid';
     hasError = true;
   }
   
@@ -779,12 +778,11 @@ const saveSettings = async () => {
     setTimeout(() => {
       showToast.value = false;
       router.push('/dashboard');
-    }, 1000);
-    completeStep('setup-profile');
+    }, 1000); // Redirect after 1 second
   } catch (error) {
-    console.error('Failed to save settings:', error);
+    console.error('Error saving settings:', error);
     if (!handleValidationErrors(error)) {
-      alert('Gagal menyimpan pengaturan.');
+      alert('Gagal menyimpan pengaturan. Server mengalami gangguan.');
     }
   } finally {
     isSaving.value = false;
@@ -1213,17 +1211,6 @@ input:checked + .slider:before {
 .slider.round:before { border-radius: 50%; }
 .toggle-wrap { display: flex; align-items: center; color: #fff; }
 
-.error-input {
-  border-color: #ef4444 !important;
-}
-
-.error-text {
-  color: #ef4444;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  display: block;
-}
-
 /* Orientation Selector */
 .btn-orientation {
   background: transparent;
@@ -1599,5 +1586,16 @@ input:checked + .slider:before {
 }
 :root[data-theme="light"] .section-divider {
   border-top-color: #e5e7eb;
+}
+
+.error-input {
+  border-color: #ef4444 !important;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
 }
 </style>
