@@ -598,7 +598,10 @@ const addon = computed(() => services.value.filter(s => s.jenis_layanan === 'add
 const fetchServices = async () => {
   isLoadingServices.value = true;
   try {
-    const res = await axios.get('/api/services');
+    const token = localStorage.getItem('auth_token');
+    const res = await axios.get('/api/services', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
     services.value = res.data;
     if (services.value.length > 0) {
       completeStep('add-service');
@@ -659,13 +662,18 @@ const saveService = async () => {
     const setupStatus = JSON.parse(localStorage.getItem('vender_setup_status') || '{}');
     const isFirstSetup = !setupStatus.step3_completed;
 
+    const token = localStorage.getItem('auth_token');
     if (editingId.value) {
-      const res = await axios.put(`/api/services/${editingId.value}`, payload);
+      const res = await axios.put(`/api/services/${editingId.value}`, payload, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       const index = services.value.findIndex(s => s.id === editingId.value);
       if (index !== -1) services.value[index] = res.data;
       showSuccessToast('Layanan berhasil diperbarui.');
     } else {
-      const res = await axios.post('/api/services', payload);
+      const res = await axios.post('/api/services', payload, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       services.value.unshift(res.data);
       showSuccessToast('Layanan berhasil disimpan.');
       completeStep('add-service');
@@ -705,9 +713,13 @@ const moveServiceDown = (listName, index) => {
   }
 };
 
-const toggleActive = async (svc) => {
+const toggleStatus = async (svc) => {
   try {
-    const res = await axios.put(`/api/services/${svc.id}`, { ...svc, is_active: !svc.is_active });
+    const token = localStorage.getItem('auth_token');
+    const res = await axios.put(`/api/services/${svc.id}`, { ...svc, is_active: !svc.is_active }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    svc.is_active = res.data.is_active;
     const index = services.value.findIndex(s => s.id === svc.id);
     if (index !== -1) services.value[index].is_active = res.data.is_active;
   } catch (err) {
@@ -717,7 +729,11 @@ const toggleActive = async (svc) => {
 
 const togglePublic = async (svc) => {
   try {
-    const res = await axios.put(`/api/services/${svc.id}`, { ...svc, tampilkan_publik: !svc.tampilkan_publik });
+    const token = localStorage.getItem('auth_token');
+    const res = await axios.put(`/api/services/${svc.id}`, { ...svc, tampilkan_publik: !svc.tampilkan_publik }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    svc.tampilkan_publik = res.data.tampilkan_publik;
     const index = services.value.findIndex(s => s.id === svc.id);
     if (index !== -1) services.value[index].tampilkan_publik = res.data.tampilkan_publik;
   } catch (err) {
@@ -758,10 +774,13 @@ const executeDuplicate = async () => {
   if (!selectedService.value) return;
   isProcessing.value = true;
   try {
-    const res = await axios.post(`/api/services/${selectedService.value.id}/duplicate`);
+    const token = localStorage.getItem('auth_token');
+    const res = await axios.post(`/api/services/${selectedService.value.id}/duplicate`, {}, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
     services.value.unshift(res.data);
     showDuplicateModal.value = false;
-    showSuccessToast('Layanan berhasil diduplikat.');
+    showSuccessToast('Layanan berhasil diduplikasi.');
   } catch (err) {
     console.error("Gagal menduplikat:", err);
   } finally {
@@ -776,9 +795,13 @@ const confirmDelete = (svc) => {
 
 const executeDelete = async () => {
   if (!selectedService.value) return;
-  isProcessing.value = true;
+  
+  isDeleting.value = true;
   try {
-    await axios.delete(`/api/services/${selectedService.value.id}`);
+    const token = localStorage.getItem('auth_token');
+    await axios.delete(`/api/services/${selectedService.value.id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
     services.value = services.value.filter(s => s.id !== selectedService.value.id);
     showDeleteModal.value = false;
     showSuccessToast('Layanan berhasil dihapus.');

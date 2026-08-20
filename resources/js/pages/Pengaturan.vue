@@ -759,6 +759,7 @@ const saveSettings = async () => {
 
   isSaving.value = true;
   try {
+    const token = localStorage.getItem('auth_token');
     await axios.post('/api/settings', {
       vendor_name: vendorName.value,
       custom_url: customUrl.value,
@@ -770,6 +771,8 @@ const saveSettings = async () => {
       working_hours_enabled: enableWorkingHours.value,
       close_booking_outside_hours: closeBookingOutsideHours.value,
       working_days: workingDays.value,
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
     });
     
     // Show toast and redirect
