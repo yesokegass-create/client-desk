@@ -256,11 +256,11 @@
                 </div>
               </div>
 
-              <label class="form-label">Email <span class="text-gray-500">(Opsional)</span></label>
-              <input type="email" :class="getInputClass('email')" v-model="form.email" placeholder="email@contoh.com" @input="clearError('email')" />
-              <span v-if="errors.email" class="error-text">{{ errors.email }}</span>(untuk kalender)" />
+              <div class="form-group mt-4">
+                <label class="form-label">Email <span class="text-gray-500">(Opsional)</span></label>
+                <input type="email" :class="getInputClass('email')" v-model="form.email" placeholder="email@contoh.com (untuk kalender)" @input="clearError('email')" />
+                <span v-if="errors.email" class="error-text">{{ errors.email }}</span>
               </div>
-
               <div class="form-group mt-4">
                 <label>Tags</label>
                 <input type="text" class="form-control" v-model="tagInput" @keydown="addTag" placeholder="Ketik tag lalu Enter..." />
