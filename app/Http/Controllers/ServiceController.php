@@ -27,10 +27,10 @@ class ServiceController extends Controller
 
         $validated = $request->validate([
             'jenis_layanan' => 'required|string',
-            'nama_layanan' => 'required|string',
+            'nama_layanan' => 'required|string|min:2|max:255',
             'deskripsi' => 'nullable|string',
-            'harga' => 'required|string',
-            'harga_coret' => 'nullable|string',
+            'harga' => 'required|numeric|min:0',
+            'harga_coret' => 'nullable|numeric|min:0',
             'durasi_kuota' => 'nullable|string',
             'wajib_pilih_kuota' => 'boolean',
             'tampilkan_publik' => 'boolean',
@@ -39,8 +39,14 @@ class ServiceController extends Controller
             'kota' => 'array',
             'biaya_operasional' => 'array',
             'warna_paket' => 'nullable|string',
-            'jumlah_edit' => 'nullable|numeric',
+            'jumlah_edit' => 'nullable|numeric|min:0',
             'template_cetak' => 'nullable|string',
+        ], [
+            'nama_layanan.required' => 'Nama layanan/paket wajib diisi',
+            'nama_layanan.min' => 'Nama layanan minimal 2 karakter',
+            'harga.required' => 'Harga wajib diisi',
+            'harga.numeric' => 'Harga harus berupa angka',
+            'harga.min' => 'Harga tidak boleh minus',
         ]);
 
         $service = Service::create(array_merge($validated, ['user_id' => $user->id]));
@@ -57,10 +63,10 @@ class ServiceController extends Controller
 
         $validated = $request->validate([
             'jenis_layanan' => 'required|string',
-            'nama_layanan' => 'required|string',
+            'nama_layanan' => 'required|string|min:2|max:255',
             'deskripsi' => 'nullable|string',
-            'harga' => 'required|string',
-            'harga_coret' => 'nullable|string',
+            'harga' => 'required|numeric|min:0',
+            'harga_coret' => 'nullable|numeric|min:0',
             'durasi_kuota' => 'nullable|string',
             'wajib_pilih_kuota' => 'boolean',
             'tampilkan_publik' => 'boolean',
@@ -69,8 +75,14 @@ class ServiceController extends Controller
             'kota' => 'array',
             'biaya_operasional' => 'array',
             'warna_paket' => 'nullable|string',
-            'jumlah_edit' => 'nullable|numeric',
+            'jumlah_edit' => 'nullable|numeric|min:0',
             'template_cetak' => 'nullable|string',
+        ], [
+            'nama_layanan.required' => 'Nama layanan/paket wajib diisi',
+            'nama_layanan.min' => 'Nama layanan minimal 2 karakter',
+            'harga.required' => 'Harga wajib diisi',
+            'harga.numeric' => 'Harga harus berupa angka',
+            'harga.min' => 'Harga tidak boleh minus',
         ]);
 
         $service->update($validated);

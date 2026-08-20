@@ -38,9 +38,9 @@
         <!-- Form Fields -->
         <div class="form-section">
           <div class="form-group">
-            <label>Nama <span class="text-danger">*</span></label>
-            <input type="text" v-model="form.nama" class="form-control" :class="{ 'has-error': errors.nama }" id="tour-target-nama" :disabled="isLoading" :placeholder="isLoading ? 'Memuat data...' : ''" />
-            <span v-if="errors.nama" class="error-msg">Nama wajib diisi</span>
+            <label class="form-label">Nama <span class="text-danger">*</span></label>
+            <input type="text" v-model="form.nama" :class="getInputClass('nama')" id="tour-target-nama" :disabled="isLoading" :placeholder="isLoading ? 'Memuat data...' : ''" @input="clearError('nama')" />
+            <span v-if="errors.nama" class="error-text">{{ errors.nama }}</span>
           </div>
 
           <div class="form-group">
@@ -94,6 +94,7 @@ import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { useRouter } from 'vue-router';
 import { useTour } from '../composables/useTour';
+import { useFormValidation } from '../composables/useFormValidation';
 import { 
   ArrowLeft, Camera, Flame, RefreshCw, Save, KeyRound 
 } from 'lucide-vue-next';
@@ -108,9 +109,8 @@ const form = ref({
 
 const isLoading = ref(true);
 const isSaving = ref(false);
-const errors = ref({
-  nama: false
-});
+
+const { errors, clearErrors, clearError, handleValidationErrors, getInputClass } = useFormValidation();
 
 const userInitials = computed(() => {
   if (!form.value.nama) return 'U';
@@ -141,9 +141,8 @@ const saveProfile = async () => {
   if (isSaving.value) return;
   
   // Validation
-  errors.value.nama = !form.value.nama.trim();
-  if (errors.value.nama) {
-    alert('Mohon isi field yang wajib diisi.');
+  if (!form.value.nama.trim()) {
+    errors.value.nama = 'Nama wajib diisi';
     return;
   }
   
@@ -162,16 +161,26 @@ const saveProfile = async () => {
 
     completeStep('setup-profile');
     
-    if (isActive.value || isFirstSetup) {
-      if (isActive.value) endTour();
+    // Also update local cache for Dashboard Layout SWR
+    const cachedProfile = localStorage.getItem('vender_user_profile');
+    if (cachedProfile) {
+      try {
+        const parsed = JSON.parse(cachedProfile);
+        parsed.name = form.value.nama;
+        localStorage.setItem('vender_user_profile', JSON.stringify(parsed));
+      } catch (e) {}
+    }
+
+    if (isActive.value) {
+      endTour();
       window.location.href = '/dashboard';
-    } else {
-      alert('Profil berhasil disimpan secara permanen di server!');
-      isSaving.value = false;
     }
   } catch (error) {
-    console.error('Failed to save profile', error);
-    alert('Gagal menyimpan profil, periksa koneksi Anda.');
+    console.error('Failed to update profile', error);
+    if (!handleValidationErrors(error)) {
+      alert('Gagal memperbarui profil.');
+    }
+  } finally {
     isSaving.value = false;
   }
 };
@@ -488,21 +497,36 @@ const saveProfile = async () => {
   transition: opacity 0.2s;
 }
 
-.btn-primary:hover {
-  opacity: 0.9;
-}
-
 .btn-secondary {
-  flex: 1;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #1a1a1a;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  background-color: #1f2937;
+  color: #fff;
+  border: 1px solid #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #374151;
+}
+
+.error-input {
+  border-color: #ef4444 !important;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* Mobile Responsiveness */
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;

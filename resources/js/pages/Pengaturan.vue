@@ -231,20 +231,20 @@
               <div class="form-group flex-1">
                 <label><User :size="14" /> Nama Vendor/Studio <span class="text-danger">*</span></label>
                 <input type="text" 
-                       class="form-control highlight-input" 
-                       :class="{ 'has-error': errors.vendorName }"
+                       :class="getInputClass('vendor_name')" 
                        id="tour-target-studio"
                        v-model="vendorName"
+                       @input="clearError('vendor_name')"
                        placeholder="Misal: Memori Studio" />
-                <span v-if="errors.vendorName" class="error-msg">Nama Studio wajib diisi</span>
+                <span v-if="errors.vendor_name" class="error-text">{{ errors.vendor_name }}</span>
               </div>
               <div class="form-group flex-1">
                 <label><Phone :size="14" /> Nomor WhatsApp Studio <span class="text-danger">*</span></label>
-                <div class="input-group" :class="{ 'has-error': errors.phoneNumber }">
+                <div class="input-group" :class="{ 'has-error': errors.phone_number }">
                   <span class="input-addon">ID +62</span>
-                  <input type="text" class="form-control border-0" :value="phoneNumber" @input="handlePhoneInput" placeholder="812 3456 7890" />
+                  <input type="text" :class="getInputClass('phone_number', 'form-control border-0')" :value="phoneNumber" @input="(e) => { handlePhoneInput(e); clearError('phone_number'); }" placeholder="812 3456 7890" />
                 </div>
-                <span v-if="errors.phoneNumber" class="error-msg">Nomor WhatsApp wajib diisi dengan benar</span>
+                <span v-if="errors.phone_number" class="error-text">{{ errors.phone_number }}</span>
               </div>
             </div>
             
@@ -501,6 +501,7 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
+import { useFormValidation } from '../composables/useFormValidation';
 import { useTour } from '../composables/useTour';
 import { 
   ChevronRight, ArrowLeft, Building2, Smartphone, MonitorSmartphone, Store, Link as LinkIcon, Edit, Clock,
@@ -521,6 +522,8 @@ const customUrl = ref('');
 const disableSlug = ref(false);
 const phoneNumber = ref('');
 const address = ref('');
+
+const { errors, clearErrors, clearError, handleValidationErrors, isValidPhone, getInputClass } = useFormValidation();
 
 // Auto-slugify customUrl when vendorName changes
 watch(vendorName, (newVal) => {
@@ -742,14 +745,22 @@ const saveSettings = async () => {
     phoneNumber.value = cleaned;
   }
 
-  // Validation
-  errors.value.vendorName = !vendorName.value.trim();
-  errors.value.phoneNumber = !phoneNumber.value || phoneNumber.value.length < 8;
-
-  if (errors.value.vendorName || errors.value.phoneNumber) {
-    alert('Mohon perbaiki field yang wajib diisi.');
-    return;
+  let hasError = false;
+  
+  if (!vendorName.value.trim()) {
+    errors.value.vendor_name = 'Nama vendor harus diisi';
+    hasError = true;
   }
+  
+  if (!phoneNumber.value.trim()) {
+    errors.value.phone_number = 'Nomor telepon harus diisi';
+    hasError = true;
+  } else if (!isValidPhone(phoneNumber.value)) {
+    errors.value.phone_number = 'Format nomor telepon tidak valid';
+    hasError = true;
+  }
+  
+  if (hasError) return;
 
   isSaving.value = true;
   try {
@@ -772,10 +783,13 @@ const saveSettings = async () => {
     setTimeout(() => {
       showToast.value = false;
       router.push('/dashboard');
-    }, 1000); // Redirect after 1 second
+    }, 1000);
+    completeStep('setup-profile');
   } catch (error) {
-    console.error('Error saving settings:', error);
-    alert('Failed to save settings.');
+    console.error('Failed to save settings:', error);
+    if (!handleValidationErrors(error)) {
+      alert('Gagal menyimpan pengaturan.');
+    }
   } finally {
     isSaving.value = false;
   }
@@ -1202,6 +1216,17 @@ input:checked + .slider:before {
 .slider.round { border-radius: 24px; }
 .slider.round:before { border-radius: 50%; }
 .toggle-wrap { display: flex; align-items: center; color: #fff; }
+
+.error-input {
+  border-color: #ef4444 !important;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
 
 /* Orientation Selector */
 .btn-orientation {

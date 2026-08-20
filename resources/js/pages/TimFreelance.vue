@@ -205,21 +205,22 @@
             
             <div class="modal-body">
               <div class="form-group">
-                <label>Nama <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" :class="{ 'has-error': formErrors.nama }" v-model="form.nama" placeholder="Misal: Budi Santoso" />
+                <label class="form-label">Nama Tim / Freelance *</label>
+              <input type="text" :class="getInputClass('nama')" v-model="form.nama" placeholder="Contoh: Budi Santoso" @input="clearError('nama')" />
+              <span v-if="errors.nama" class="error-text">{{ errors.nama }}</span>
                 <span v-if="formErrors.nama" class="error-msg">Nama wajib diisi</span>
               </div>
               
               <div class="form-group mt-4">
-                <label>Peran / Role</label>
-                <div class="select-wrapper">
-                  <select class="form-control select-control" v-model="form.peran">
-                    <option value="Photographer">Photographer</option>
-                    <option value="Videographer">Videographer</option>
-                    <option value="Hybrid Shooter">Hybrid Shooter</option>
-                    <option value="WCC">WCC</option>
-                    <option value="Editor">Editor</option>
-                    <option value="Asisten">Asisten</option>
+                <label class="form-label">Peran *</label>
+              <select :class="getInputClass('peran')" v-model="form.peran" @change="clearError('peran')">
+                <option value="Photographer">Photographer</option>
+                <option value="Videographer">Videographer</option>
+                <option value="Editor">Editor</option>
+                <option value="Makeup Artist">Makeup Artist</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+              <span v-if="errors.peran" class="error-text">{{ errors.peran }}</span>      <option value="Asisten">Asisten</option>
                     <option value="Lainnya">Lainnya</option>
                   </select>
                   <ChevronDown :size="16" class="select-icon" />
@@ -256,9 +257,9 @@
                 </div>
               </div>
 
-              <div class="form-group mt-4">
-                <label>Google Email</label>
-                <input type="email" autocomplete="email" class="form-control" v-model="form.email" placeholder="email@gmail.com (untuk kalender)" />
+              <label class="form-label">Email <span class="text-gray-500">(Opsional)</span></label>
+              <input type="email" :class="getInputClass('email')" v-model="form.email" placeholder="email@contoh.com" @input="clearError('email')" />
+              <span v-if="errors.email" class="error-text">{{ errors.email }}</span>(untuk kalender)" />
               </div>
 
               <div class="form-group mt-4">
@@ -319,14 +320,16 @@
 </template>
 
 <script setup>
-import axios from 'axios';
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 import { useTour } from '../composables/useTour';
-import DashboardLayout from '../layouts/DashboardLayout.vue';
+import { useFormValidation } from '../composables/useFormValidation';
 import { 
-  ArrowUpDown, Plus, Palette, Users, X, ChevronDown, Search, Trash2, Check, SlidersHorizontal, MessageCircle, Edit2, ChevronLeft, ChevronRight
+  Users, Search, Plus, Filter, MoreVertical, 
+  Mail, Phone, ShieldCheck, MapPin, Tag, ChevronDown, Check, Briefcase, Camera, Video, Scissors, Brush, PenTool
 } from 'lucide-vue-next';
+import DashboardLayout from '../layouts/DashboardLayout.vue';
 
 const { isActive, currentStep, completeStep, endTour } = useTour();
 const router = useRouter();
@@ -375,6 +378,8 @@ const countrySearchQuery = ref('');
 const countries = ref([]);
 const selectedCountry = ref({ code: 'ID', name: 'Indonesia', dial_code: '+62' });
 
+const { errors, clearErrors, clearError, handleValidationErrors, isValidEmail, isValidPhone, getInputClass } = useFormValidation();
+
 onMounted(async () => {
   fetchTeamMembers();
 
@@ -417,7 +422,7 @@ const toggleCountryDropdown = () => {
 
 const openAddModal = () => {
   isEditing.value = false;
-  formErrors.value = { nama: false, phone_number: false };
+  clearErrors();
   editingId.value = null;
   form.value = {
     nama: '', peran: 'Photographer', phone_country_code: 'ID', phone_number: '', email: '', tags: [], pricelist: []
@@ -431,7 +436,7 @@ const closeAddModal = () => {
 
 const editTeamMember = (member) => {
   isEditing.value = true;
-  formErrors.value = { nama: false, phone_number: false };
+  clearErrors();
   editingId.value = member.id;
   // Create a deep copy for the form
   form.value = JSON.parse(JSON.stringify(member));
@@ -501,15 +506,28 @@ const filteredTeamMembers = computed(() => {
 });
 
 const saveTeamMember = async () => {
-  formErrors.value.nama = !form.value.nama.trim();
-  formErrors.value.phone_number = !form.value.phone_number || form.value.phone_number.length < 8;
-
-  formErrors.value.nama = !form.value.nama.trim();
-  formErrors.value.phone_number = !form.value.phone_number.trim();
+  let hasError = false;
   
-  if (formErrors.value.nama || formErrors.value.phone_number) {
-    alert('Mohon lengkapi field yang wajib diisi.');
-    return;
+  if (!form.value.nama.trim()) {
+    errors.value.nama = 'Nama tim harus diisi';
+    hasError = true;
+  }
+  
+  if (!form.value.phone_number.trim()) {
+    errors.value.phone_number = 'Nomor telepon harus diisi';
+    hasError = true;
+  } else if (!isValidPhone(form.value.phone_number)) {
+    errors.value.phone_number = 'Format nomor telepon tidak valid';
+    hasError = true;
+  }
+  
+  if (form.value.email && !isValidEmail(form.value.email)) {
+    errors.value.email = 'Format email tidak valid';
+    hasError = true;
+  }
+  
+  if (hasError) {
+    return; // Don't use alert, show inline errors
   }
   
   isSaving.value = true;
@@ -556,7 +574,9 @@ const saveTeamMember = async () => {
     }
   } catch (error) {
     console.error('Failed to save team member', error);
-    alert('Gagal menyimpan anggota tim. Mohon periksa kembali form Anda.');
+    if (!handleValidationErrors(error)) {
+      alert('Gagal menyimpan anggota tim. Server mengalami gangguan.');
+    }
     isSaving.value = false;
   }
 };
@@ -1194,78 +1214,30 @@ const removeTag = (index) => {
 }
 
 .phone-input {
-  background-color: #1d1e26;
-}
-
-/* Country Dropdown */
-.country-dropdown-container {
-  position: relative;
-}
-
-.country-selector-btn {
-  cursor: pointer;
+  flex: 1;
   background-color: transparent;
-  border: 1px solid #333;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  white-space: nowrap;
-  height: 100%;
-}
-
-.country-code-text {
-  font-size: 0.85rem;
-  color: #fff;
-}
-
-.dropdown-arrow-icon {
-  color: #a0a0a0;
-}
-
-.country-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  width: 320px;
-  background-color: #111;
-  border: 1px solid #333;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  z-index: 50;
-  overflow: hidden;
-}
-
-.country-search-wrapper {
-  padding: 0.75rem;
-  border-bottom: 1px solid #333;
-}
-
-.country-search {
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  border: 1px solid #fff;
-  border-radius: 20px;
-  padding: 0.4rem 0.75rem;
-}
-
-.country-search .search-icon {
-  color: #a0a0a0;
-  margin-right: 0.5rem;
-}
-
-.country-search input {
-  background: transparent;
   border: none;
   color: #fff;
-  font-size: 0.85rem;
-  width: 100%;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.phone-input:focus {
   outline: none;
 }
 
+.error-input {
+  border-color: #ef4444 !important;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* Tag Styles */
 .country-list {
   list-style: none;
   margin: 0;

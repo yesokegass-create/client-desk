@@ -38,8 +38,8 @@
             
             <div class="mockup-field">
               <label><User :size="16" /> Nama Lengkap <span class="req" :style="{ color: brandColor }">*</span></label>
-              <input type="text" id="field-namaLengkap" v-model="formData.namaLengkap" :class="['mockup-input', {'has-error': errors.namaLengkap}]" placeholder="Nama lengkap Anda" />
-              <span v-if="errors.namaLengkap" class="error-msg">Bidang ini wajib diisi</span>
+              <input type="text" id="field-namaLengkap" v-model="formData.namaLengkap" :class="['mockup-input', {'has-error': errors.namaLengkap}]" placeholder="Nama lengkap Anda" @input="errors.namaLengkap = null" />
+              <span v-if="errors.namaLengkap" class="error-msg" style="display:block; margin-top:4px; font-size:12px; color:#ef4444;">{{ errors.namaLengkap === true ? 'Bidang ini wajib diisi' : errors.namaLengkap }}</span>
             </div>
 
             <div class="mockup-field">
@@ -48,9 +48,9 @@
                 <select class="mockup-select phone-code">
                   <option>ID +62</option>
                 </select>
-                <input type="number" id="field-noWhatsapp" v-model="formData.noWhatsapp" :class="['mockup-input', {'has-error': errors.noWhatsapp}]" placeholder="8123456789" />
+                <input type="number" id="field-noWhatsapp" v-model="formData.noWhatsapp" :class="['mockup-input', {'has-error': errors.noWhatsapp}]" placeholder="8123456789" @input="errors.noWhatsapp = null" />
               </div>
-              <span v-if="errors.noWhatsapp" class="error-msg">Bidang ini wajib diisi</span>
+              <span v-if="errors.noWhatsapp" class="error-msg" style="display:block; margin-top:4px; font-size:12px; color:#ef4444;">{{ errors.noWhatsapp === true ? 'Bidang ini wajib diisi' : errors.noWhatsapp }}</span>
             </div>
 
             <div class="mockup-field">
@@ -83,37 +83,37 @@
                 <option value="Komersil">Komersil</option>
                 <option value="Custom/Lainnya">Custom/Lainnya</option>
               </select>
-              <span v-if="errors.tipeAcara" class="error-msg">Bidang ini wajib diisi</span>
+              <span v-if="errors.tipeAcara" class="error-msg" style="display:block; margin-top:4px; font-size:12px; color:#ef4444;">{{ errors.tipeAcara === true ? 'Bidang ini wajib diisi' : errors.tipeAcara }}</span>
             </div>
 
             <template v-if="mockupTipeAcara">
               <div class="mockup-field">
                 <label><Calendar :size="16" /> Jadwal Sesi/Acara <span class="req" :style="{ color: brandColor }">*</span></label>
                 <div class="mockup-input-icon">
-                  <input type="date" id="field-jadwal" v-model="formData.jadwal" :class="['mockup-input', {'has-error': errors.jadwal}]" />
+                  <input type="date" id="field-jadwal" v-model="formData.jadwal" :class="['mockup-input', {'has-error': errors.jadwal}]" @input="errors.jadwal = null" />
                 </div>
-                <span v-if="errors.jadwal" class="error-msg">Bidang ini wajib diisi</span>
+                <span v-if="errors.jadwal" class="error-msg" style="display:block; margin-top:4px; font-size:12px; color:#ef4444;">{{ errors.jadwal === true ? 'Bidang ini wajib diisi' : errors.jadwal }}</span>
               </div>
 
               <div class="mockup-field">
                 <label><Clock :size="16" /> Jam <span class="req" :style="{ color: brandColor }">*</span></label>
                 <div class="mockup-input-icon">
-                  <input type="time" id="field-jam" v-model="formData.jam" :class="['mockup-input', {'has-error': errors.jam}]" />
+                  <input type="time" id="field-jam" v-model="formData.jam" :class="['mockup-input', {'has-error': errors.jam}]" @input="errors.jam = null" />
                 </div>
-                <span v-if="errors.jam" class="error-msg">Bidang ini wajib diisi</span>
+                <span v-if="errors.jam" class="error-msg" style="display:block; margin-top:4px; font-size:12px; color:#ef4444;">{{ errors.jam === true ? 'Bidang ini wajib diisi' : errors.jam }}</span>
               </div>
 
               <div class="mockup-field">
                 <label><MapPin :size="16" /> Lokasi <span class="req" :style="{ color: brandColor }">*</span></label>
                 <div class="mockup-location-group">
                   <div class="mockup-input-icon" style="flex: 1;">
-                    <input type="text" id="field-lokasi" v-model="formData.lokasi" :class="['mockup-input', {'has-error': errors.lokasi}]" placeholder="Cari lokasi acara..." />
+                    <input type="text" id="field-lokasi" v-model="formData.lokasi" :class="['mockup-input', {'has-error': errors.lokasi}]" placeholder="Cari lokasi acara..." @input="errors.lokasi = null" />
                   </div>
                   <button class="mockup-icon-btn" title="Pilih Lokasi di Peta" @click="showMapModal = true">
                     <MapPin :size="18" :style="{ color: brandColor }" />
                   </button>
                 </div>
-                <span v-if="errors.lokasi" class="error-msg">Bidang ini wajib diisi</span>
+                <span v-if="errors.lokasi" class="error-msg" style="display:block; margin-top:4px; font-size:12px; color:#ef4444;">{{ errors.lokasi === true ? 'Bidang ini wajib diisi' : errors.lokasi }}</span>
               </div>
               
               <div class="mockup-field">
@@ -125,8 +125,8 @@
             <template v-if="['Wedding', 'Akad', 'Resepsi', 'Lamaran', 'Prewedding'].includes(mockupTipeAcara)">
               <div class="mockup-field">
                 <label><User :size="16" /> Nama Pasangan <span class="req" :style="{ color: brandColor }">*</span></label>
-                <input type="text" id="field-namaPasangan" v-model="formData.namaPasangan" :class="['mockup-input', {'has-error': errors.namaPasangan}]" placeholder="Nama Pasangan" />
-                <span v-if="errors.namaPasangan" class="error-msg">Bidang ini wajib diisi</span>
+                <input type="text" id="field-namaPasangan" v-model="formData.namaPasangan" :class="['mockup-input', {'has-error': errors.namaPasangan}]" placeholder="Nama Pasangan" @input="errors.namaPasangan = null" />
+                <span v-if="errors.namaPasangan" class="error-msg" style="display:block; margin-top:4px; font-size:12px; color:#ef4444;">{{ errors.namaPasangan === true ? 'Bidang ini wajib diisi' : errors.namaPasangan }}</span>
               </div>
               <div class="mockup-field">
                 <label><Instagram :size="16" /> Instagram Pasangan</label>
@@ -825,18 +825,28 @@ const validateStep1 = () => {
   errors.value = {};
   formErrorMsg.value = '';
   
-  if (!formData.value.namaLengkap) errors.value.namaLengkap = true;
-  if (!formData.value.noWhatsapp) errors.value.noWhatsapp = true;
-  if (!mockupTipeAcara.value) errors.value.tipeAcara = true;
+  if (!formData.value.namaLengkap || !formData.value.namaLengkap.trim()) {
+    errors.value.namaLengkap = 'Nama lengkap wajib diisi';
+  }
+  
+  if (!formData.value.noWhatsapp || !formData.value.noWhatsapp.trim()) {
+    errors.value.noWhatsapp = 'Nomor WhatsApp wajib diisi';
+  } else if (!/^[\d\s\+\-]{8,20}$/.test(formData.value.noWhatsapp)) {
+    errors.value.noWhatsapp = 'Format nomor WhatsApp tidak valid';
+  }
+  
+  if (!mockupTipeAcara.value) {
+    errors.value.tipeAcara = 'Tipe acara wajib dipilih';
+  }
   
   if (mockupTipeAcara.value) {
-    if (!formData.value.jadwal) errors.value.jadwal = true;
-    if (!formData.value.jam) errors.value.jam = true;
-    if (!formData.value.lokasi) errors.value.lokasi = true;
+    if (!formData.value.jadwal) errors.value.jadwal = 'Tanggal jadwal wajib dipilih';
+    if (!formData.value.jam) errors.value.jam = 'Jam wajib dipilih';
+    if (!formData.value.lokasi || !formData.value.lokasi.trim()) errors.value.lokasi = 'Lokasi wajib diisi';
   }
   
   if (['Wedding', 'Akad', 'Resepsi', 'Lamaran', 'Prewedding'].includes(mockupTipeAcara.value)) {
-    if (!formData.value.namaPasangan) errors.value.namaPasangan = true;
+    if (!formData.value.namaPasangan || !formData.value.namaPasangan.trim()) errors.value.namaPasangan = 'Nama pasangan wajib diisi';
   }
   
   const firstErrorKey = Object.keys(errors.value)[0];

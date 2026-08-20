@@ -220,9 +220,9 @@
             </div>
             
             <div class="form-group mb-4">
-              <label>Nama Layanan <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" :class="{ 'has-error': formErrors.namaLayanan }" v-model="form.namaLayanan" placeholder="e.g.: Wedding Photography" />
-              <span v-if="formErrors.namaLayanan" class="error-msg">Nama Layanan wajib diisi</span>
+                <label class="form-label">Nama Paket / Layanan *</label>
+                <input type="text" :class="getInputClass('nama_layanan')" v-model="form.nama_layanan" placeholder="Misal: Paket Prewedding Basic" @input="clearError('nama_layanan')" />
+                <span v-if="errors.nama_layanan" class="error-text">{{ errors.nama_layanan }}</span>
             </div>
             
             <div class="form-group mb-4">
@@ -239,9 +239,12 @@
             </div>
             
               <div class="form-group mb-4">
-                <label>Harga (Rp) <span class="text-danger">*</span></label>
-                <input type="tel" class="form-control" :class="{ 'has-error': formErrors.harga }" :value="form.harga" @input="handleHargaInput('harga', $event)" placeholder="2.500.000" />
-                <span v-if="formErrors.harga" class="error-msg">Harga wajib diisi</span>
+                <label class="form-label">Harga *</label>
+                  <div class="input-with-prefix">
+                    <span class="prefix">Rp</span>
+                    <input type="number" :class="getInputClass('harga')" v-model="form.harga" placeholder="0" @input="clearError('harga')" />
+                  </div>
+                  <span v-if="errors.harga" class="error-text">{{ errors.harga }}</span>
               </div>
               
               <div class="form-group mb-4">
@@ -447,8 +450,10 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { useTour } from '../composables/useTour';
+import { useFormValidation } from '../composables/useFormValidation';
 import { 
-  ArrowUpDown, Settings2, Plus, Package, X, Save, Copy, ClipboardPaste, Trash2, ChevronDown, Search, CheckCircle2, Edit2, Eye, EyeOff, ArrowUp, ArrowDown, Clock, ToggleRight, ToggleLeft
+  Plus, MoreVertical, Edit2, Copy, Trash2, 
+  Search, Filter, Users, Calendar, MapPin, DollarSign, Image, PackageOpen, Check, HelpCircle, Palette, MonitorPlay, Off, ArrowUp, ArrowDown, Clock, ToggleRight, ToggleLeft
 } from 'lucide-vue-next';
 
 const router = useRouter();
@@ -486,26 +491,27 @@ const eventTypes = [
   'Wisuda', 'Maternity', 'Newborn', 'Family', 'Komersil', 'Custom/Lainnya'
 ];
 
-const openModal = () => {
+const openAddModal = () => {
+  isEditing.value = false;
   editingId.value = null;
-  formErrors.value = { namaLayanan: false, harga: false, tipeAcara: false };
+  clearErrors();
+  
   form.value = {
-    jenisLayanan: 'paket',
-    namaLayanan: '',
+    jenis_layanan: 'Paket / Katalog',
+    nama_layanan: '',
     deskripsi: '',
-    warnaPaket: '#000000',
     harga: '',
-    hargaCoret: '',
-    durasiJam: '2',
-    durasiMenit: '0',
-    jumlahEdit: '',
-    templateCetak: '',
-    wajibPilihKuota: false,
-    tampilkanPublik: true,
-    isActive: true,
-    tipeAcara: [],
+    harga_coret: '',
+    durasi_kuota: '',
+    wajib_pilih_kuota: false,
+    tampilkan_publik: true,
+    is_active: true,
+    tipe_acara: [],
     kota: [],
-    biayaOperasional: []
+    biaya_operasional: [],
+    warna_paket: 'purple',
+    jumlah_edit: null,
+    template_cetak: ''
   };
   showAddModal.value = true;
 };
@@ -541,9 +547,11 @@ const showCityDropdown = ref(false);
 const searchQuery = ref('');
 const allCities = ref([]);
 const filteredCities = ref([]);
-const isLoadingCities = ref(false);
+const isHoveringFile = ref(false);
 
-const formatTitleCase = (str) => {
+const { errors, clearErrors, clearError, handleValidationErrors, getInputClass } = useFormValidation();
+
+const formatRupiah = (value) => {
   return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 };
 
@@ -608,12 +616,19 @@ const showSuccessToast = (msg) => {
 };
 
 const saveService = async () => {
-  formErrors.value.namaLayanan = !form.value.namaLayanan.trim();
-  formErrors.value.harga = !form.value.harga || form.value.harga === '0' || form.value.harga === '';
-  formErrors.value.tipeAcara = form.value.tipeAcara.length === 0;
-
-  if (formErrors.value.namaLayanan || formErrors.value.harga || formErrors.value.tipeAcara) {
-    alert('Mohon lengkapi field yang wajib diisi.');
+  let hasError = false;
+  
+  if (!form.value.nama_layanan.trim()) {
+    errors.value.nama_layanan = 'Nama layanan harus diisi';
+    hasError = true;
+  }
+  
+  if (form.value.harga === '' || form.value.harga === null) {
+    errors.value.harga = 'Harga harus diisi';
+    hasError = true;
+  }
+  
+  if (hasError) {
     return;
   }
   
@@ -656,16 +671,14 @@ const saveService = async () => {
       if (isActive.value) endTour();
       window.location.href = '/dashboard';
     } else {
-      closeModal();
+      closeAddModal();
       isSaving.value = false;
     }
-  } catch (err) {
-    console.error("Gagal menyimpan layanan:", err);
-    let errorMsg = "Terjadi kesalahan.";
-    if (err.response && err.response.data && err.response.data.message) {
-      errorMsg = err.response.data.message;
+  } catch (error) {
+    console.error('Failed to save service', error);
+    if (!handleValidationErrors(error)) {
+      alert('Gagal menyimpan layanan. Server mengalami gangguan.');
     }
-    alert("Gagal menyimpan layanan: " + errorMsg);
     isSaving.value = false;
   }
 };
@@ -708,27 +721,13 @@ const togglePublic = async (svc) => {
   }
 };
 
-const editService = (svc) => {
-  editingId.value = svc.id;
-  formErrors.value = { namaLayanan: false, harga: false, tipeAcara: false };
-  form.value = {
-    jenisLayanan: svc.jenis_layanan,
-    namaLayanan: svc.nama_layanan,
-    deskripsi: svc.deskripsi || '',
-    warnaPaket: svc.warna_paket || '#000000',
-    harga: svc.harga,
-    hargaCoret: svc.harga_coret || '',
-    durasiJam: svc.durasi_kuota ? svc.durasi_kuota.split(' jam ')[0] : '2',
-    durasiMenit: svc.durasi_kuota ? (svc.durasi_kuota.split(' jam ')[1] || '0 menit').replace(' menit', '') : '0',
-    jumlahEdit: svc.jumlah_edit || '',
-    templateCetak: svc.template_cetak || '',
-    wajibPilihKuota: svc.wajib_pilih_kuota,
-    tampilkanPublik: svc.tampilkan_publik,
-    isActive: svc.is_active,
-    tipeAcara: svc.tipe_acara || [],
-    kota: svc.kota || [],
-    biayaOperasional: svc.biaya_operasional || []
-  };
+const editService = (service) => {
+  isEditing.value = true;
+  editingId.value = service.id;
+  clearErrors();
+  
+  // Clone to prevent direct mutation
+  form.value = JSON.parse(JSON.stringify(service));
   showAddModal.value = true;
 };
 
@@ -920,7 +919,18 @@ onMounted(() => {
   border-color: #e5e7eb;
 }
 
-/* Modal Styles */
+.error-input {
+  border-color: #ef4444 !important;
+}
+
+.error-text {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+/* Modal Checkbox Card */
 .modal-overlay {
   position: fixed;
   top: 0;
