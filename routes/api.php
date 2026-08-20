@@ -30,10 +30,10 @@ Route::get('/reset-db-now', function () {
             </script>
             </body></html>
         ");
-    } catch (\Exception $e) {
-        return 'Error: ' . $e->getMessage();
+    } catch (\Throwable $e) {
+        return 'Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine();
     }
-});
+})->withoutMiddleware([\Illuminate\Routing\Middleware\ThrottleRequests::class]);
 
 Route::get('/user', function (Request $request) {
     return $request->user();
