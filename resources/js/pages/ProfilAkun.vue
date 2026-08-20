@@ -527,14 +527,7 @@ const saveProfile = async () => {
 }
 
 /* Mobile Responsiveness */
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
 
-.btn-secondary:hover {
-  background-color: #2a2a2a;
-}
 
 /* Responsive */
 @media (max-width: 640px) {
