@@ -39,8 +39,8 @@
         <div class="form-section">
           <div class="form-group">
             <label>Nama <span class="text-danger">*</span></label>
-            <input type="text" v-model="form.nama" :class="getInputClass('nama', 'form-control')" id="tour-target-nama" :disabled="isLoading" :placeholder="isLoading ? 'Memuat data...' : ''" @input="clearError('nama')" />
-            <span v-if="errors.nama" class="error-text">{{ errors.nama }}</span>
+            <input type="text" v-model="form.nama" class="form-control" :class="{ 'has-error': errors.nama }" id="tour-target-nama" :disabled="isLoading" :placeholder="isLoading ? 'Memuat data...' : ''" />
+            <span v-if="errors.nama" class="error-msg">Nama wajib diisi</span>
           </div>
 
           <div class="form-group">
@@ -94,7 +94,6 @@ import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { useRouter } from 'vue-router';
 import { useTour } from '../composables/useTour';
-import { useFormValidation } from '../composables/useFormValidation';
 import { 
   ArrowLeft, Camera, Flame, RefreshCw, Save, KeyRound 
 } from 'lucide-vue-next';
@@ -109,8 +108,9 @@ const form = ref({
 
 const isLoading = ref(true);
 const isSaving = ref(false);
-
-const { errors, clearErrors, clearError, handleValidationErrors, getInputClass } = useFormValidation();
+const errors = ref({
+  nama: false
+});
 
 const userInitials = computed(() => {
   if (!form.value.nama) return 'U';
@@ -140,14 +140,12 @@ onMounted(async () => {
 const saveProfile = async () => {
   if (isSaving.value) return;
   
-  let hasError = false;
-  
-  if (!form.value.nama.trim()) {
-    errors.value.nama = 'Nama lengkap harus diisi';
-    hasError = true;
+  // Validation
+  errors.value.nama = !form.value.nama.trim();
+  if (errors.value.nama) {
+    alert('Mohon isi field yang wajib diisi.');
+    return;
   }
-  
-  if (hasError) return;
   
   isSaving.value = true;
   
@@ -160,15 +158,6 @@ const saveProfile = async () => {
     });
     
     const setupStatus = JSON.parse(localStorage.getItem('vender_setup_status') || '{}');
-    
-    // Update local cache to immediately reflect in header without reload
-    const currentProfile = JSON.parse(localStorage.getItem('vender_user_profile') || '{}');
-    currentProfile.name = form.value.nama;
-    localStorage.setItem('vender_user_profile', JSON.stringify(currentProfile));
-    
-    // Dispatch event to trigger header update
-    window.dispatchEvent(new Event('profile-updated'));
-
     const isFirstSetup = !setupStatus.step1_completed;
 
     completeStep('setup-profile');
@@ -181,11 +170,8 @@ const saveProfile = async () => {
       isSaving.value = false;
     }
   } catch (error) {
-    console.error('Failed to update profile', error);
-    if (!handleValidationErrors(error)) {
-      alert('Gagal menyimpan profil. Server mengalami gangguan.');
-    }
-  } finally {
+    console.error('Failed to save profile', error);
+    alert('Gagal menyimpan profil, periksa koneksi Anda.');
     isSaving.value = false;
   }
 };
@@ -610,19 +596,5 @@ const saveProfile = async () => {
 
 :root[data-theme="light"] .btn-secondary:hover {
   background-color: #f9fafb;
-}
-.has-error {
-  border-color: #ef4444 !important;
-}
-
-.error-input {
-  border-color: #ef4444 !important;
-}
-
-.error-text {
-  color: #ef4444;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  display: block;
 }
 </style>

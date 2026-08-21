@@ -825,13 +825,8 @@ const validateStep1 = () => {
   errors.value = {};
   formErrorMsg.value = '';
   
-  if (!formData.value.namaLengkap || formData.value.namaLengkap.trim().length < 3) errors.value.namaLengkap = true;
-  
-  const phone = String(formData.value.noWhatsapp).replace(/\D/g, '');
-  if (!phone || phone.length < 8 || phone.length > 15) {
-    errors.value.noWhatsapp = true;
-  }
-  
+  if (!formData.value.namaLengkap) errors.value.namaLengkap = true;
+  if (!formData.value.noWhatsapp) errors.value.noWhatsapp = true;
   if (!mockupTipeAcara.value) errors.value.tipeAcara = true;
   
   if (mockupTipeAcara.value) {

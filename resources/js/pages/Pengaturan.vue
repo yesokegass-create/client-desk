@@ -231,20 +231,20 @@
               <div class="form-group flex-1">
                 <label><User :size="14" /> Nama Vendor/Studio <span class="text-danger">*</span></label>
                 <input type="text" 
-                       :class="getInputClass('vendorName', 'form-control highlight-input')" 
+                       class="form-control highlight-input" 
+                       :class="{ 'has-error': errors.vendorName }"
                        id="tour-target-studio"
                        v-model="vendorName"
-                       @input="clearError('vendorName')"
                        placeholder="Misal: Memori Studio" />
-                <span v-if="errors.vendorName" class="error-text">{{ errors.vendorName }}</span>
+                <span v-if="errors.vendorName" class="error-msg">Nama Studio wajib diisi</span>
               </div>
               <div class="form-group flex-1">
                 <label><Phone :size="14" /> Nomor WhatsApp Studio <span class="text-danger">*</span></label>
                 <div class="input-group" :class="{ 'has-error': errors.phoneNumber }">
                   <span class="input-addon">ID +62</span>
-                  <input type="text" :class="getInputClass('phoneNumber', 'form-control border-0')" :value="phoneNumber" @input="(e) => { handlePhoneInput(e); clearError('phoneNumber'); }" placeholder="812 3456 7890" />
+                  <input type="text" class="form-control border-0" :value="phoneNumber" @input="handlePhoneInput" placeholder="812 3456 7890" />
                 </div>
-                <span v-if="errors.phoneNumber" class="error-text">{{ errors.phoneNumber }}</span>
+                <span v-if="errors.phoneNumber" class="error-msg">Nomor WhatsApp wajib diisi dengan benar</span>
               </div>
             </div>
             
@@ -502,12 +502,11 @@ import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { useTour } from '../composables/useTour';
-import { useFormValidation } from '../composables/useFormValidation';
 import { 
   ChevronRight, ArrowLeft, Building2, Smartphone, MonitorSmartphone, Store, Link as LinkIcon, Edit, Clock,
-  MapPin, Settings, Check, CreditCard, Plus, HelpCircle, FileText, Download, CalendarDays, Upload, Building, Trash2, Camera, Bell, MessageSquare, Star, Shield, Activity, Tag, Save, User, Phone, Image as ImageIcon,
-  Calendar as CalendarIcon, HardDrive, Search, ArrowRight, HelpCircle as HelpCircle2, CheckCircle2, Globe,
-  Maximize2, Search as SearchIcon, ZoomIn, ZoomOut
+  LayoutTemplate, Settings as SettingsIcon, MessageCircle, Info, UploadCloud, X, Save, FileText, Image as ImageIcon,
+  Calendar as CalendarIcon, HardDrive, Search, ArrowRight, User, HelpCircle, CheckCircle2, Phone, Globe,
+  Maximize2, Search as SearchIcon, Check, ZoomIn, ZoomOut
 } from 'lucide-vue-next';
 
 const route = useRoute();
@@ -522,8 +521,6 @@ const customUrl = ref('');
 const disableSlug = ref(false);
 const phoneNumber = ref('');
 const address = ref('');
-
-const { errors, clearErrors, clearError, handleValidationErrors, isValidPhone, getInputClass } = useFormValidation();
 
 // Auto-slugify customUrl when vendorName changes
 watch(vendorName, (newVal) => {
@@ -716,6 +713,11 @@ const fetchSettings = async () => {
   }
 };
 
+const errors = ref({
+  vendorName: false,
+  phoneNumber: false
+});
+
 const handlePhoneInput = (e) => {
   let val = e.target.value;
   val = val.replace(/\D/g, '');
@@ -740,26 +742,17 @@ const saveSettings = async () => {
     phoneNumber.value = cleaned;
   }
 
-  let hasError = false;
-  
-  if (!vendorName.value.trim()) {
-    errors.value.vendorName = 'Nama vendor harus diisi';
-    hasError = true;
+  // Validation
+  errors.value.vendorName = !vendorName.value.trim();
+  errors.value.phoneNumber = !phoneNumber.value || phoneNumber.value.length < 8;
+
+  if (errors.value.vendorName || errors.value.phoneNumber) {
+    alert('Mohon perbaiki field yang wajib diisi.');
+    return;
   }
-  
-  if (!phoneNumber.value.trim()) {
-    errors.value.phoneNumber = 'Nomor telepon harus diisi';
-    hasError = true;
-  } else if (!isValidPhone(phoneNumber.value)) {
-    errors.value.phoneNumber = 'Format nomor telepon tidak valid';
-    hasError = true;
-  }
-  
-  if (hasError) return;
 
   isSaving.value = true;
   try {
-    const token = localStorage.getItem('auth_token');
     await axios.post('/api/settings', {
       vendor_name: vendorName.value,
       custom_url: customUrl.value,
@@ -771,8 +764,6 @@ const saveSettings = async () => {
       working_hours_enabled: enableWorkingHours.value,
       close_booking_outside_hours: closeBookingOutsideHours.value,
       working_days: workingDays.value,
-    }, {
-      headers: { Authorization: `Bearer ${token}` }
     });
     
     // Show toast and redirect
@@ -784,10 +775,7 @@ const saveSettings = async () => {
     }, 1000); // Redirect after 1 second
   } catch (error) {
     console.error('Error saving settings:', error);
-    if (!handleValidationErrors(error)) {
-      const serverMsg = error.response?.data?.message || 'Server mengalami gangguan.';
-      alert('Gagal menyimpan pengaturan: ' + serverMsg);
-    }
+    alert('Failed to save settings.');
   } finally {
     isSaving.value = false;
   }
@@ -1590,16 +1578,5 @@ input:checked + .slider:before {
 }
 :root[data-theme="light"] .section-divider {
   border-top-color: #e5e7eb;
-}
-
-.error-input {
-  border-color: #ef4444 !important;
-}
-
-.error-text {
-  color: #ef4444;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  display: block;
 }
 </style>

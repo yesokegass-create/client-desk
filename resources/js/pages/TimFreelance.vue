@@ -206,14 +206,14 @@
             <div class="modal-body">
               <div class="form-group">
                 <label>Nama <span class="text-danger">*</span></label>
-                <input type="text" :class="getInputClass('nama', 'form-control')" v-model="form.nama" placeholder="Misal: Budi Santoso" @input="clearError('nama')" />
-                <span v-if="errors.nama" class="error-text">{{ errors.nama }}</span>
+                <input type="text" class="form-control" :class="{ 'has-error': formErrors.nama }" v-model="form.nama" placeholder="Misal: Budi Santoso" />
+                <span v-if="formErrors.nama" class="error-msg">Nama wajib diisi</span>
               </div>
               
               <div class="form-group mt-4">
                 <label>Peran / Role</label>
                 <div class="select-wrapper">
-                  <select :class="getInputClass('peran', 'form-control select-control')" v-model="form.peran" @change="clearError('peran')">
+                  <select class="form-control select-control" v-model="form.peran">
                     <option value="Photographer">Photographer</option>
                     <option value="Videographer">Videographer</option>
                     <option value="Hybrid Shooter">Hybrid Shooter</option>
@@ -224,7 +224,6 @@
                   </select>
                   <ChevronDown :size="16" class="select-icon" />
                 </div>
-                <span v-if="errors.peran" class="error-text">{{ errors.peran }}</span>
               </div>
 
               <div class="form-group mt-4">
@@ -253,15 +252,13 @@
                       </ul>
                     </div>
                   </div>
-                  <input type="tel" autocomplete="tel" :class="getInputClass('phone_number', 'form-control phone-input')" :value="form.phone_number" @input="(e) => { handlePhoneInput(e); clearError('phone_number'); }" placeholder="8123456789" />
+                  <input type="tel" autocomplete="tel" class="form-control phone-input" :class="{ 'has-error': formErrors.phone_number }" :value="form.phone_number" @input="handlePhoneInput" placeholder="8123456789" />
                 </div>
-                <span v-if="errors.phone_number" class="error-text">{{ errors.phone_number }}</span>
               </div>
 
               <div class="form-group mt-4">
                 <label>Google Email</label>
-                <input type="email" autocomplete="email" :class="getInputClass('email', 'form-control')" v-model="form.email" placeholder="email@gmail.com (untuk kalender)" @input="clearError('email')" />
-                <span v-if="errors.email" class="error-text">{{ errors.email }}</span>
+                <input type="email" autocomplete="email" class="form-control" v-model="form.email" placeholder="email@gmail.com (untuk kalender)" />
               </div>
 
               <div class="form-group mt-4">
@@ -327,7 +324,6 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTour } from '../composables/useTour';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
-import { useFormValidation } from '../composables/useFormValidation';
 import { 
   ArrowUpDown, Plus, Palette, Users, X, ChevronDown, Search, Trash2, Check, SlidersHorizontal, MessageCircle, Edit2, ChevronLeft, ChevronRight
 } from 'lucide-vue-next';
@@ -341,12 +337,16 @@ const isSaving = ref(false);
 
 const searchQuery = ref('');
 const filterStatus = ref('');
+const filterPeran = ref('');
+const filterTag = ref('');
+
 const showAddModal = ref(false);
+const formErrors = ref({
+  nama: false,
+  phone_number: false
+});
 const isEditing = ref(false);
 const editingId = ref(null);
-const tagInput = ref('');
-
-const { errors, clearErrors, clearError, handleValidationErrors, isValidPhone, isValidEmail, getInputClass } = useFormValidation();
 
 const form = ref({
   nama: '',
@@ -417,7 +417,7 @@ const toggleCountryDropdown = () => {
 
 const openAddModal = () => {
   isEditing.value = false;
-  clearErrors();
+  formErrors.value = { nama: false, phone_number: false };
   editingId.value = null;
   form.value = {
     nama: '', peran: 'Photographer', phone_country_code: 'ID', phone_number: '', email: '', tags: [], pricelist: []
@@ -431,7 +431,7 @@ const closeAddModal = () => {
 
 const editTeamMember = (member) => {
   isEditing.value = true;
-  clearErrors();
+  formErrors.value = { nama: false, phone_number: false };
   editingId.value = member.id;
   // Create a deep copy for the form
   form.value = JSON.parse(JSON.stringify(member));
@@ -501,27 +501,16 @@ const filteredTeamMembers = computed(() => {
 });
 
 const saveTeamMember = async () => {
-  let hasError = false;
+  formErrors.value.nama = !form.value.nama.trim();
+  formErrors.value.phone_number = !form.value.phone_number || form.value.phone_number.length < 8;
+
+  formErrors.value.nama = !form.value.nama.trim();
+  formErrors.value.phone_number = !form.value.phone_number.trim();
   
-  if (!form.value.nama.trim()) {
-    errors.value.nama = 'Nama tim harus diisi';
-    hasError = true;
+  if (formErrors.value.nama || formErrors.value.phone_number) {
+    alert('Mohon lengkapi field yang wajib diisi.');
+    return;
   }
-  
-  if (!form.value.phone_number.trim()) {
-    errors.value.phone_number = 'Nomor telepon harus diisi';
-    hasError = true;
-  } else if (!isValidPhone(form.value.phone_number)) {
-    errors.value.phone_number = 'Format nomor telepon tidak valid';
-    hasError = true;
-  }
-  
-  if (form.value.email && !isValidEmail(form.value.email)) {
-    errors.value.email = 'Format email tidak valid';
-    hasError = true;
-  }
-  
-  if (hasError) return;
   
   isSaving.value = true;
 
@@ -567,9 +556,7 @@ const saveTeamMember = async () => {
     }
   } catch (error) {
     console.error('Failed to save team member', error);
-    if (!handleValidationErrors(error)) {
-      alert('Gagal menyimpan anggota tim. Server mengalami gangguan.');
-    }
+    alert('Gagal menyimpan anggota tim. Mohon periksa kembali form Anda.');
     isSaving.value = false;
   }
 };
@@ -617,6 +604,8 @@ const updateHarga = (index, event) => {
   form.value.pricelist[index].harga = cleanValue;
   event.target.value = formatRupiah(cleanValue);
 };
+
+const tagInput = ref('');
 
 const addTag = (e) => {
   if (e.key === 'Enter' || e.key === ',') {
@@ -1634,22 +1623,7 @@ const removeTag = (index) => {
 
 .text-danger { color: #ef4444; }
 .error-msg { font-size: 0.75rem; color: #ef4444; margin-top: 0.25rem; display: block; }
-.form-control.has-error {
-  border-color: #ef4444 !important;
-}
-
-.error-input {
-  border-color: #ef4444 !important;
-}
-
-.error-text {
-  color: #ef4444;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  display: block;
-}
-
-/* Mobile */
+.form-control.has-error { border-color: #ef4444; }
 .has-error-box { border: 1px solid #ef4444; border-radius: 8px; padding: 0.5rem; }
 
 </style>

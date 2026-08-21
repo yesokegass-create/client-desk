@@ -221,8 +221,8 @@
             
             <div class="form-group mb-4">
               <label>Nama Layanan <span class="text-danger">*</span></label>
-              <input type="text" :class="getInputClass('namaLayanan', 'form-control')" v-model="form.namaLayanan" placeholder="e.g.: Wedding Photography" @input="clearError('namaLayanan')" />
-              <span v-if="errors.namaLayanan" class="error-text">{{ errors.namaLayanan }}</span>
+              <input type="text" class="form-control" :class="{ 'has-error': formErrors.namaLayanan }" v-model="form.namaLayanan" placeholder="e.g.: Wedding Photography" />
+              <span v-if="formErrors.namaLayanan" class="error-msg">Nama Layanan wajib diisi</span>
             </div>
             
             <div class="form-group mb-4">
@@ -240,8 +240,8 @@
             
               <div class="form-group mb-4">
                 <label>Harga (Rp) <span class="text-danger">*</span></label>
-                <input type="tel" :class="getInputClass('harga', 'form-control')" :value="form.harga" @input="(e) => { handleHargaInput('harga', e); clearError('harga'); }" placeholder="2.500.000" />
-                <span v-if="errors.harga" class="error-text">{{ errors.harga }}</span>
+                <input type="tel" class="form-control" :class="{ 'has-error': formErrors.harga }" :value="form.harga" @input="handleHargaInput('harga', $event)" placeholder="2.500.000" />
+                <span v-if="formErrors.harga" class="error-msg">Harga wajib diisi</span>
               </div>
               
               <div class="form-group mb-4">
@@ -292,9 +292,9 @@
             
             <div class="form-group mb-4">
               <label>Tipe Acara <span class="text-danger">*</span></label>
-              <span v-if="errors.tipeAcara" class="error-msg mb-2">Pilih minimal 1 tipe acara</span>
+              <span v-if="formErrors.tipeAcara" class="error-msg mb-2">Pilih minimal 1 tipe acara</span>
               <p class="help-text mb-2">Kosongkan jika paket ini untuk semua tipe acara.</p>
-              <div class="event-types-grid" :class="{ 'has-error-box': errors.tipeAcara }">
+              <div class="event-types-grid" :class="{ 'has-error-box': formErrors.tipeAcara }">
                 <label v-for="type in eventTypes" :key="type" class="checkbox-label type-label">
                   <input type="checkbox" class="custom-checkbox mr-2" :value="type" v-model="form.tipeAcara" />
                   {{ type }}
@@ -310,19 +310,7 @@
                 <div class="custom-dropdown-trigger mb-2" @click="showCityDropdown = true">
                   <span v-if="form.kota.length > 0">{{ form.kota.length }} kota / kabupaten dipilih</span>
                   <span v-else>Bebas semua kota / kabupaten</span>
-                </div>
-                <div class="dropdown-wrapper">
-                  <div class="dropdown-header" :class="getInputClass('tipeAcara', 'form-control form-control-multi')" @click="showTipeAcaraDropdown = !showTipeAcaraDropdown">
-                    <span v-if="form.tipeAcara.length === 0" class="text-placeholder">Pilih minimal 1...</span>
-                    <div v-else class="selected-tags">
-                      <span v-for="(tipe, index) in form.tipeAcara" :key="index" class="selected-tag">
-                        {{ tipe }}
-                        <X :size="12" class="tag-close" @click.stop="removeTipeAcara(index)" />
-                      </span>
-                    </div>
-                    <ChevronDown :size="16" class="dropdown-arrow" :class="{'rotate-180': showTipeAcaraDropdown}" />
-                  </div>
-                  <span v-if="errors.tipeAcara" class="error-text">{{ errors.tipeAcara }}</span>
+                  <ChevronDown :size="16" class="text-gray" />
                 </div>
 
                 <!-- Custom Dropdown Panel -->
@@ -459,7 +447,6 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { useTour } from '../composables/useTour';
-import { useFormValidation } from '../composables/useFormValidation';
 import { 
   ArrowUpDown, Settings2, Plus, Package, X, Save, Copy, ClipboardPaste, Trash2, ChevronDown, Search, CheckCircle2, Edit2, Eye, EyeOff, ArrowUp, ArrowDown, Clock, ToggleRight, ToggleLeft
 } from 'lucide-vue-next';
@@ -488,16 +475,20 @@ const form = ref({
   biayaOperasional: []
 });
 
+const formErrors = ref({
+  namaLayanan: false,
+  harga: false,
+  tipeAcara: false
+});
+
 const eventTypes = [
   'Umum', 'Wedding', 'Akad', 'Resepsi', 'Lamaran', 'Prewedding', 
   'Wisuda', 'Maternity', 'Newborn', 'Family', 'Komersil', 'Custom/Lainnya'
 ];
 
-const { errors, clearErrors, clearError, handleValidationErrors, getInputClass } = useFormValidation();
-
 const openModal = () => {
   editingId.value = null;
-  clearErrors();
+  formErrors.value = { namaLayanan: false, harga: false, tipeAcara: false };
   form.value = {
     jenisLayanan: 'paket',
     namaLayanan: '',
@@ -598,10 +589,7 @@ const addon = computed(() => services.value.filter(s => s.jenis_layanan === 'add
 const fetchServices = async () => {
   isLoadingServices.value = true;
   try {
-    const token = localStorage.getItem('auth_token');
-    const res = await axios.get('/api/services', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const res = await axios.get('/api/services');
     services.value = res.data;
     if (services.value.length > 0) {
       completeStep('add-service');
@@ -620,24 +608,14 @@ const showSuccessToast = (msg) => {
 };
 
 const saveService = async () => {
-  let hasError = false;
-  
-  if (!form.value.namaLayanan.trim()) {
-    errors.value.namaLayanan = 'Nama layanan harus diisi';
-    hasError = true;
+  formErrors.value.namaLayanan = !form.value.namaLayanan.trim();
+  formErrors.value.harga = !form.value.harga || form.value.harga === '0' || form.value.harga === '';
+  formErrors.value.tipeAcara = form.value.tipeAcara.length === 0;
+
+  if (formErrors.value.namaLayanan || formErrors.value.harga || formErrors.value.tipeAcara) {
+    alert('Mohon lengkapi field yang wajib diisi.');
+    return;
   }
-  
-  if (!form.value.harga || form.value.harga === '0' || form.value.harga === '') {
-    errors.value.harga = 'Harga harus diisi';
-    hasError = true;
-  }
-  
-  if (form.value.tipeAcara.length === 0) {
-    errors.value.tipeAcara = 'Pilih minimal 1 tipe acara';
-    hasError = true;
-  }
-  
-  if (hasError) return;
   
   isSaving.value = true;
   try {
@@ -662,18 +640,13 @@ const saveService = async () => {
     const setupStatus = JSON.parse(localStorage.getItem('vender_setup_status') || '{}');
     const isFirstSetup = !setupStatus.step3_completed;
 
-    const token = localStorage.getItem('auth_token');
     if (editingId.value) {
-      const res = await axios.put(`/api/services/${editingId.value}`, payload, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axios.put(`/api/services/${editingId.value}`, payload);
       const index = services.value.findIndex(s => s.id === editingId.value);
       if (index !== -1) services.value[index] = res.data;
       showSuccessToast('Layanan berhasil diperbarui.');
     } else {
-      const res = await axios.post('/api/services', payload, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const res = await axios.post('/api/services', payload);
       services.value.unshift(res.data);
       showSuccessToast('Layanan berhasil disimpan.');
       completeStep('add-service');
@@ -686,11 +659,13 @@ const saveService = async () => {
       closeModal();
       isSaving.value = false;
     }
-  } catch (error) {
-    console.error("Gagal menyimpan layanan:", error);
-    if (!handleValidationErrors(error)) {
-      alert('Gagal menyimpan layanan. Server mengalami gangguan.');
+  } catch (err) {
+    console.error("Gagal menyimpan layanan:", err);
+    let errorMsg = "Terjadi kesalahan.";
+    if (err.response && err.response.data && err.response.data.message) {
+      errorMsg = err.response.data.message;
     }
+    alert("Gagal menyimpan layanan: " + errorMsg);
     isSaving.value = false;
   }
 };
@@ -713,13 +688,9 @@ const moveServiceDown = (listName, index) => {
   }
 };
 
-const toggleStatus = async (svc) => {
+const toggleActive = async (svc) => {
   try {
-    const token = localStorage.getItem('auth_token');
-    const res = await axios.put(`/api/services/${svc.id}`, { ...svc, is_active: !svc.is_active }, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    svc.is_active = res.data.is_active;
+    const res = await axios.put(`/api/services/${svc.id}`, { ...svc, is_active: !svc.is_active });
     const index = services.value.findIndex(s => s.id === svc.id);
     if (index !== -1) services.value[index].is_active = res.data.is_active;
   } catch (err) {
@@ -729,11 +700,7 @@ const toggleStatus = async (svc) => {
 
 const togglePublic = async (svc) => {
   try {
-    const token = localStorage.getItem('auth_token');
-    const res = await axios.put(`/api/services/${svc.id}`, { ...svc, tampilkan_publik: !svc.tampilkan_publik }, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    svc.tampilkan_publik = res.data.tampilkan_publik;
+    const res = await axios.put(`/api/services/${svc.id}`, { ...svc, tampilkan_publik: !svc.tampilkan_publik });
     const index = services.value.findIndex(s => s.id === svc.id);
     if (index !== -1) services.value[index].tampilkan_publik = res.data.tampilkan_publik;
   } catch (err) {
@@ -743,7 +710,7 @@ const togglePublic = async (svc) => {
 
 const editService = (svc) => {
   editingId.value = svc.id;
-  clearErrors();
+  formErrors.value = { namaLayanan: false, harga: false, tipeAcara: false };
   form.value = {
     jenisLayanan: svc.jenis_layanan,
     namaLayanan: svc.nama_layanan,
@@ -774,13 +741,10 @@ const executeDuplicate = async () => {
   if (!selectedService.value) return;
   isProcessing.value = true;
   try {
-    const token = localStorage.getItem('auth_token');
-    const res = await axios.post(`/api/services/${selectedService.value.id}/duplicate`, {}, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const res = await axios.post(`/api/services/${selectedService.value.id}/duplicate`);
     services.value.unshift(res.data);
     showDuplicateModal.value = false;
-    showSuccessToast('Layanan berhasil diduplikasi.');
+    showSuccessToast('Layanan berhasil diduplikat.');
   } catch (err) {
     console.error("Gagal menduplikat:", err);
   } finally {
@@ -795,13 +759,9 @@ const confirmDelete = (svc) => {
 
 const executeDelete = async () => {
   if (!selectedService.value) return;
-  
-  isDeleting.value = true;
+  isProcessing.value = true;
   try {
-    const token = localStorage.getItem('auth_token');
-    await axios.delete(`/api/services/${selectedService.value.id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    await axios.delete(`/api/services/${selectedService.value.id}`);
     services.value = services.value.filter(s => s.id !== selectedService.value.id);
     showDeleteModal.value = false;
     showSuccessToast('Layanan berhasil dihapus.');
@@ -912,24 +872,6 @@ onMounted(() => {
   text-align: center;
   max-width: 400px;
 }
-
-/* Validation Classes */
-.has-error {
-  border-color: #ef4444 !important;
-}
-
-.error-input {
-  border-color: #ef4444 !important;
-}
-
-.error-text {
-  color: #ef4444;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  display: block;
-}
-
-@media (max-width: 640px) {}
 
 .icon-container {
   margin-bottom: 1.5rem;
