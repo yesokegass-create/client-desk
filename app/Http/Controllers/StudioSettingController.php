@@ -29,10 +29,10 @@ class StudioSettingController extends Controller
         );
 
         $data = $request->validate([
-            'vendor_name' => 'required|string|min:2|max:255',
+            'vendor_name' => 'nullable|string',
             'custom_url' => 'nullable|string|max:255',
             'phone_country_code' => 'nullable|string|max:10',
-            'phone_number' => 'required|string|min:8|max:20',
+            'phone_number' => 'nullable|string|max:20',
             'disable_slug' => 'boolean',
             'logo_url' => 'nullable|string',
             'address' => 'nullable|string',
@@ -40,11 +40,6 @@ class StudioSettingController extends Controller
             'close_booking_outside_hours' => 'boolean',
             'working_days' => 'nullable|array',
             'form_booking_settings' => 'nullable|array',
-        ], [
-            'vendor_name.required' => 'Nama vendor wajib diisi',
-            'vendor_name.min' => 'Nama vendor minimal 2 karakter',
-            'phone_number.required' => 'Nomor WhatsApp wajib diisi',
-            'phone_number.min' => 'Nomor WhatsApp minimal 8 digit',
         ]);
 
         try {
