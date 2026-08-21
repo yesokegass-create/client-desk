@@ -27,10 +27,10 @@ class ServiceController extends Controller
 
         $validated = $request->validate([
             'jenis_layanan' => 'required|string',
-            'nama_layanan' => 'required|string|min:2|max:255',
+            'nama_layanan' => 'required|string',
             'deskripsi' => 'nullable|string',
-            'harga' => 'required|numeric|min:0',
-            'harga_coret' => 'nullable|numeric|min:0',
+            'harga' => 'required|string',
+            'harga_coret' => 'nullable|string',
             'durasi_kuota' => 'nullable|string',
             'wajib_pilih_kuota' => 'boolean',
             'tampilkan_publik' => 'boolean',
@@ -39,15 +39,19 @@ class ServiceController extends Controller
             'kota' => 'array',
             'biaya_operasional' => 'array',
             'warna_paket' => 'nullable|string',
-            'jumlah_edit' => 'nullable|numeric|min:0',
+            'jumlah_edit' => 'nullable|numeric',
             'template_cetak' => 'nullable|string',
-        ], [
-            'nama_layanan.required' => 'Nama layanan/paket wajib diisi',
-            'nama_layanan.min' => 'Nama layanan minimal 2 karakter',
-            'harga.required' => 'Harga wajib diisi',
-            'harga.numeric' => 'Harga harus berupa angka',
-            'harga.min' => 'Harga tidak boleh minus',
         ]);
+
+        if (array_key_exists('wajib_pilih_kuota', $validated)) {
+            $validated['wajib_pilih_kuota'] = filter_var($validated['wajib_pilih_kuota'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+        }
+        if (array_key_exists('tampilkan_publik', $validated)) {
+            $validated['tampilkan_publik'] = filter_var($validated['tampilkan_publik'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+        }
+        if (array_key_exists('is_active', $validated)) {
+            $validated['is_active'] = filter_var($validated['is_active'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+        }
 
         $service = Service::create(array_merge($validated, ['user_id' => $user->id]));
 
@@ -63,10 +67,10 @@ class ServiceController extends Controller
 
         $validated = $request->validate([
             'jenis_layanan' => 'required|string',
-            'nama_layanan' => 'required|string|min:2|max:255',
+            'nama_layanan' => 'required|string',
             'deskripsi' => 'nullable|string',
-            'harga' => 'required|numeric|min:0',
-            'harga_coret' => 'nullable|numeric|min:0',
+            'harga' => 'required|string',
+            'harga_coret' => 'nullable|string',
             'durasi_kuota' => 'nullable|string',
             'wajib_pilih_kuota' => 'boolean',
             'tampilkan_publik' => 'boolean',
@@ -75,15 +79,19 @@ class ServiceController extends Controller
             'kota' => 'array',
             'biaya_operasional' => 'array',
             'warna_paket' => 'nullable|string',
-            'jumlah_edit' => 'nullable|numeric|min:0',
+            'jumlah_edit' => 'nullable|numeric',
             'template_cetak' => 'nullable|string',
-        ], [
-            'nama_layanan.required' => 'Nama layanan/paket wajib diisi',
-            'nama_layanan.min' => 'Nama layanan minimal 2 karakter',
-            'harga.required' => 'Harga wajib diisi',
-            'harga.numeric' => 'Harga harus berupa angka',
-            'harga.min' => 'Harga tidak boleh minus',
         ]);
+
+        if (array_key_exists('wajib_pilih_kuota', $validated)) {
+            $validated['wajib_pilih_kuota'] = filter_var($validated['wajib_pilih_kuota'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+        }
+        if (array_key_exists('tampilkan_publik', $validated)) {
+            $validated['tampilkan_publik'] = filter_var($validated['tampilkan_publik'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+        }
+        if (array_key_exists('is_active', $validated)) {
+            $validated['is_active'] = filter_var($validated['is_active'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+        }
 
         $service->update($validated);
 

@@ -15,19 +15,13 @@ class TeamMemberController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|min:2|max:255',
-            'peran' => 'required|string|max:100',
+            'nama' => 'required|string',
+            'peran' => 'required|string',
             'phone_country_code' => 'required|string',
-            'phone_number' => 'required|string|min:8|max:20',
-            'email' => 'nullable|email|max:255',
+            'phone_number' => 'required|string',
+            'email' => 'nullable|email',
             'tags' => 'nullable|array',
             'pricelist' => 'nullable|array',
-        ], [
-            'nama.required' => 'Nama tim harus diisi',
-            'nama.min' => 'Nama tim minimal 2 karakter',
-            'phone_number.required' => 'Nomor WhatsApp harus diisi',
-            'phone_number.min' => 'Nomor WhatsApp minimal 8 digit',
-            'email.email' => 'Format email tidak valid',
         ]);
 
         $member = $request->user()->teamMembers()->create($request->all());
@@ -38,19 +32,13 @@ class TeamMemberController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required|string|min:2|max:255',
-            'peran' => 'required|string|max:100',
+            'nama' => 'required|string',
+            'peran' => 'required|string',
             'phone_country_code' => 'required|string',
-            'phone_number' => 'required|string|min:8|max:20',
-            'email' => 'nullable|email|max:255',
+            'phone_number' => 'required|string',
+            'email' => 'nullable|email',
             'tags' => 'nullable|array',
             'pricelist' => 'nullable|array',
-        ], [
-            'nama.required' => 'Nama tim harus diisi',
-            'nama.min' => 'Nama tim minimal 2 karakter',
-            'phone_number.required' => 'Nomor WhatsApp harus diisi',
-            'phone_number.min' => 'Nomor WhatsApp minimal 8 digit',
-            'email.email' => 'Format email tidak valid',
         ]);
 
         $member = $request->user()->teamMembers()->findOrFail($id);
