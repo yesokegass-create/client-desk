@@ -47,26 +47,36 @@ class StudioSettingController extends Controller
             'phone_number.min' => 'Nomor WhatsApp minimal 8 digit',
         ]);
 
-        if (!empty($data['logo_url']) && str_starts_with($data['logo_url'], 'data:image')) {
-            $image_parts = explode(";base64,", $data['logo_url']);
-            if (count($image_parts) == 2) {
-                $image_type_aux = explode("image/", $image_parts[0]);
-                $image_type = $image_type_aux[1] ?? 'png';
-                $image_base64 = base64_decode($image_parts[1]);
-                
-                $fileName = 'logo_' . $user->id . '_' . time() . '.' . $image_type;
-                \Illuminate\Support\Facades\Storage::disk('public')->put('logos/' . $fileName, $image_base64);
-                
-                $data['logo_url'] = '/storage/logos/' . $fileName;
+        try {
+            if (!empty($data['logo_url']) && str_starts_with($data['logo_url'], 'data:image')) {
+                $image_parts = explode(";base64,", $data['logo_url']);
+                if (count($image_parts) == 2) {
+                    $image_type_aux = explode("image/", $image_parts[0]);
+                    $image_type = $image_type_aux[1] ?? 'png';
+                    $image_base64 = base64_decode($image_parts[1]);
+                    
+                    $fileName = 'logo_' . $user->id . '_' . time() . '.' . $image_type;
+                    \Illuminate\Support\Facades\Storage::disk('public')->put('logos/' . $fileName, $image_base64);
+                    
+                    $data['logo_url'] = '/storage/logos/' . $fileName;
+                }
             }
+
+            $settings = $user->studioSetting()->updateOrCreate(
+                ['user_id' => $user->id],
+                $data
+            );
+
+            return response()->json(['message' => 'Settings saved successfully', 'settings' => $settings]);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Settings save failed: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return response()->json([
+                'error' => 'Server error while saving settings.',
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ], 500);
         }
-
-        $settings = $user->studioSetting()->updateOrCreate(
-            ['user_id' => $user->id],
-            $data
-        );
-
-        return response()->json(['message' => 'Settings saved successfully', 'settings' => $settings]);
     }
 
     public function getSetupStatus()

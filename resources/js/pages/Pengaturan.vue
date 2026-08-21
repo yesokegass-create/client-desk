@@ -785,7 +785,8 @@ const saveSettings = async () => {
   } catch (error) {
     console.error('Error saving settings:', error);
     if (!handleValidationErrors(error)) {
-      alert('Gagal menyimpan pengaturan. Server mengalami gangguan.');
+      const serverMsg = error.response?.data?.message || 'Server mengalami gangguan.';
+      alert('Gagal menyimpan pengaturan: ' + serverMsg);
     }
   } finally {
     isSaving.value = false;
