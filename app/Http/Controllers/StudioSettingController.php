@@ -62,15 +62,15 @@ class StudioSettingController extends Controller
                 }
             }
 
-            // Explicitly cast to boolean for PostgreSQL strict typing
+            // Explicitly cast to string 'true' / 'false' for PostgreSQL/NeonDB PDO issues
             if (array_key_exists('disable_slug', $data)) {
-                $data['disable_slug'] = filter_var($data['disable_slug'], FILTER_VALIDATE_BOOLEAN);
+                $data['disable_slug'] = filter_var($data['disable_slug'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
             }
             if (array_key_exists('working_hours_enabled', $data)) {
-                $data['working_hours_enabled'] = filter_var($data['working_hours_enabled'], FILTER_VALIDATE_BOOLEAN);
+                $data['working_hours_enabled'] = filter_var($data['working_hours_enabled'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
             }
             if (array_key_exists('close_booking_outside_hours', $data)) {
-                $data['close_booking_outside_hours'] = filter_var($data['close_booking_outside_hours'], FILTER_VALIDATE_BOOLEAN);
+                $data['close_booking_outside_hours'] = filter_var($data['close_booking_outside_hours'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
             }
 
             $settings = $user->studioSetting()->updateOrCreate(
