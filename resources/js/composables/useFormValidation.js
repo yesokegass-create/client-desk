@@ -40,14 +40,13 @@ export function useFormValidation() {
     return /^[\d\s\+\-]{8,20}$/.test(phone);
   };
 
-  const getInputClass = (field, baseClass = 'form-input') => {
-    return {
-      [baseClass]: true,
-      'border-red-500': !!errors.value[field],
-      'focus:border-red-500': !!errors.value[field],
-      'focus:ring-red-500': !!errors.value[field],
-      'error-input': !!errors.value[field]
-    };
+  const getInputClass = (field, baseClass = 'form-control') => {
+    return [
+      baseClass,
+      {
+        'has-error': !!errors.value[field]
+      }
+    ];
   };
 
   return {
