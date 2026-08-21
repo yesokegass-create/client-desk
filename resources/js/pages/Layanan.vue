@@ -292,9 +292,9 @@
             
             <div class="form-group mb-4">
               <label>Tipe Acara <span class="text-danger">*</span></label>
-              <span v-if="formErrors.tipeAcara" class="error-msg mb-2">Pilih minimal 1 tipe acara</span>
+              <span v-if="errors.tipeAcara" class="error-msg mb-2">Pilih minimal 1 tipe acara</span>
               <p class="help-text mb-2">Kosongkan jika paket ini untuk semua tipe acara.</p>
-              <div class="event-types-grid" :class="{ 'has-error-box': formErrors.tipeAcara }">
+              <div class="event-types-grid" :class="{ 'has-error-box': errors.tipeAcara }">
                 <label v-for="type in eventTypes" :key="type" class="checkbox-label type-label">
                   <input type="checkbox" class="custom-checkbox mr-2" :value="type" v-model="form.tipeAcara" />
                   {{ type }}
