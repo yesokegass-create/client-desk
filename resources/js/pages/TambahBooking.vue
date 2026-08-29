@@ -466,6 +466,11 @@ label {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.input-group:focus-within {
+  border-color: #a855f7;
 }
 
 .input-group .form-control {

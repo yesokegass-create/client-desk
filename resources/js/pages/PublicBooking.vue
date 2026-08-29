@@ -1,6 +1,37 @@
 <template>
   <div class="public-booking-page">
-    <div v-if="currentStep < 5" class="booking-container">
+    <!-- Closed Screen Overlay -->
+    <div v-if="isFormClosed" class="closed-page-container">
+      <div class="closed-card">
+        <div class="alert-icon-wrapper">
+          <TriangleAlert class="alert-icon" :size="32" />
+        </div>
+        
+        <h2 class="closed-title">Form booking sedang tutup</h2>
+        <p class="closed-subtitle">{{ vendorName }} menerima booking online sesuai jam kerja berikut.</p>
+        
+        <div class="working-hours-box">
+          <div class="box-header">
+            <Clock :size="18" class="clock-icon" />
+            <span class="box-title">Jam kerja</span>
+          </div>
+          <div class="hours-list">
+            <div v-for="day in activeWorkingDays" :key="day.name" class="hours-row">
+              <span class="day-name">{{ day.name }}</span>
+              <span class="day-time">{{ formatTime(day.open) }}-{{ formatTime(day.close) }}</span>
+            </div>
+            <div v-if="activeWorkingDays.length === 0" class="hours-row empty">
+              Tidak ada jam kerja aktif
+            </div>
+          </div>
+        </div>
+        
+        <p class="closed-footer">Silakan buka kembali halaman ini pada jam kerja.</p>
+      </div>
+    </div>
+
+    <template v-else>
+      <div v-if="currentStep < 5" class="booking-container">
       <div v-if="vendorLogo" class="mockup-avatar" style="background: transparent;">
         <img :src="vendorLogo" alt="Vendor Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;" />
       </div>
@@ -48,7 +79,7 @@
                 <select class="mockup-select phone-code">
                   <option>ID +62</option>
                 </select>
-                <input type="number" id="field-noWhatsapp" v-model="formData.noWhatsapp" :class="['mockup-input', {'has-error': errors.noWhatsapp}]" placeholder="8123456789" />
+                <input type="tel" id="field-noWhatsapp" :value="formData.noWhatsapp" @input="formatWhatsApp" :class="['mockup-input', {'has-error': errors.noWhatsapp}]" placeholder="8123456789" />
               </div>
               <span v-if="errors.noWhatsapp" class="error-msg">Bidang ini wajib diisi</span>
             </div>
@@ -555,6 +586,7 @@
       @close="showMapModal = false"
       @select="handleLocationSelect"
     />
+    </template>
   </div>
 </template>
 
@@ -573,6 +605,14 @@ const vendorName = ref('');
 const vendorLogo = ref('');
 const mockupTipeAcara = ref('');
 const isLoading = ref(true);
+
+const isFormClosed = ref(false);
+const activeWorkingDays = ref([]);
+
+const formatTime = (timeStr) => {
+  if (!timeStr) return '';
+  return timeStr.replace(':', '.');
+};
 const showMapModal = ref(false);
 
 const currentStep = ref(1);
@@ -821,6 +861,17 @@ const filteredAddons = computed(() => {
 
 const formErrorMsg = ref('');
 
+const formatWhatsApp = (e) => {
+  let val = e.target.value.replace(/\D/g, '');
+  if (val.startsWith('0')) {
+    val = val.substring(1);
+  } else if (val.startsWith('62')) {
+    val = val.substring(2);
+  }
+  formData.value.noWhatsapp = val;
+  e.target.value = val;
+};
+
 const validateStep1 = () => {
   errors.value = {};
   formErrorMsg.value = '';
@@ -1011,6 +1062,36 @@ onMounted(async () => {
     if (settingsRes.data) {
       vendorName.value = settingsRes.data.vendor_name || vendorAlias.value;
       vendorLogo.value = settingsRes.data.logo_url || '';
+      
+      const data = settingsRes.data;
+      const isWorkingHoursEnabled = data.working_hours_enabled === true || data.working_hours_enabled === 'true';
+      const isCloseBookingOutsideHours = data.close_booking_outside_hours === true || data.close_booking_outside_hours === 'true';
+      
+      if (isWorkingHoursEnabled && isCloseBookingOutsideHours) {
+        const now = new Date();
+        const dayNames = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const currentDayName = dayNames[now.getDay()];
+        
+        const currentHour = now.getHours().toString().padStart(2, '0');
+        const currentMinute = now.getMinutes().toString().padStart(2, '0');
+        const currentTimeStr = `${currentHour}:${currentMinute}`;
+        
+        const todaySetting = data.working_days ? data.working_days.find(d => d.name === currentDayName) : null;
+        
+        if (!todaySetting || !todaySetting.active) {
+          isFormClosed.value = true;
+        } else {
+          const openTime = todaySetting.open;
+          const closeTime = todaySetting.close;
+          if (currentTimeStr < openTime || currentTimeStr > closeTime) {
+            isFormClosed.value = true;
+          }
+        }
+        
+        if (data.working_days) {
+          activeWorkingDays.value = data.working_days.filter(d => d.active);
+        }
+      }
       
       if (settingsRes.data.form_booking_settings) {
         const fb = settingsRes.data.form_booking_settings;
@@ -1887,5 +1968,109 @@ onMounted(async () => {
   padding: 1rem;
   color: #6b7280;
   font-size: 0.9rem;
+}
+
+/* Closed Page Styles */
+.closed-page-container {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.closed-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  text-align: center;
+}
+
+.alert-icon-wrapper {
+  background-color: #fff7ed;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.alert-icon {
+  color: #f97316;
+}
+
+.closed-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+}
+
+.closed-subtitle {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin: 0 0 2rem 0;
+}
+
+.working-hours-box {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  background: #f9fafb;
+  text-align: left;
+}
+
+.box-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: #111827;
+  font-weight: 600;
+}
+
+.clock-icon {
+  color: #374151;
+}
+
+.box-title {
+  font-size: 0.95rem;
+}
+
+.hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 1.75rem;
+}
+
+.hours-row {
+  display: flex;
+  gap: 0.75rem;
+  color: #4b5563;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.day-name {
+  color: #6b7280;
+  width: 80px;
+}
+
+.day-time {
+  color: #111827;
+}
+
+.closed-footer {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0;
 }
 </style>

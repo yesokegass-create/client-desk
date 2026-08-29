@@ -128,6 +128,9 @@ class StudioSettingController extends Controller
             'custom_url' => $settings->custom_url,
             'form_booking_settings' => $settings->form_booking_settings,
             'logo_url' => $settings->logo_url,
+            'working_hours_enabled' => $settings->working_hours_enabled,
+            'close_booking_outside_hours' => $settings->close_booking_outside_hours,
+            'working_days' => $settings->working_days,
         ]);
     }
 

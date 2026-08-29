@@ -242,7 +242,7 @@
                 <label><Phone :size="14" /> Nomor WhatsApp Studio <span class="text-danger">*</span></label>
                 <div class="input-group" :class="{ 'has-error': errors.phoneNumber }">
                   <span class="input-addon">ID +62</span>
-                  <input type="text" class="form-control border-0" :value="phoneNumber" @input="handlePhoneInput" placeholder="812 3456 7890" />
+                  <input type="tel" class="form-control border-0" :value="phoneNumber" @input="handlePhoneInput" placeholder="812 3456 7890" />
                 </div>
                 <span v-if="errors.phoneNumber" class="error-msg">Nomor WhatsApp wajib diisi dengan benar</span>
               </div>
@@ -1083,27 +1083,40 @@ onMounted(() => {
 
 .input-group {
   display: flex;
-  align-items: center;
+  align-items: stretch;
+  background-color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.input-group:focus-within {
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .input-addon {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-right: none;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
   padding: 0.75rem 1rem;
   color: #a0a0a0;
   font-size: 0.85rem;
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
   display: flex;
   align-items: center;
   white-space: nowrap;
 }
 
 .input-group .form-control {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
   flex: 1;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+  box-shadow: none !important;
 }
 
 .help-text {

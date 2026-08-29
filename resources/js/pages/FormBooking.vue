@@ -473,7 +473,7 @@
                            <select class="mockup-select phone-code">
                              <option>ID +62</option>
                            </select>
-                           <input type="number" class="mockup-input" placeholder="8123456789" value="85878067644" />
+                            <input type="tel" class="mockup-input" placeholder="8123456789" value="85878067644" readonly />
                          </div>
                        </div>
 

@@ -12,13 +12,13 @@
       <X v-else :size="24" />
     </div>
 
-    <nav class="nav-links" :class="{ 'mobile-open': isMobileMenuOpen }">
-      <router-link to="/fitur" @click="isMobileMenuOpen = false">{{ t('navbar.features') }}</router-link>
-      <router-link to="/harga" @click="isMobileMenuOpen = false">{{ t('navbar.pricing') }}</router-link>
-      <router-link to="/faq" @click="isMobileMenuOpen = false">{{ t('navbar.faq') }}</router-link>
+    <nav class="nav-links">
+      <router-link to="/fitur">{{ t('navbar.features') }}</router-link>
+      <router-link to="/harga">{{ t('navbar.pricing') }}</router-link>
+      <router-link to="/faq">{{ t('navbar.faq') }}</router-link>
     </nav>
     
-    <div class="nav-actions" :class="{ 'mobile-open': isMobileMenuOpen }">
+    <div class="nav-actions">
       <!-- Language Switcher -->
       <div class="dropdown-wrapper" ref="langDropdownRef">
         <button class="icon-btn" @click="toggleLang" :class="{ active: langOpen }">
@@ -72,7 +72,32 @@
         </div>
       </div>
       
-      <router-link to="/login" class="btn-login" @click="isMobileMenuOpen = false">{{ t('navbar.login') }}</router-link>
+      <router-link to="/login" class="btn-login">{{ t('navbar.login') }}</router-link>
+    </div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div v-if="isMobileMenuOpen" class="mobile-dropdown-card">
+      <div class="mobile-menu-links">
+        <router-link to="/fitur" @click="isMobileMenuOpen = false" class="mobile-menu-link">
+          {{ t('navbar.features') }}
+        </router-link>
+        <router-link to="/harga" @click="isMobileMenuOpen = false" class="mobile-menu-link">
+          {{ t('navbar.pricing') }}
+        </router-link>
+        <router-link to="/faq" @click="isMobileMenuOpen = false" class="mobile-menu-link">
+          {{ t('navbar.faq') }}
+        </router-link>
+      </div>
+      <div class="mobile-menu-divider"></div>
+      <div class="mobile-menu-buttons">
+        <router-link to="/register" @click="isMobileMenuOpen = false" class="btn-register-mobile">
+          {{ locale === 'id' ? 'Register' : 'Register' }}
+        </router-link>
+        <router-link to="/login" @click="isMobileMenuOpen = false" class="btn-signin-mobile">
+          <span>{{ locale === 'id' ? 'Sign In' : 'Sign In' }}</span>
+          <ArrowRight :size="16" class="btn-signin-arrow" />
+        </router-link>
+      </div>
     </div>
   </header>
 </template>
@@ -80,7 +105,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { UserCog, Languages, Moon, Sun, Monitor, Menu, X } from 'lucide-vue-next';
+import { UserCog, Languages, Moon, Sun, Monitor, Menu, X, ArrowRight } from 'lucide-vue-next';
 
 const { t, locale } = useI18n();
 
@@ -301,53 +326,145 @@ onUnmounted(() => {
   color: var(--text-primary);
 }
 
+.mobile-dropdown-card {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .navbar {
     padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  
+  .logo {
+    order: 1;
   }
   
   .mobile-toggle {
-    display: block;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    order: 3;
     z-index: 60;
   }
 
   .nav-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    text-align: center;
+    display: none !important;
   }
 
   .nav-actions {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    text-align: center;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 0.75rem;
+    order: 2;
+    margin-left: auto;
+    margin-right: 0.75rem;
   }
 
-  .nav-links.mobile-open, .nav-actions.mobile-open {
+  .nav-actions .btn-login {
+    display: none !important;
+  }
+
+  .mobile-dropdown-card {
     display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 1rem;
+    right: 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    gap: 1.25rem;
   }
 
-  .nav-links.mobile-open {
-    position: absolute;
-    top: 70px;
-    left: 0;
-    background: var(--bg-main);
-    padding: 2rem 0 1rem;
-    border-bottom: none;
-    z-index: 55;
+  .mobile-menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
   }
 
-  .nav-actions.mobile-open {
-    position: absolute;
-    top: 200px;
-    left: 0;
-    background: var(--bg-main);
-    padding: 1rem 0 2rem;
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-    z-index: 55;
+  .mobile-menu-link {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: opacity 0.2s;
+    text-align: left;
+    padding: 0.25rem 0;
+  }
+
+  .mobile-menu-link:hover {
+    opacity: 0.8;
+  }
+
+  .mobile-menu-divider {
+    height: 1px;
+    background-color: var(--border-color);
+    width: 100%;
+    margin: 0.25rem 0;
+  }
+
+  .mobile-menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .btn-register-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--bg-card-hover);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-register-mobile:hover {
+    background: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .btn-signin-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--text-primary);
+    color: var(--bg-main);
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .btn-signin-mobile:hover {
+    opacity: 0.9;
+  }
+
+  .btn-signin-arrow {
+    display: flex;
+    align-items: center;
   }
 }
 </style>
