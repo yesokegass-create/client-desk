@@ -477,7 +477,7 @@
         </div>
       </div>
       
-      <p class="mockup-powered-by">Powered by <strong>Client Desk</strong></p>
+      <p class="mockup-powered-by">Powered by <strong>Vender.id</strong></p>
     </div>
 
     <!-- STEP 5: Success / Konfirmasi (Full Screen) -->
@@ -1047,7 +1047,7 @@ watch(dpAmount, (newVal) => {
 });
 
 onMounted(async () => {
-  document.title = `${vendorAlias.value} - Booking Form | Client Desk`;
+  document.title = `${vendorAlias.value} - Booking Form | Vender.id`;
   
   try {
     const [settingsRes, servicesRes] = await Promise.all([
@@ -1103,7 +1103,7 @@ onMounted(async () => {
         if (fb.bankAccounts) bankAccounts.value = fb.bankAccounts;
         if (fb.qrisImagePreview) qrisImage.value = fb.qrisImagePreview;
       }
-      document.title = `${vendorName.value} - Booking Form | Client Desk`;
+      document.title = `${vendorName.value} - Booking Form | Vender.id`;
     }
   } catch (error) {
     console.error('Error fetching public settings:', error);

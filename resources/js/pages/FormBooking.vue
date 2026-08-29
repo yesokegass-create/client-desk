@@ -423,7 +423,7 @@
                  <div class="mockup-dots">
                    <span></span><span></span><span></span>
                  </div>
-                 <div class="mockup-url">clientdesk.id/{{ langStrings.urlPrefix }}/formbooking/{{ vendorName ? vendorName.toLowerCase().replace(/\s+/g, '') : 'fariz' }}</div>
+                  <div class="mockup-url">{{ currentHost }}/{{ langStrings.urlPrefix }}/formbooking/{{ vendorName ? vendorName.toLowerCase().replace(/\s+/g, '') : 'fariz' }}</div>
                </div>
                
                <!-- mockup body -->
@@ -635,7 +635,7 @@
                         <button class="mockup-btn-next" :style="{ backgroundColor: brandColor, borderColor: brandColor }">{{ langStrings.btnNext }}</button>
                       </div>
                    </div>
-                   <div class="mockup-powered-by">Powered by <strong>Client Desk</strong></div>
+                    <div class="mockup-powered-by">Powered by <strong>Vender.id</strong></div>
                    
                    <GoogleMapModal 
                      :show="showMapModal" 
@@ -687,6 +687,7 @@ const mockupTipeAcara = ref('');
 const previewKey = ref(0);
 
 const brandColor = ref('#000000');
+const currentHost = ref(window.location.host);
 const customGreetingText = ref('');
 const formLanguage = ref('ID');
 

@@ -48,4 +48,4 @@ RUN a2enmod rewrite
 EXPOSE 80
 
 # On container start, run migrations and start Apache
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-80}
+CMD php artisan storage:link --force && php artisan serve --host=0.0.0.0 --port=${PORT:-80}

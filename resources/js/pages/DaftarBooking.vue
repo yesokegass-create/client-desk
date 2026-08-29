@@ -648,6 +648,7 @@ const copyTemplateKlien = (booking) => {
   const totalPrice = parseFloat(booking.total_price || 0);
   const sisa = totalPrice - dpAmount;
   
+  const baseUrl = window.location.origin;
   const text = `Halo ${booking.client_name}, berikut detail booking ${booking.invoice}.
 
 Paket: ${formatPackageName(booking.selected_packages)}
@@ -660,8 +661,8 @@ Total: Rp ${formatRupiah(totalPrice)}
 DP Dibayar: Rp ${formatRupiah(dpAmount)}
 Sisa Pembayaran: Rp ${formatRupiah(sisa)}
 
-Invoice: https://clientdesk.id/api/public/invoice?code=${booking.invoice}
-Tracking: https://clientdesk.id/id/track/${booking.id}
+Invoice: ${baseUrl}/api/public/invoice?code=${booking.invoice}
+Tracking: ${baseUrl}/id/track/${booking.id}
 
 Terima kasih, Jihan.`;
 
