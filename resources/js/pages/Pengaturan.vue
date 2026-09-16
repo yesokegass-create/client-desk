@@ -288,12 +288,12 @@
               <button class="btn-orientation" :class="{ 'active': logoOrientation === 'persegi' }" @click="logoOrientation = 'persegi'">Persegi</button>
             </div>
             
-            <div v-if="uploadedLogoUrl" class="logo-preview-section mb-6">
-              <p class="text-sm text-gray-400 mb-2">Preview:</p>
+            <div v-if="uploadedLogoUrl" class="logo-preview-section" style="margin-bottom: 1.5rem;">
+              <p class="text-sm text-gray-400" style="margin-bottom: 0.5rem;">Preview:</p>
               <div class="logo-preview-box" :class="logoOrientation">
                 <img :src="uploadedLogoUrl" alt="Logo Preview" />
               </div>
-              <button class="btn-text-danger mt-3" @click="removeLogo">
+              <button class="btn-text-danger" style="margin-top: 0.75rem;" @click="removeLogo">
                 <Trash2 :size="14" class="mr-1" /> Hapus Logo
               </button>
             </div>
