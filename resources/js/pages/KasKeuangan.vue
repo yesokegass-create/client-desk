@@ -486,48 +486,19 @@ import {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .metric-value,
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .filter-btn,
-:root[data-theme="light"] .filter-select,
-:root[data-theme="light"] .data-table td {
-  color: #111827;
-}
 
-:root[data-theme="light"] .metric-card,
-:root[data-theme="light"] .filters-area,
-:root[data-theme="light"] .table-container,
-:root[data-theme="light"] .filter-select option {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .btn-outline,
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .filter-btn,
-:root[data-theme="light"] .filter-select {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline:hover {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .select-icon {
-  color: #111827;
-}
 
-:root[data-theme="light"] .data-table th,
-:root[data-theme="light"] .data-table td {
-  border-bottom-color: #e5e7eb;
-}
+
+
+
+
+
+
+
 
 @media (max-width: 768px) {
   .header-actions {

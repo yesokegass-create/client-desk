@@ -460,59 +460,25 @@ import {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .sort-select,
-:root[data-theme="light"] .data-table td,
-:root[data-theme="light"] .page-current,
-:root[data-theme="light"] .size-select {
-  color: #111827;
-}
 
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .table-container,
-:root[data-theme="light"] .sort-select option,
-:root[data-theme="light"] .size-select option {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .btn-outline {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline:hover {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .tab-btn.active {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .select-icon,
-:root[data-theme="light"] .sort-select {
-  color: #111827;
-}
 
-:root[data-theme="light"] .data-table th,
-:root[data-theme="light"] .data-table td {
-  border-bottom-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .custom-scrollbar-track {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .custom-scrollbar-thumb {
-  background-color: #d1d5db;
-}
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width: 768px) {
   .header-actions {

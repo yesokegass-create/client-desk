@@ -628,79 +628,31 @@ import {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .info-title,
-:root[data-theme="light"] .section-header-flex h3,
-:root[data-theme="light"] .item-label,
-:root[data-theme="light"] .form-group label,
-:root[data-theme="light"] .checkbox-title,
-:root[data-theme="light"] .grand-total,
-:root[data-theme="light"] .text-white {
-  color: #111827 !important;
-}
 
-:root[data-theme="light"] .form-control {
-  background-color: var(--text-primary);
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .border-section,
-:root[data-theme="light"] .list-header-box {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .info-box,
-:root[data-theme="light"] .scrollable-list,
-:root[data-theme="light"] .feature-box,
-:root[data-theme="light"] .btn-dark,
-:root[data-theme="light"] .list-container {
-  background-color: #f9fafb;
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .btn-unlock,
-:root[data-theme="light"] .btn-outline-small {
-  border-color: #d1d5db;
-  color: #4b5563;
-}
 
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .custom-checkbox {
-  border-color: #d1d5db;
-}
 
-:root[data-theme="light"] .custom-checkbox.dark-bg {
-  background-color: var(--text-primary);
-}
 
-:root[data-theme="light"] .custom-checkbox:checked {
-  background-color: #111827;
-  border-color: #111827;
-}
 
-:root[data-theme="light"] .custom-checkbox:checked::after {
-  border-color: var(--text-primary);
-}
 
-:root[data-theme="light"] .dashed-box {
-  border-color: #d1d5db;
-}
 
-:root[data-theme="light"] .scroll-track {
-  background-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .scroll-thumb {
-  background-color: #d1d5db;
-}
 
-:root[data-theme="light"] .checkbox-item {
-  border-bottom-color: #e5e7eb;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>

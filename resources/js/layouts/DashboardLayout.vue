@@ -372,7 +372,7 @@ const toggleTheme = () => {
   display: flex;
   min-height: 100vh;
   width: 100%;
-  background-color: #000000;
+  background-color: var(--bg-main);
   color: var(--text-primary);
   font-family: 'Inter', sans-serif;
 }
@@ -422,9 +422,7 @@ const toggleTheme = () => {
   opacity: 1;
 }
 
-:root[data-theme="light"] .close-sidebar-btn {
-  color: #000;
-}
+
 
 .logo {
   display: flex;
@@ -459,7 +457,7 @@ const toggleTheme = () => {
 }
 
 .logo-icon .text-white {
-  color: #000000;
+  color: var(--bg-main);
 }
 
 .logo-text {
@@ -508,7 +506,7 @@ const toggleTheme = () => {
 .menu-label {
   font-size: 0.7rem;
   font-weight: 600;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 0.75rem;
   padding-left: 0.75rem;
   letter-spacing: 0.05em;
@@ -543,7 +541,7 @@ const toggleTheme = () => {
 
 .menu-item.active {
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--bg-main);
 }
 
 .sidebar-footer {
@@ -568,7 +566,7 @@ const toggleTheme = () => {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: #333;
+  background-color: var(--bg-card-hover);
   color: var(--text-primary);
   display: flex;
   align-items: center;
@@ -602,7 +600,7 @@ const toggleTheme = () => {
 .logout-btn {
   background: transparent;
   border: none;
-  color: #666;
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
@@ -637,7 +635,7 @@ const toggleTheme = () => {
   align-items: center;
   justify-content: space-between;
   padding: 0 1.5rem;
-  background-color: #000000;
+  background-color: var(--bg-main);
   border-bottom: 1px solid var(--bg-card-hover);
   position: sticky;
   top: 0;
@@ -729,7 +727,7 @@ const toggleTheme = () => {
 .page-container {
   padding: 2rem 0 2rem 2rem;
   flex: 1;
-  background-color: #000000;
+  background-color: var(--bg-main);
 }
 
 .page-inner {
@@ -737,85 +735,41 @@ const toggleTheme = () => {
   width: 100%;
 }
 
-:root[data-theme="light"] .dashboard-layout {
-  background-color: #f9fafb;
-  color: #111827;
-}
 
-:root[data-theme="light"] .sidebar {
-  background-color: #111827;
-  border-right-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .logo-text {
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .menu-toggle-btn {
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .sidebar-header,
-:root[data-theme="light"] .sidebar-footer {
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .logo-icon {
-  background-color: #000000;
-}
 
-:root[data-theme="light"] .logo-icon .text-white {
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .menu-item {
-  color: #6b7280;
-}
 
-:root[data-theme="light"] .menu-item:hover {
-  background-color: #f3f4f6;
-  color: #111827;
-}
 
-:root[data-theme="light"] .menu-item.active {
-  background-color: #000000;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .user-name {
-  color: #111827;
-}
 
-:root[data-theme="light"] .top-header {
-  background-color: var(--text-primary);
-  border-bottom-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .current-date {
-  color: #6b7280;
-}
 
-:root[data-theme="light"] .icon-btn {
-  border-color: #e5e7eb;
-  color: #6b7280;
-}
 
-:root[data-theme="light"] .icon-btn:hover {
-  color: #111827;
-  border-color: #d1d5db;
-}
 
-:root[data-theme="light"] .page-title {
-  color: #111827;
-}
 
-:root[data-theme="light"] .page-container {
-  background-color: #f9fafb;
-}
 
-:root[data-theme="light"] .badge {
-  border-color: var(--text-primary);
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .item-highlight {
   border: 1px solid rgba(168, 85, 247, 0.3); /* Default fallback */
   border-color: rgba(234, 179, 8, 0.3); /* Yellowish */
@@ -873,9 +827,7 @@ const toggleTheme = () => {
   display: none;
 }
 
-:root[data-theme="light"] .mobile-menu-btn .text-white {
-  color: #000;
-}
+
 
 @media (max-width: 1280px) {
   .desktop-only {

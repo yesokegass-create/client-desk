@@ -243,7 +243,7 @@ onUnmounted(() => {
 }
 
 .btn-text:disabled {
-  color: #555;
+  color: var(--text-secondary);
   cursor: not-allowed;
 }
 
@@ -342,11 +342,7 @@ input.tour-highlight {
   background-color: var(--bg-main) !important;
 }
 
-:root[data-theme="light"] .tour-highlight {
-  box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 4px #a855f7 !important;
-}
 
-:root[data-theme="light"] input.tour-highlight {
-  background-color: var(--text-primary) !important;
-}
+
+
 </style>

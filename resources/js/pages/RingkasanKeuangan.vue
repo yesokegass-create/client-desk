@@ -482,7 +482,7 @@ import {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: #555;
+  color: var(--text-secondary);
   font-size: 0.75rem;
   width: 20px;
 }
@@ -510,7 +510,7 @@ import {
   bottom: 0;
   display: flex;
   justify-content: space-between;
-  color: #555;
+  color: var(--text-secondary);
   font-size: 0.75rem;
   padding-top: 10px;
 }
@@ -566,51 +566,21 @@ import {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .period-indicator,
-:root[data-theme="light"] .metric-value,
-:root[data-theme="light"] .chart-title,
-:root[data-theme="light"] .widget-title,
-:root[data-theme="light"] .period-select,
-:root[data-theme="light"] .select-icon {
-  color: #111827;
-}
 
-:root[data-theme="light"] .metric-card,
-:root[data-theme="light"] .chart-section,
-:root[data-theme="light"] .widget-card,
-:root[data-theme="light"] .period-indicator,
-:root[data-theme="light"] .period-select option {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .btn-outline {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline:hover {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .divider {
-  background-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .legend-item {
-  background-color: #f3f4f6;
-  color: #4b5563;
-}
 
-:root[data-theme="light"] .widget-empty {
-  border-color: #d1d5db;
-  background-color: #f9fafb;
-}
 
-:root[data-theme="light"] .grid-line {
-  border-color: #e5e7eb;
-}
+
+
+
+
+
+
+
+
 
 @media (max-width: 768px) {
   .header-actions {

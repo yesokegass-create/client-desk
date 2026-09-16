@@ -573,60 +573,25 @@ select.form-control option {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .section-header h3,
-:root[data-theme="light"] .form-group label,
-:root[data-theme="light"] .method-title {
-  color: #111827;
-}
 
-:root[data-theme="light"] .settings-section {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .color-input,
-:root[data-theme="light"] .form-control,
-:root[data-theme="light"] select.form-control option {
-  background-color: #f9fafb;
-  border-color: #e5e7eb;
-  color: #111827;
-}
 
-:root[data-theme="light"] .method-card {
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .method-card.active {
-  border-color: #111827;
-}
 
-:root[data-theme="light"] .radio-btn.active {
-  border-color: #111827;
-}
-:root[data-theme="light"] .radio-btn.active::after {
-  background-color: #111827;
-}
 
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .preview-container {
-  border-color: #d1d5db;
-}
 
-:root[data-theme="light"] .text-link {
-  color: #4b5563;
-}
-:root[data-theme="light"] .text-link:hover {
-  color: #111827;
-}
 
-:root[data-theme="light"] .alert-warning {
-  background-color: #fef3c7;
-  border-color: #fde68a;
-  color: #b45309;
-}
+
+
+
+
+
+
+
+
+
+
+
+
 </style>

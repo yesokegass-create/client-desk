@@ -744,29 +744,15 @@ const removeTag = (index) => {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .empty-title {
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline:hover {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .empty-state-card {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
+
+
+
+
+
 
 /* Modal Styles */
 .modal-backdrop {
@@ -803,7 +789,7 @@ const removeTag = (index) => {
   justify-content: center;
   padding: 6rem 2rem;
   background-color: var(--bg-card);
-  border: 1px dashed #333;
+  border: 1px dashed var(--border-color);
   border-radius: 12px;
   text-align: center;
 }
@@ -831,7 +817,7 @@ const removeTag = (index) => {
   display: flex;
   align-items: center;
   background-color: transparent;
-  border: 1px solid #333;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 0.5rem 1rem;
   width: 300px;
@@ -859,7 +845,7 @@ const removeTag = (index) => {
 
 .filter-select {
   background-color: transparent;
-  border: 1px solid #333;
+  border: 1px solid var(--border-color);
   color: var(--text-primary);
   border-radius: 8px;
   padding: 0.5rem 2rem 0.5rem 1rem;
@@ -920,7 +906,7 @@ const removeTag = (index) => {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: #333;
+  background-color: var(--bg-card-hover);
   color: var(--text-primary);
   display: flex;
   align-items: center;
@@ -989,7 +975,7 @@ const removeTag = (index) => {
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: 1px solid #333;
+  border: 1px solid var(--border-color);
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -1029,7 +1015,7 @@ const removeTag = (index) => {
 
 .per-page-select {
   background: transparent;
-  border: 1px solid #333;
+  border: 1px solid var(--border-color);
   color: var(--text-primary);
   border-radius: 6px;
   padding: 0.25rem 0.5rem;
@@ -1141,7 +1127,7 @@ const removeTag = (index) => {
 .form-control {
   width: 100%;
   background-color: transparent;
-  border: 1px solid #333;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   color: var(--text-primary);
@@ -1151,7 +1137,7 @@ const removeTag = (index) => {
 
 .form-control:focus {
   outline: none;
-  border-color: #555;
+  border-color: var(--text-secondary);
   background-color: rgba(255, 255, 255, 0.02);
 }
 
@@ -1208,7 +1194,7 @@ const removeTag = (index) => {
 .country-selector-btn {
   cursor: pointer;
   background-color: transparent;
-  border: 1px solid #333;
+  border: 1px solid var(--border-color);
   padding: 0.75rem 1rem;
   border-radius: 8px;
   display: flex;
@@ -1233,8 +1219,8 @@ const removeTag = (index) => {
   top: calc(100% + 8px);
   left: 0;
   width: 320px;
-  background-color: #111;
-  border: 1px solid #333;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   z-index: 50;
@@ -1243,7 +1229,7 @@ const removeTag = (index) => {
 
 .country-search-wrapper {
   padding: 0.75rem;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .country-search {
@@ -1345,7 +1331,7 @@ const removeTag = (index) => {
 .btn-add-item {
   background-color: transparent;
   color: var(--text-primary);
-  border: 1px solid #333;
+  border: 1px solid var(--border-color);
   padding: 0.25rem 0.75rem;
   border-radius: 6px;
   font-size: 0.75rem;
@@ -1358,11 +1344,11 @@ const removeTag = (index) => {
 }
 
 .pricelist-empty {
-  border: 1px dashed #333;
+  border: 1px dashed var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
   text-align: center;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.85rem;
 }
 
@@ -1385,7 +1371,7 @@ const removeTag = (index) => {
 
 .btn-trash {
   background: transparent;
-  border: 1px solid #333;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.6rem;
   color: #ef4444;
@@ -1404,7 +1390,7 @@ const removeTag = (index) => {
 .input-prefix {
   display: flex;
   align-items: center;
-  border: 1px solid #333;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   overflow: hidden;
   background-color: transparent;
@@ -1412,7 +1398,7 @@ const removeTag = (index) => {
 }
 
 .input-prefix:focus-within {
-  border-color: #555;
+  border-color: var(--text-secondary);
   background-color: rgba(255, 255, 255, 0.02);
 }
 
@@ -1420,7 +1406,7 @@ const removeTag = (index) => {
   padding: 0.75rem 1rem;
   color: #a0a0a0;
   font-size: 0.9rem;
-  border-right: 1px solid #333;
+  border-right: 1px solid var(--border-color);
   background-color: rgba(255, 255, 255, 0.02);
 }
 
@@ -1489,7 +1475,7 @@ const removeTag = (index) => {
   .mobile-only { display: flex; flex-direction: column; gap: 1rem; }
   
   .member-mobile-card {
-    background-color: #111;
+    background-color: var(--bg-main);
     border: 1px solid #2a2a2a;
     border-radius: 12px;
     padding: 1rem;
@@ -1514,7 +1500,7 @@ const removeTag = (index) => {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #333;
+    background-color: var(--bg-card-hover);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1573,7 +1559,7 @@ const removeTag = (index) => {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    border: 1px solid #333;
+    border: 1px solid var(--border-color);
     background: transparent;
     cursor: pointer;
     transition: all 0.2s;

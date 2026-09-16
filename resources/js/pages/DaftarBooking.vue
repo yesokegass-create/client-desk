@@ -276,7 +276,7 @@
         </p>
         
         <div class="search-container" style="margin-bottom: 1rem;">
-          <Search :size="16" class="search-icon" style="color: #666;" />
+          <Search :size="16" class="search-icon" style="color: var(--text-secondary);" />
           <input type="text" v-model="searchFreelance" placeholder="Cari freelance, role, tag, atau email..." class="search-input" style="width: 100%;" />
         </div>
         
@@ -1004,7 +1004,7 @@ const copyTemplateFreelance = (booking) => {
 }
 
 .modal-content {
-  background-color: #111;
+  background-color: var(--bg-main);
   border-radius: 16px;
   padding: 1.5rem;
   width: 100%;
@@ -1322,78 +1322,33 @@ const copyTemplateFreelance = (booking) => {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .sort-select {
-  color: #111827;
-}
 
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .sort-select,
-:root[data-theme="light"] .btn-outline {
-  border-color: #d1d5db;
-}
 
-:root[data-theme="light"] .btn-outline {
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline:hover {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .table-card {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .tabs-header,
-:root[data-theme="light"] .data-table th,
-:root[data-theme="light"] .data-table th:not(:last-child),
-:root[data-theme="light"] .data-table td,
-:root[data-theme="light"] .pagination-footer {
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .tab-btn.active {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .tab-btn:not(.active):hover,
-:root[data-theme="light"] .btn-text {
-  color: #111827;
-}
 
-:root[data-theme="light"] .pagination-footer {
-  background-color: #f9fafb;
-}
 
-:root[data-theme="light"] .per-page-select {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .page-btn {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .page-info {
-  color: #111827;
-}
 
-:root[data-theme="light"] .data-table th:last-child,
-:root[data-theme="light"] .data-table td:last-child {
-  background-color: var(--text-primary);
-  box-shadow: -8px 0 15px -5px rgba(0,0,0,0.1);
-  border-left: 1px solid #d1d5db;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width: 768px) {
   .header-content {

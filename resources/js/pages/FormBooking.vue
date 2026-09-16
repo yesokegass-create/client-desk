@@ -241,7 +241,7 @@
             <div class="form-group">
               <label>Warna Brand</label>
               <div class="color-picker-wrap" style="display:flex; gap:10px; align-items:center;">
-                <div style="position:relative; width:40px; height:40px; border-radius:4px; overflow:hidden; border: 1px solid #333; flex-shrink: 0;">
+                <div style="position:relative; width:40px; height:40px; border-radius:4px; overflow:hidden; border: 1px solid var(--border-color); flex-shrink: 0;">
                   <input type="color" v-model="brandColor" style="position:absolute; top:-10px; left:-10px; width:60px; height:60px; cursor:pointer;" />
                 </div>
                 <input type="text" class="form-control" v-model="brandColor" style="width: 120px; flex-shrink: 0;" />
@@ -1652,7 +1652,7 @@ select.form-control option {
 }
 
 .qris-preview-container {
-  background: #111;
+  background: var(--bg-main);
   border-radius: 8px;
   padding: 1.5rem;
   display: flex;
@@ -1784,7 +1784,7 @@ select.form-control option {
   width: 40px;
   height: 24px;
   border-radius: 4px;
-  background-color: #000;
+  background-color: var(--bg-main);
 }
 
 /* Tags */
@@ -1856,7 +1856,7 @@ select.form-control option {
 
 .switch.active::after {
   left: 18px;
-  background-color: #000;
+  background-color: var(--bg-main);
 }
 
 /* T&C Form */
@@ -2285,87 +2285,32 @@ select.form-control option {
 .mr-1 { margin-right: 0.25rem; }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .section-header h3,
-:root[data-theme="light"] .form-group label,
-:root[data-theme="light"] .switch-item label,
-:root[data-theme="light"] .method-title,
-:root[data-theme="light"] .bank-header h5,
-:root[data-theme="light"] .qris-header h5,
-:root[data-theme="light"] .upload-area p,
-:root[data-theme="light"] .preview-empty h4 {
-  color: #111827;
-}
 
-:root[data-theme="light"] .settings-section,
-:root[data-theme="light"] .method-content,
-:root[data-theme="light"] .editor-content {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .tabs-container,
-:root[data-theme="light"] .form-control,
-:root[data-theme="light"] .dp-toggle,
-:root[data-theme="light"] .method-header,
-:root[data-theme="light"] .method-footer,
-:root[data-theme="light"] .color-input,
-:root[data-theme="light"] .tag-badge,
-:root[data-theme="light"] .editor-toolbar,
-:root[data-theme="light"] .preview-container {
-  background-color: #f9fafb;
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .tab-btn.active,
-:root[data-theme="light"] .toggle-btn.active {
-  background-color: var(--text-primary);
-  color: #111827;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
 
-:root[data-theme="light"] .form-control {
-  color: #111827;
-}
 
-:root[data-theme="light"] select.form-control option {
-  background-color: var(--text-primary);
-}
 
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .btn-small {
-  border-color: #d1d5db;
-  color: #4b5563;
-}
 
-:root[data-theme="light"] .radio-btn.active {
-  border-color: #111827;
-}
-:root[data-theme="light"] .radio-btn.active::after {
-  background-color: #111827;
-}
 
-:root[data-theme="light"] .switch {
-  background-color: #d1d5db;
-}
-:root[data-theme="light"] .switch.active {
-  background-color: #111827;
-}
-:root[data-theme="light"] .switch.active::after {
-  background-color: var(--text-primary);
-}
 
-:root[data-theme="light"] .action-buttons-bottom {
-  border-top-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .preview-empty-icon {
-  background-color: #f3f4f6;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .text-danger { color: #ef4444; }
 .error-msg { font-size: 0.75rem; color: #ef4444; margin-top: 0.25rem; display: block; }

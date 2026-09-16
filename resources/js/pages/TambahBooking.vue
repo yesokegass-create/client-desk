@@ -554,7 +554,7 @@ label {
   border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
   padding: 10px 12px;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.85rem;
 }
 
@@ -603,7 +603,7 @@ label {
   border-radius: 6px;
   padding: 16px;
   text-align: center;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.85rem;
 }
 

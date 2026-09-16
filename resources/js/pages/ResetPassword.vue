@@ -270,7 +270,7 @@ const toggleTheme = () => {
 }
 
 .btn-submit.is-submitting {
-  background-color: #555555;
+  background-color: var(--text-secondary);
   color: #a0a0a0;
   cursor: not-allowed;
 }
@@ -369,27 +369,13 @@ const toggleTheme = () => {
 }
 
 /* Light mode overrides */
-:root[data-theme="light"] .reset-password-page {
-  background-color: #f9fafb;
-}
 
-:root[data-theme="light"] .card {
-  background-color: var(--text-primary);
-}
 
-:root[data-theme="light"] .btn-submit {
-  background-color: #000000;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .btn-submit.is-submitting {
-  background-color: #d1d5db;
-  color: #6b7280;
-}
 
-:root[data-theme="light"] .btn-back {
-  background-color: #f3f4f6;
-  color: #111827;
-  border-color: #e5e7eb;
-}
+
+
+
+
+
 </style>

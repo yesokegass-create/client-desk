@@ -200,7 +200,7 @@ import {
 }
 
 .text-gray {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 1.25rem;
 }
 
@@ -375,45 +375,19 @@ import {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .metric-value,
-:root[data-theme="light"] .empty-title {
-  color: #111827;
-}
 
-:root[data-theme="light"] .metric-card,
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .btn-filter,
-:root[data-theme="light"] .tab-btn {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .btn-filter {
-  color: #111827;
-}
 
-:root[data-theme="light"] .tab-btn.active {
-  background-color: #111827;
-  color: var(--text-primary);
-  border-color: #111827;
-}
 
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .empty-state-container {
-  border-color: #d1d5db;
-}
 
-:root[data-theme="light"] .empty-icon-wrapper {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .slash-line {
-  background-color: var(--text-primary);
-}
+
+
+
+
+
+
+
+
 </style>

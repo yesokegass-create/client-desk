@@ -437,13 +437,13 @@
             
             <div style="display:flex; gap:24px; border-bottom:1px solid var(--border-color); padding-bottom:12px; margin-bottom:24px; overflow-x:auto;">
               <div style="color:white; font-weight:600; font-size:14px; display:flex; align-items:center; gap:6px; cursor:pointer;">
-                Google Calendar <X :size="14" style="color:#666;" />
+                Google Calendar <X :size="14" style="color:var(--text-secondary);" />
               </div>
               <div style="color:var(--text-secondary); font-size:14px; display:flex; align-items:center; gap:6px; cursor:pointer;">
-                Google Drive <X :size="14" style="color:#666;" />
+                Google Drive <X :size="14" style="color:var(--text-secondary);" />
               </div>
               <div style="color:var(--text-secondary); font-size:14px; display:flex; align-items:center; gap:6px; cursor:pointer;">
-                Google Spreadsheet <X :size="14" style="color:#666;" />
+                Google Spreadsheet <X :size="14" style="color:var(--text-secondary);" />
               </div>
             </div>
 
@@ -948,24 +948,13 @@ onMounted(() => {
 .text-teal { color: #2dd4bf; }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .breadcrumb,
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .card-title {
-  color: #111827;
-}
 
-:root[data-theme="light"] .setting-card {
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .setting-card:hover {
-  background-color: #f9fafb;
-  border-color: #d1d5db;
-}
 
-:root[data-theme="light"] .setting-card:hover .card-chevron {
-  color: #111827;
-}
+
+
+
+
 
 /* Tab Content Styles */
 .tab-content {
@@ -1194,7 +1183,7 @@ onMounted(() => {
   position: absolute;
   cursor: pointer;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #333;
+  background-color: var(--bg-card-hover);
   transition: .2s;
 }
 .slider:before {
@@ -1480,7 +1469,7 @@ input:checked + .slider:before {
   width: 100%;
   max-width: 400px;
   height: 250px;
-  background-color: #000;
+  background-color: var(--bg-main);
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -1562,55 +1551,23 @@ input:checked + .slider:before {
 .rotate-90 { transform: rotate(90deg); transition: transform 0.2s; }
 
 /* Light Theme overrides */
-:root[data-theme="light"] .tab-header h2,
-:root[data-theme="light"] .form-section-header h3,
-:root[data-theme="light"] .setting-toggle-info h4,
-:root[data-theme="light"] .sub-setting-box h4 {
-  color: #111827;
-}
 
-:root[data-theme="light"] .settings-form-card,
-:root[data-theme="light"] .bottom-action-bar {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .setting-toggle-row,
-:root[data-theme="light"] .upload-area,
-:root[data-theme="light"] .sub-setting-box,
-:root[data-theme="light"] .day-row {
-  background-color: #f9fafb;
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .btn-orientation { color: #6b7280; border-color: #d1d5db; }
-:root[data-theme="light"] .btn-orientation.active { background-color: #111827; color: var(--text-primary); border-color: #111827; }
 
-:root[data-theme="light"] .form-control {
-  background-color: var(--text-primary);
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .input-addon {
-  background-color: #f3f4f6;
-  border-color: #d1d5db;
-  color: #6b7280;
-}
 
-:root[data-theme="light"] .form-group label,
-:root[data-theme="light"] .day-checkbox,
-:root[data-theme="light"] .toggle-wrap {
-  color: #4b5563;
-}
 
-:root[data-theme="light"] .btn-white-solid {
-  background-color: #111827;
-  color: var(--text-primary);
-}
-:root[data-theme="light"] .section-divider {
-  border-top-color: #e5e7eb;
-}
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width: 768px) {
   .form-group-row {

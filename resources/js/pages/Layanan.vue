@@ -896,29 +896,15 @@ onMounted(() => {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .empty-title {
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline:hover {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .empty-state-card {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
+
+
+
+
+
 
 /* Modal Styles */
 .modal-overlay {
@@ -1027,7 +1013,7 @@ onMounted(() => {
   border-color: #a855f7;
 }
 .form-control::placeholder {
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .text-optional {
@@ -1168,7 +1154,7 @@ onMounted(() => {
   border-radius: 6px;
   padding: 1rem;
   text-align: center;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.85rem;
 }
 
@@ -1326,7 +1312,7 @@ onMounted(() => {
 .panel-state-text {
   text-align: center;
   padding: 2rem;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.85rem;
 }
 
@@ -1456,7 +1442,7 @@ onMounted(() => {
   gap: 0.5rem;
 }
 .category-title .badge {
-  background-color: #333;
+  background-color: var(--bg-card-hover);
   color: #aaa;
   border-radius: 12px;
   padding: 0.1rem 0.6rem;

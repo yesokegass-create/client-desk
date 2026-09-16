@@ -21,35 +21,3 @@ const hideNavAndFooter = computed(() => {
 });
 </script>
 
-<style>
-/* CSS global */
-:root {
-  --bg-main: #121212;
-  --bg-card: #1c1c1c;
-  --text-primary: var(--text-primary);
-  --text-secondary: #a0a0a0;
-  --border-color: var(--border-color);
-  --radius-md: 8px;
-  --radius-lg: 12px;
-}
-
-:root[data-theme="light"] {
-  --bg-main: #f9fafb;
-  --bg-card: var(--text-primary);
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --border-color: #e5e7eb;
-}
-
-body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg-main);
-  color: var(--text-primary);
-  transition: background-color 0.3s, color 0.3s;
-}
-
-* {
-  box-sizing: border-box;
-}
-</style>

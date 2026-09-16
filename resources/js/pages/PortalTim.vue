@@ -215,7 +215,7 @@ import {
 
 .portal-link {
   font-size: 0.8rem;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .card-actions {
@@ -443,55 +443,21 @@ import {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .card-title,
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .sort-select,
-:root[data-theme="light"] .page-current,
-:root[data-theme="light"] .size-select {
-  color: #111827;
-}
 
-:root[data-theme="light"] .portal-card,
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .table-container,
-:root[data-theme="light"] .sort-select option,
-:root[data-theme="light"] .size-select option {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .badge-disabled {
-  background-color: #f3f4f6;
-  color: #6b7280;
-}
 
-:root[data-theme="light"] .alert {
-  background-color: #fefce8;
-  border-color: #fef08a;
-  color: #ca8a04;
-}
 
-:root[data-theme="light"] .btn-outline {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline:hover {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .select-icon,
-:root[data-theme="light"] .sort-select {
-  color: #111827;
-}
 
-:root[data-theme="light"] .text-white {
-  color: #111827; /* MonitorPlay icon */
-}
+
+
+
+
+
+
+
+
+
 </style>

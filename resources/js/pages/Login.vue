@@ -496,21 +496,11 @@ const toggleTheme = () => {
 }
 
 /* Light mode overrides if needed */
-:root[data-theme="light"] .login-page {
-  background-color: #f9fafb;
-}
 
-:root[data-theme="light"] .login-card {
-  background-color: var(--text-primary);
-}
 
-:root[data-theme="light"] .form-group input[type="email"],
-:root[data-theme="light"] .form-group input[type="password"],
-:root[data-theme="light"] .form-group input[type="text"] {
-  background-color: #f9fafb;
-}
 
-:root[data-theme="light"] .btn-register:hover {
-  background-color: #f3f4f6;
-}
+
+
+
+
 </style>

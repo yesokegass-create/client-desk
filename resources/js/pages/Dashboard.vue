@@ -963,7 +963,7 @@ onMounted(async () => {
   flex-direction: column;
   justify-content: space-between;
   padding-right: 1rem;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.7rem;
   border-right: 1px dashed var(--border-color);
   padding-bottom: 20px; /* space for x axis */
@@ -991,7 +991,7 @@ onMounted(async () => {
   display: flex;
   justify-content: space-between;
   padding-top: 0.5rem;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.7rem;
   height: 20px;
 }
@@ -1070,7 +1070,7 @@ onMounted(async () => {
 }
 
 .empty-table-text {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
@@ -1101,100 +1101,43 @@ onMounted(async () => {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .dashboard-card {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .setup-section {
-  background: var(--text-primary);
-}
 
-:root[data-theme="light"] .badge-quick-setup {
-  background-color: #f3f4f6;
-  border-color: #e5e7eb;
-  color: #111827;
-}
 
-:root[data-theme="light"] .setup-title,
-:root[data-theme="light"] .welcome-title,
-:root[data-theme="light"] .metric-value,
-:root[data-theme="light"] .icon-label h3,
-:root[data-theme="light"] .card-header.with-padding h3 {
-  color: #111827;
-}
 
-:root[data-theme="light"] .setup-header-right {
-  background-color: transparent;
-}
 
-:root[data-theme="light"] .progress-bar-bg {
-  background-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .progress-bar-fill,
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .setup-item {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .setup-item:hover {
-  background-color: #f9fafb;
-}
 
-:root[data-theme="light"] .item-icon {
-  background-color: #f3f4f6;
-  color: #111827;
-}
 
-:root[data-theme="light"] .item-title-row h3 {
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-white {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .btn-outline {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline:hover {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .stat-box {
-  background-color: #f9fafb;
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .stat-value {
-  color: #111827;
-}
 
-:root[data-theme="light"] .action-icon {
-  background-color: #f3f4f6;
-  color: #111827;
-}
 
-:root[data-theme="light"] .action-btn:hover .action-icon {
-  background-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .btn-text {
-  color: #111827;
-}
 
-:root[data-theme="light"] .data-table th,
-:root[data-theme="light"] .data-table td,
-:root[data-theme="light"] .y-axis {
-  border-color: #e5e7eb;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>

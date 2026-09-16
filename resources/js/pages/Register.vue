@@ -600,11 +600,7 @@ const toggleTheme = () => {
 }
 
 /* Light mode overrides if needed */
-:root[data-theme="light"] .register-page {
-  background-color: #f9fafb;
-}
 
-:root[data-theme="light"] .register-card {
-  background-color: var(--text-primary);
-}
+
+
 </style>

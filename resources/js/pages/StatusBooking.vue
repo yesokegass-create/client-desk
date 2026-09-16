@@ -451,74 +451,29 @@ onMounted(() => {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .sort-select,
-:root[data-theme="light"] .title-with-icon .text-white {
-  color: #111827;
-}
 
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .sort-select,
-:root[data-theme="light"] .btn-outline,
-:root[data-theme="light"] .view-switcher,
-:root[data-theme="light"] .view-btn:not(:last-child) {
-  border-color: #d1d5db;
-}
 
-:root[data-theme="light"] .btn-outline,
-:root[data-theme="light"] .view-btn {
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline:hover,
-:root[data-theme="light"] .view-btn:hover:not(.active) {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .view-btn.active {
-  background-color: #e5e7eb;
-  color: #111827;
-}
 
-:root[data-theme="light"] .table-card {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .tabs-header,
-:root[data-theme="light"] .data-table th,
-:root[data-theme="light"] .data-table th:not(:last-child),
-:root[data-theme="light"] .data-table td,
-:root[data-theme="light"] .pagination-footer {
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .tab-btn.active {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .tab-btn:not(.active):hover,
-:root[data-theme="light"] .btn-text {
-  color: #111827;
-}
 
-:root[data-theme="light"] .pagination-footer {
-  background-color: #f9fafb;
-}
 
-:root[data-theme="light"] .per-page-select {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .page-btn {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .page-info {
-  color: #111827;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>

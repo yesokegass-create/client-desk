@@ -521,62 +521,25 @@ import {
 }
 
 /* Light Theme Adjustments */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .metric-value,
-:root[data-theme="light"] .search-input,
-:root[data-theme="light"] .sort-select,
-:root[data-theme="light"] .data-table td,
-:root[data-theme="light"] .page-current,
-:root[data-theme="light"] .size-select {
-  color: #111827;
-}
 
-:root[data-theme="light"] .metric-card,
-:root[data-theme="light"] .table-container,
-:root[data-theme="light"] .sort-select option,
-:root[data-theme="light"] .size-select option {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .btn-outline,
-:root[data-theme="light"] .search-input {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .btn-outline:hover {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .btn-primary {
-  background-color: #111827;
-  color: var(--text-primary);
-}
 
-:root[data-theme="light"] .select-icon,
-:root[data-theme="light"] .sort-select {
-  color: #111827;
-}
 
-:root[data-theme="light"] .data-table th {
-  background-color: #f9fafb;
-  border-bottom-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .data-table td {
-  border-bottom-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .custom-scrollbar-track {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .custom-scrollbar-thumb {
-  background-color: #d1d5db;
-}
 
-:root[data-theme="light"] .text-yellow.metric-value {
-  color: #ca8a04; /* Darker yellow for text on light bg */
-}
+
+
+
+
+
+
+
+
+
+
+
 </style>

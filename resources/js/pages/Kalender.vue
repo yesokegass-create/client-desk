@@ -434,12 +434,12 @@ const goToToday = () => {
 }
 
 .day-cell.empty {
-  color: #555;
+  color: var(--text-secondary);
   background-color: rgba(255, 255, 255, 0.01);
 }
 
 .day-cell.empty .date-num {
-  color: #555;
+  color: var(--text-secondary);
 }
 
 .date-num {
@@ -457,72 +457,29 @@ const goToToday = () => {
 }
 
 /* Light Theme */
-:root[data-theme="light"] .page-title,
-:root[data-theme="light"] .current-month,
-:root[data-theme="light"] .day-name,
-:root[data-theme="light"] .date-num {
-  color: #111827;
-}
 
-:root[data-theme="light"] .calendar-card {
-  background-color: var(--text-primary);
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .calendar-toolbar,
-:root[data-theme="light"] .grid-header,
-:root[data-theme="light"] .grid-row,
-:root[data-theme="light"] .day-name,
-:root[data-theme="light"] .day-cell {
-  border-color: #e5e7eb;
-}
 
-:root[data-theme="light"] .btn-outline,
-:root[data-theme="light"] .icon-btn,
-:root[data-theme="light"] .view-switcher,
-:root[data-theme="light"] .view-btn:not(:last-child) {
-  border-color: #d1d5db;
-  color: #111827;
-}
 
-:root[data-theme="light"] .view-btn {
-  color: #6b7280;
-}
 
-:root[data-theme="light"] .btn-outline:hover,
-:root[data-theme="light"] .icon-btn:hover,
-:root[data-theme="light"] .view-btn:hover:not(.active) {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .view-btn.active {
-  background-color: #e5e7eb;
-  color: #111827;
-}
 
-:root[data-theme="light"] .day-cell.empty {
-  background-color: #f9fafb;
-}
 
-:root[data-theme="light"] .day-cell.empty .date-num {
-  color: #9ca3af;
-}
 
-:root[data-theme="light"] .active-today {
-  background-color: #f3f4f6;
-}
 
-:root[data-theme="light"] .alert {
-  background-color: #fefce8;
-  border-color: #fef08a;
-}
 
-:root[data-theme="light"] .alert-content p,
-:root[data-theme="light"] .alert-link,
-:root[data-theme="light"] .text-yellow,
-:root[data-theme="light"] .close-btn {
-  color: #ca8a04;
-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Legend */
 .calendar-legend {
@@ -558,9 +515,7 @@ const goToToday = () => {
 .bg-cyan { background-color: #06b6d4; }
 .bg-red { background-color: #ef4444; }
 
-:root[data-theme="light"] .legend-item {
-  color: #4b5563;
-}
+
 
 @media (max-width: 768px) {
   .calendar-toolbar {
