@@ -265,7 +265,7 @@
               <p class="help-text">Menimpa jumlah edit foto dari preset Fastpik/ClientDesk untuk project baru. Project yang sudah ada tidak ikut berubah otomatis.</p>
             </div>
             
-            <div class="form-group mb-4">
+            <div class="form-group mb-4" v-if="false">
               <label>Template Cetak Fastpik <span class="text-optional">(opsional)</span></label>
               <select class="form-control" v-model="form.templateCetak">
                 <option value="">Tidak ada template cetak</option>
@@ -273,7 +273,7 @@
               <p class="help-text">Fitur cetak Fastpik sedang nonaktif. Snapshot tetap dapat disimpan, tetapi override tidak diterapkan saat sync.</p>
             </div>
             
-            <div class="checkbox-box mb-4">
+            <div class="checkbox-box mb-4" v-if="false">
               <label class="checkbox-label">
                 <input type="checkbox" class="custom-checkbox" v-model="form.wajibPilihKuota" />
                 <div class="checkbox-content">
