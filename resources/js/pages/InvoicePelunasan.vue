@@ -513,4 +513,29 @@ import {
 :root[data-theme="light"] .custom-scrollbar-thumb {
   background-color: #d1d5db;
 }
+
+@media (max-width: 768px) {
+  .header-actions {
+    width: 100%;
+    align-items: stretch;
+  }
+  .header-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+  .table-controls-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-container, .table-controls-top button, .select-wrapper, .sort-select {
+    width: 100%;
+  }
+  .table-controls-bottom {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .table-controls-bottom .btn-outline {
+    justify-content: center;
+  }
+}
 </style>

@@ -528,4 +528,21 @@ import {
 :root[data-theme="light"] .data-table td {
   border-bottom-color: #e5e7eb;
 }
+
+@media (max-width: 768px) {
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  .header-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+  .filter-row {
+    flex-direction: column;
+  }
+  .search-container, .filter-btn, .select-wrapper {
+    width: 100%;
+  }
+}
 </style>

@@ -561,4 +561,27 @@ const goToToday = () => {
 :root[data-theme="light"] .legend-item {
   color: #4b5563;
 }
+
+@media (max-width: 768px) {
+  .calendar-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .toolbar-right, .view-switcher {
+    width: 100%;
+  }
+  .view-switcher {
+    display: flex;
+  }
+  .view-btn {
+    flex: 1;
+    justify-content: center;
+  }
+  .calendar-grid {
+    overflow-x: auto;
+  }
+  .grid-header, .grid-row {
+    min-width: 500px;
+  }
+}
 </style>

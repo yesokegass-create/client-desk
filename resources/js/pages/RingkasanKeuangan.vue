@@ -611,4 +611,21 @@ import {
 :root[data-theme="light"] .grid-line {
   border-color: #e5e7eb;
 }
+
+@media (max-width: 768px) {
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  .header-actions button, .select-wrapper, .period-select {
+    width: 100%;
+    justify-content: center;
+  }
+  .chart-section {
+    min-width: 100%;
+  }
+  .sidebar-widgets {
+    min-width: 100%;
+  }
+}
 </style>

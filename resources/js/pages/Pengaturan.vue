@@ -1593,4 +1593,26 @@ input:checked + .slider:before {
 :root[data-theme="light"] .section-divider {
   border-top-color: #e5e7eb;
 }
+
+@media (max-width: 768px) {
+  .form-group-row {
+    flex-direction: column;
+  }
+  .working-days-list .day-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .day-times {
+    width: 100%;
+    margin-left: 0;
+  }
+  .sticky-action-bar {
+    flex-direction: column;
+  }
+  .sticky-action-bar button {
+    width: 100%;
+    justify-content: center;
+  }
+}
 </style>

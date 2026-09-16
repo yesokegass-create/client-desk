@@ -677,4 +677,19 @@ label {
 .btn-primary:hover {
   background-color: #f0f0f0;
 }
+
+@media (max-width: 768px) {
+  .form-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-actions {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+  .footer-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}
 </style>

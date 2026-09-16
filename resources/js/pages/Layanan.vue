@@ -1769,4 +1769,30 @@ onMounted(() => {
   background-color: rgba(255, 255, 255, 0.1);
   color: #eee;
 }
+
+@media (max-width: 768px) {
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  .header-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+  .search-filter-row {
+    flex-direction: column;
+  }
+  .search-input-wrapper, .filter-dropdown, .filter-select {
+    width: 100%;
+  }
+  .sc-actions {
+    flex-wrap: wrap;
+  }
+  .cards-grid {
+    flex-direction: column;
+  }
+  .service-card-new {
+    max-width: 100%;
+  }
+}
 </style>

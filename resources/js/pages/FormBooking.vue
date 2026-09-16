@@ -2372,4 +2372,27 @@ select.form-control option {
 .form-control.has-error { border-color: #ef4444; }
 .has-error-box { border: 1px solid #ef4444; border-radius: 8px; padding: 0.5rem; }
 
+
+@media (max-width: 768px) {
+  .booking-content {
+    flex-direction: column;
+  }
+  .form-row {
+    flex-direction: column;
+  }
+  .mockup-steps-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .mockup-step {
+    flex-shrink: 0;
+  }
+  .action-buttons-bottom {
+    flex-direction: column;
+  }
+  .action-buttons-bottom button {
+    width: 100%;
+    justify-content: center;
+  }
+}
 </style>

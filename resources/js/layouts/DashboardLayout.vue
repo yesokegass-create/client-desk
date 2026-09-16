@@ -925,6 +925,14 @@ const toggleTheme = () => {
     font-size: 1rem;
   }
 }
+@media (max-width: 768px) {
+  .current-date {
+    display: none;
+  }
+  .header-actions {
+    gap: 0.25rem;
+  }
+}
 @media (max-width: 480px) {
   .page-container {
     padding: 1rem !important;

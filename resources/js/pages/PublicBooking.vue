@@ -2072,4 +2072,34 @@ onMounted(async () => {
   color: #6b7280;
   margin: 0;
 }
+
+@media (max-width: 768px) {
+  .booking-container {
+    padding: 1rem !important;
+  }
+  .mockup-form-card {
+    padding: 1.25rem !important;
+  }
+  .mockup-footer {
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+  }
+  .mockup-footer button {
+    width: 100%;
+  }
+  .mockup-location-group {
+    flex-direction: column;
+  }
+  .payment-methods-horizontal {
+    flex-direction: column;
+  }
+  .summary-row {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .summary-value {
+    text-align: left !important;
+    font-weight: 700 !important;
+  }
+}
 </style>

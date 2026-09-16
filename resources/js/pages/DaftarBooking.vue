@@ -1394,4 +1394,39 @@ const copyTemplateFreelance = (booking) => {
   box-shadow: -8px 0 15px -5px rgba(0,0,0,0.1);
   border-left: 1px solid #d1d5db;
 }
+
+@media (max-width: 768px) {
+  .header-content {
+    width: 100%;
+  }
+  .header-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  .header-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+  .filter-row {
+    flex-direction: column;
+  }
+  .search-container, .sort-container, .sort-select {
+    width: 100%;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+  .data-table {
+    min-width: 800px;
+  }
+  .tabs-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .pagination-footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
 </style>
