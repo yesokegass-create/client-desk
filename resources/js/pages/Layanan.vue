@@ -947,6 +947,14 @@ onMounted(() => {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
 }
 
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .modal-header h3 {
   margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
@@ -1038,7 +1046,9 @@ onMounted(() => {
 .mr-1 { margin-right: 0.25rem; }
 .mr-2 { margin-right: 0.5rem; }
 .ml-1 { margin-left: 0.25rem; }
-.w-24 { width: 4rem; }
+.pb-0 { padding-bottom: 0 !important; }
+.border-b-0 { border-bottom: none !important; }
+.w-24 { width: 5rem; }
 .w-full { width: 100%; }
 .font-bold { font-weight: 600; }
 .flex-row { display: flex; align-items: center; }
