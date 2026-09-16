@@ -427,7 +427,7 @@ const toggleTheme = () => {
 }
 
 .btn-google:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 .btn-google:disabled {
@@ -466,7 +466,7 @@ const toggleTheme = () => {
 }
 
 .btn-register:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 .toggles {
@@ -501,7 +501,7 @@ const toggleTheme = () => {
 }
 
 :root[data-theme="light"] .login-card {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
 }
 
 :root[data-theme="light"] .form-group input[type="email"],

@@ -117,11 +117,11 @@
               <tr v-else v-for="(booking, index) in bookings" :key="booking.id">
                 <td>{{ index + 1 }}</td>
                 <td>
-                  <div style="font-weight: 600; color: #fff;">{{ booking.client_name }}</div>
+                  <div style="font-weight: 600; color: var(--text-primary);">{{ booking.client_name }}</div>
                   <div style="font-size: 0.8rem; color: #a0a0a0;">{{ booking.client_whatsapp }}</div>
                 </td>
                 <td>
-                  <span style="background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.85rem;">{{ booking.invoice || '-' }}</span>
+                  <span style="background: var(--border-color); padding: 4px 8px; border-radius: 4px; font-family: monospace; font-size: 0.85rem;">{{ booking.invoice || '-' }}</span>
                 </td>
                 <td>{{ formatTanggal(booking.created_at) }}</td>
                 <td>{{ formatPackageName(booking.selected_packages) }}</td>
@@ -138,7 +138,7 @@
                 </td>
                 <td>
                   <div v-if="booking.freelancers && booking.freelancers.length > 0" style="display: flex; flex-direction: column; gap: 4px;">
-                    <div v-for="fl in booking.freelancers" :key="fl.id" style="font-size: 0.8rem; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                    <div v-for="fl in booking.freelancers" :key="fl.id" style="font-size: 0.8rem; background: var(--bg-card-hover); padding: 4px 8px; border-radius: 4px; display: inline-block;">
                       {{ fl.nama }}
                     </div>
                   </div>
@@ -242,8 +242,8 @@
           Tindakan ini tidak dapat dibatalkan. Booking klien {{ selectedBookingForDelete?.client_name }} akan dihapus permanen. Event Google Calendar terkait dan project Fastpik (jika ada) akan ikut dicoba dihapus.
         </p>
         <div style="display: flex; gap: 1rem;">
-          <button style="flex: 1; padding: 0.75rem; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #fff; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'" @click="closeDeleteModal">Batal</button>
-          <button style="flex: 1; padding: 0.75rem; background: #ef4444; border: none; color: #fff; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'" @click="confirmDelete" :disabled="isDeleting">
+          <button style="flex: 1; padding: 0.75rem; background: transparent; border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='var(--bg-card-hover)'" onmouseout="this.style.background='transparent'" @click="closeDeleteModal">Batal</button>
+          <button style="flex: 1; padding: 0.75rem; background: #ef4444; border: none; color: var(--text-primary); border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'" @click="confirmDelete" :disabled="isDeleting">
             <Loader2 v-if="isDeleting" :size="16" class="spin" style="display:inline-block; vertical-align:middle; margin-right:8px;" />
             <Trash2 v-else :size="16" style="display:inline-block; vertical-align:middle; margin-right:8px;" />
             <span style="display:inline-block; vertical-align:middle;">Ya, Hapus</span>
@@ -261,7 +261,7 @@
           Freelance belum tersedia untuk template ini.
         </p>
         <div style="display: flex; justify-content: flex-end;">
-          <button style="padding: 0.5rem 1.5rem; background: #fff; border: none; color: #000; border-radius: 8px; font-weight: 600; cursor: pointer;" @click="showInfoModal = false">OK</button>
+          <button style="padding: 0.5rem 1.5rem; background: var(--text-primary); border: none; color: #000; border-radius: 8px; font-weight: 600; cursor: pointer;" @click="showInfoModal = false">OK</button>
         </div>
       </div>
     </div>
@@ -281,40 +281,40 @@
         </div>
         
         <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-bottom: 1rem;">
-          <button style="background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;"><ListFilter :size="14" /></button>
-          <button style="background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #888; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;"><Settings2 :size="14" /></button>
+          <button style="background: transparent; border: 1px solid var(--border-color); color: var(--text-primary); padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;"><ListFilter :size="14" /></button>
+          <button style="background: transparent; border: 1px solid var(--border-color); color: var(--text-secondary); padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer;"><Settings2 :size="14" /></button>
         </div>
         
-        <div style="border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; min-height: 150px; max-height: 300px; overflow-y: auto; margin-bottom: 1.5rem; padding: 0.5rem;">
-          <div v-if="isFreelancersLoading" style="display: flex; justify-content: center; align-items: center; height: 100px; color: #888;">
+        <div style="border: 1px solid var(--border-color); border-radius: 8px; min-height: 150px; max-height: 300px; overflow-y: auto; margin-bottom: 1.5rem; padding: 0.5rem;">
+          <div v-if="isFreelancersLoading" style="display: flex; justify-content: center; align-items: center; height: 100px; color: var(--text-secondary);">
             <Loader2 :size="16" class="spin mr-2" style="margin-right: 8px;" /> Memuat daftar freelance aktif...
           </div>
-          <div v-else-if="filteredFreelancers.length === 0" style="text-align: center; color: #888; padding: 2rem 0;">
+          <div v-else-if="filteredFreelancers.length === 0" style="text-align: center; color: var(--text-secondary); padding: 2rem 0;">
             Tidak ada freelance yang cocok.
           </div>
-          <div v-else v-for="fl in filteredFreelancers" :key="fl.id" style="display: flex; align-items: center; padding: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.05); gap: 1rem;">
+          <div v-else v-for="fl in filteredFreelancers" :key="fl.id" style="display: flex; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--bg-card-hover); gap: 1rem;">
             <input type="checkbox" :value="fl.id" v-model="selectedFreelanceIds" style="cursor: pointer; width: 16px; height: 16px; background: transparent; border: 1px solid #555; border-radius: 4px;" :disabled="selectedFreelanceIds.length >= 5 && !selectedFreelanceIds.includes(fl.id)" />
-            <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <div style="width: 32px; height: 32px; background: var(--border-color); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
               <UserCircle :size="16" color="#aaa" />
             </div>
             <div style="flex: 1;">
               <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 2px;">{{ fl.nama }}</div>
               <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 4px;">
-                <span style="font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">{{ fl.peran }}</span>
-                <span v-if="fl.tags" style="font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">{{ Array.isArray(fl.tags) ? fl.tags.join(', ') : fl.tags }}</span>
+                <span style="font-size: 0.7rem; background: var(--border-color); padding: 2px 6px; border-radius: 4px;">{{ fl.peran }}</span>
+                <span v-if="fl.tags" style="font-size: 0.7rem; background: var(--border-color); padding: 2px 6px; border-radius: 4px;">{{ Array.isArray(fl.tags) ? fl.tags.join(', ') : fl.tags }}</span>
               </div>
-              <div style="font-size: 0.8rem; color: #888;">{{ fl.email || fl.phone_number }}</div>
+              <div style="font-size: 0.8rem; color: var(--text-secondary);">{{ fl.email || fl.phone_number }}</div>
             </div>
           </div>
         </div>
         
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div style="font-size: 0.85rem; color: #888;">
+          <div style="font-size: 0.85rem; color: var(--text-secondary);">
             {{ selectedFreelanceIds.length }}/5 dipilih di sesi aktif
           </div>
           <div style="display: flex; gap: 0.5rem;">
-            <button style="padding: 0.5rem 1.5rem; background: transparent; border: none; color: #fff; font-weight: 600; cursor: pointer;" @click="closeFreelanceModal">Batal</button>
-            <button style="padding: 0.5rem 1.5rem; background: #fff; border: none; color: #000; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center;" @click="saveFreelanceAssignment" :disabled="isSavingFreelance">
+            <button style="padding: 0.5rem 1.5rem; background: transparent; border: none; color: var(--text-primary); font-weight: 600; cursor: pointer;" @click="closeFreelanceModal">Batal</button>
+            <button style="padding: 0.5rem 1.5rem; background: var(--text-primary); border: none; color: #000; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center;" @click="saveFreelanceAssignment" :disabled="isSavingFreelance">
               <Loader2 v-if="isSavingFreelance" :size="16" class="spin mr-2" style="margin-right: 8px;" />
               <Users v-else :size="16" style="margin-right: 8px;" />
               {{ isSavingFreelance ? 'Menyimpan...' : 'Simpan' }}
@@ -696,7 +696,7 @@ const copyTemplateFreelance = (booking) => {
 .skeleton-row {
   display: flex;
   padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
   gap: 1rem;
   align-items: center;
 }
@@ -739,7 +739,7 @@ const copyTemplateFreelance = (booking) => {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -759,7 +759,7 @@ const copyTemplateFreelance = (booking) => {
   align-items: center;
   gap: 0.5rem;
   background-color: transparent;
-  color: #ffffff;
+  color: var(--text-primary);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -770,14 +770,14 @@ const copyTemplateFreelance = (booking) => {
 }
 
 .btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 .btn-primary {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   border-radius: 6px;
@@ -810,7 +810,7 @@ const copyTemplateFreelance = (booking) => {
 .search-icon {
   position: absolute;
   left: 1rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .search-input {
@@ -819,7 +819,7 @@ const copyTemplateFreelance = (booking) => {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 6px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.85rem;
 }
 
@@ -837,7 +837,7 @@ const copyTemplateFreelance = (booking) => {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 6px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.85rem;
   appearance: none;
   cursor: pointer;
@@ -849,8 +849,8 @@ const copyTemplateFreelance = (booking) => {
 
 /* Table Card */
 .table-card {
-  background-color: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-main);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -862,7 +862,7 @@ const copyTemplateFreelance = (booking) => {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0.5rem 0 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
 }
 
 .tabs-left {
@@ -876,7 +876,7 @@ const copyTemplateFreelance = (booking) => {
   gap: 0.5rem;
   background-color: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   padding: 0.75rem 1.25rem;
   font-size: 0.85rem;
   font-weight: 600;
@@ -886,12 +886,12 @@ const copyTemplateFreelance = (booking) => {
 }
 
 .tab-btn.active {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
 }
 
 .tab-btn:not(.active):hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .btn-text {
@@ -900,7 +900,7 @@ const copyTemplateFreelance = (booking) => {
   gap: 0.5rem;
   background-color: transparent;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -927,35 +927,35 @@ const copyTemplateFreelance = (booking) => {
   padding: 1rem;
   font-size: 0.7rem;
   font-weight: 600;
-  color: #888;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--bg-card-hover);
   white-space: nowrap;
 }
 
 .data-table th:not(:last-child) {
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid var(--bg-card-hover);
 }
 
 .data-table th:last-child,
 .data-table td:last-child {
   position: sticky;
   right: 0;
-  background-color: #0a0a0a;
+  background-color: var(--bg-main);
   z-index: 10;
-  box-shadow: -8px 0 15px -5px rgba(0,0,0,0.5);
+  box-shadow: -8px 0 15px -5px rgba(0, 0, 0, 0.1);
   border-left: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .data-table td {
   padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
   font-size: 0.85rem;
 }
 
 .empty-state {
   text-align: center;
   padding: 5rem 0;
-  color: #888;
+  color: var(--text-secondary);
   font-style: italic;
   font-size: 0.85rem;
 }
@@ -1009,8 +1009,8 @@ const copyTemplateFreelance = (booking) => {
   padding: 1.5rem;
   width: 100%;
   max-width: 450px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
@@ -1023,7 +1023,7 @@ const copyTemplateFreelance = (booking) => {
 .modal-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0 0 0.25rem 0;
 }
 
@@ -1042,7 +1042,7 @@ const copyTemplateFreelance = (booking) => {
 }
 
 .modal-close:hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .status-grid {
@@ -1054,7 +1054,7 @@ const copyTemplateFreelance = (booking) => {
 
 .status-grid-item {
   background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 0.75rem 0.5rem;
   display: flex;
@@ -1065,12 +1065,12 @@ const copyTemplateFreelance = (booking) => {
 }
 
 .status-grid-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 .status-grid-item.active {
-  border-color: #fff;
-  background-color: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-primary);
+  background-color: var(--bg-card-hover);
 }
 
 .modal-actions {
@@ -1082,7 +1082,7 @@ const copyTemplateFreelance = (booking) => {
 .btn-text-modal {
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   font-weight: 600;
   font-size: 0.9rem;
   cursor: pointer;
@@ -1119,8 +1119,8 @@ const copyTemplateFreelance = (booking) => {
 /* Dropdown Menu Copy */
 .dropdown-menu-copy {
   position: fixed;
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8);
   z-index: 9999;
@@ -1133,7 +1133,7 @@ const copyTemplateFreelance = (booking) => {
 .dropdown-item {
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   text-align: left;
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
@@ -1142,7 +1142,7 @@ const copyTemplateFreelance = (booking) => {
 }
 
 .dropdown-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-color);
 }
 
 /* Toast Notification */
@@ -1222,7 +1222,7 @@ const copyTemplateFreelance = (booking) => {
 .action-btn.red { border: 1px solid #ef4444; color: #ef4444; }
 
 .action-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-color);
 }
 
 .split-btn {
@@ -1240,7 +1240,7 @@ const copyTemplateFreelance = (booking) => {
   background-color: transparent;
   cursor: pointer;
   border: 1px solid;
-  border-right: 1px solid rgba(255,255,255,0.1);
+  border-right: 1px solid var(--border-color);
   border-radius: 6px 0 0 6px;
 }
 
@@ -1261,7 +1261,7 @@ const copyTemplateFreelance = (booking) => {
 .split-btn.green .split-btn-main, .split-btn.green .split-btn-drop { border-color: #10b981; color: #10b981; }
 
 .split-btn-main:hover, .split-btn-drop:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-color);
 }
 
 /* Pagination */
@@ -1271,7 +1271,7 @@ const copyTemplateFreelance = (booking) => {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--bg-card-hover);
   background-color: rgba(255, 255, 255, 0.02);
 }
 
@@ -1280,13 +1280,13 @@ const copyTemplateFreelance = (booking) => {
   align-items: center;
   gap: 0.5rem;
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .per-page-select {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #fff;
+  color: var(--text-primary);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
 }
@@ -1296,13 +1296,13 @@ const copyTemplateFreelance = (booking) => {
   align-items: center;
   gap: 0.75rem;
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .page-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -1318,7 +1318,7 @@ const copyTemplateFreelance = (booking) => {
 
 .page-info {
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 /* Light Theme Adjustments */
@@ -1344,11 +1344,11 @@ const copyTemplateFreelance = (booking) => {
 
 :root[data-theme="light"] .btn-primary {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .table-card {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
@@ -1362,7 +1362,7 @@ const copyTemplateFreelance = (booking) => {
 
 :root[data-theme="light"] .tab-btn.active {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .tab-btn:not(.active):hover,
@@ -1390,7 +1390,7 @@ const copyTemplateFreelance = (booking) => {
 
 :root[data-theme="light"] .data-table th:last-child,
 :root[data-theme="light"] .data-table td:last-child {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   box-shadow: -8px 0 15px -5px rgba(0,0,0,0.1);
   border-left: 1px solid #d1d5db;
 }

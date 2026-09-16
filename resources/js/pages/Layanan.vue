@@ -799,7 +799,7 @@ onMounted(() => {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -819,7 +819,7 @@ onMounted(() => {
   align-items: center;
   gap: 0.5rem;
   background-color: transparent;
-  color: #ffffff;
+  color: var(--text-primary);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -830,14 +830,14 @@ onMounted(() => {
 }
 
 .btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 .btn-primary {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   border-radius: 6px;
@@ -854,8 +854,8 @@ onMounted(() => {
 
 /* Empty State Card */
 .empty-state-card {
-  background-color: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-main);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -879,19 +879,19 @@ onMounted(() => {
 }
 
 .text-gray {
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .empty-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
 }
 
 .empty-subtitle {
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -912,11 +912,11 @@ onMounted(() => {
 
 :root[data-theme="light"] .btn-primary {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .empty-state-card {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
@@ -936,15 +936,15 @@ onMounted(() => {
 }
 
 .modal-container {
-  background-color: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   width: 90%;
   max-width: 600px;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
@@ -952,30 +952,30 @@ onMounted(() => {
   justify-content: space-between;
   align-items: flex-start;
   padding: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .modal-header h3 {
   margin: 0 0 0.25rem 0;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .modal-header p {
   margin: 0;
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .close-btn {
   background: none;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 0.25rem;
 }
-.close-btn:hover { color: #fff; }
+.close-btn:hover { color: var(--text-primary); }
 
 .modal-body {
   padding: 1.5rem;
@@ -996,7 +996,7 @@ onMounted(() => {
 .modal-footer {
   padding: 1.5rem;
   background-color: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--bg-card-hover);
   border-radius: 0 0 12px 12px;
 }
 
@@ -1013,11 +1013,11 @@ onMounted(() => {
 }
 
 .form-control {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.6rem 0.8rem;
-  color: #fff;
+  color: var(--text-primary);
   font-family: inherit;
   font-size: 0.9rem;
   transition: border-color 0.2s;
@@ -1031,12 +1031,12 @@ onMounted(() => {
 }
 
 .text-optional {
-  color: #888;
+  color: var(--text-secondary);
   font-weight: normal;
 }
 .help-text {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0.25rem 0 0 0;
   line-height: 1.4;
 }
@@ -1063,7 +1063,7 @@ onMounted(() => {
 }
 .color-input {
   -webkit-appearance: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   width: 36px;
   height: 36px;
   border-radius: 6px;
@@ -1079,13 +1079,13 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
 .checkbox-box {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1rem;
 }
@@ -1113,12 +1113,12 @@ onMounted(() => {
 .checkbox-title {
   font-weight: 600;
   font-size: 0.9rem;
-  color: #fff;
+  color: var(--text-primary);
   display: block;
 }
 .checkbox-desc {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0.25rem 0 0 0;
 }
 
@@ -1130,19 +1130,19 @@ onMounted(() => {
 .type-label {
   align-items: center;
   background-color: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 6px;
   padding: 0.5rem 0.75rem;
   font-size: 0.85rem;
   color: #ddd;
 }
-.type-label:hover { background-color: rgba(255,255,255,0.05); }
+.type-label:hover { background-color: var(--bg-card-hover); }
 .type-label .custom-checkbox { margin-top: 0; }
 
 .btn-sm { padding: 0.4rem 0.75rem; font-size: 0.8rem; }
 
 .operational-cost-box {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1rem;
 }
@@ -1151,12 +1151,12 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.25rem;
-  color: #fff;
+  color: var(--text-primary);
 }
 .btn-text-white {
   background: none;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   font-size: 0.85rem;
@@ -1192,7 +1192,7 @@ onMounted(() => {
 }
 .oc-field label {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
   margin-bottom: 0.5rem;
 }
 .btn-delete-icon {
@@ -1216,7 +1216,7 @@ onMounted(() => {
 .btn-white-solid {
   display: flex;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--text-primary);
   color: #000;
   border: none;
   border-radius: 6px;
@@ -1231,11 +1231,11 @@ onMounted(() => {
 .relative { position: relative; }
 
 .custom-dropdown-trigger {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.6rem 0.8rem;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.9rem;
   display: flex;
   justify-content: space-between;
@@ -1263,7 +1263,7 @@ onMounted(() => {
   left: 0;
   right: 0;
   z-index: 1002;
-  background-color: #111111;
+  background-color: var(--bg-main);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
   width: 100%;
@@ -1276,7 +1276,7 @@ onMounted(() => {
 
 .custom-dropdown-panel .panel-header {
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1284,7 +1284,7 @@ onMounted(() => {
 .custom-dropdown-panel .panel-header h4 {
   margin: 0;
   font-size: 0.9rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .panel-search {
@@ -1296,15 +1296,15 @@ onMounted(() => {
 .panel-search .search-icon {
   position: absolute;
   left: 1.75rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 .panel-search input {
   width: 100%;
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.6rem 0.8rem 0.6rem 2.5rem;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.9rem;
 }
 .panel-search input:focus {
@@ -1321,7 +1321,7 @@ onMounted(() => {
   gap: 0.25rem;
 }
 .panel-list::-webkit-scrollbar { width: 6px; }
-.panel-list::-webkit-scrollbar-thumb { background-color: rgba(255, 255, 255, 0.1); border-radius: 3px; }
+.panel-list::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 3px; }
 
 .panel-state-text {
   text-align: center;
@@ -1352,25 +1352,25 @@ onMounted(() => {
 
 .panel-footer {
   padding: 0.75rem 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--bg-card-hover);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 .panel-footer .footer-text {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 .panel-footer .btn-text-reset {
   background: none;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.85rem;
   cursor: pointer;
   transition: color 0.2s;
 }
 .panel-footer .btn-text-reset:hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 /* City Chips */
@@ -1393,7 +1393,7 @@ onMounted(() => {
 .city-chip .chip-close {
   background: none;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -1448,7 +1448,7 @@ onMounted(() => {
 /* Cards Grid */
 .category-title {
   font-size: 1.1rem;
-  color: #fff;
+  color: var(--text-primary);
   font-weight: 600;
   margin-bottom: 0.25rem;
   display: flex;
@@ -1464,7 +1464,7 @@ onMounted(() => {
 }
 
 .category-subtitle {
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.85rem;
   margin-bottom: 1rem;
 }
@@ -1491,10 +1491,10 @@ onMounted(() => {
 .search-input {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.75rem;
-  background-color: #141414;
+  background-color: var(--bg-card);
   border: 1px solid #2a2a2a;
   border-radius: 12px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.95rem;
   transition: all 0.2s;
 }
@@ -1502,10 +1502,10 @@ onMounted(() => {
 
 .filter-select {
   padding: 0.75rem 2rem 0.75rem 1.25rem;
-  background-color: #141414;
+  background-color: var(--bg-card);
   border: 1px solid #2a2a2a;
   border-radius: 12px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.95rem;
   cursor: pointer;
   appearance: none;
@@ -1530,14 +1530,14 @@ onMounted(() => {
   margin-top: 1rem;
   border: 1px dashed rgba(255, 255, 255, 0.15);
   border-radius: 16px;
-  background-color: #141414;
+  background-color: var(--bg-card);
   padding: 3rem 1.5rem;
   text-align: center;
 }
 .empty-state-content-new h3 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
 }
 .empty-state-content-new p {
@@ -1547,7 +1547,7 @@ onMounted(() => {
 }
 
 .service-card-new {
-  background-color: #141414;
+  background-color: var(--bg-card);
   border: 1px solid #2a2a2a;
   border-radius: 16px;
   padding: 1.5rem;
@@ -1567,7 +1567,7 @@ onMounted(() => {
 .sc-title {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0;
   line-height: 1.2;
   display: flex;
@@ -1581,8 +1581,8 @@ onMounted(() => {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 2px solid #141414;
-  box-shadow: 0 0 0 1px rgba(255,255,255,0.1);
+  border: 2px solid var(--bg-card);
+  box-shadow: 0 0 0 1px var(--border-color);
 }
 
 .sc-badges-top {
@@ -1629,8 +1629,8 @@ onMounted(() => {
   color: #60a5fa;
 }
 .sc-tag-city {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
   color: #9ca3af;
 }
 
@@ -1644,7 +1644,7 @@ onMounted(() => {
 .sc-price-main {
   font-size: 1.55rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   line-height: 1.2;
   word-break: break-word;
 }
@@ -1681,7 +1681,7 @@ onMounted(() => {
   margin-bottom: 1.25rem;
 }
 .sc-operational strong {
-  color: #ffffff;
+  color: var(--text-primary);
   font-weight: 700;
 }
 
@@ -1741,14 +1741,14 @@ onMounted(() => {
 .sc-icon-delete:hover { background: rgba(239, 68, 68, 0.1); }
 
 .sc-icon-move { border: 1px solid rgba(255, 255, 255, 0.15); color: #9ca3af; }
-.sc-icon-move:hover { background: rgba(255, 255, 255, 0.05); color: #e5e7eb; }
+.sc-icon-move:hover { background: var(--bg-card-hover); color: #e5e7eb; }
 
 .sc-spacer {
   display: none;
 }
 .btn-action {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
   color: #eee;
   font-size: 0.85rem;
   padding: 0.4rem 0.8rem;
@@ -1760,11 +1760,11 @@ onMounted(() => {
   transition: background-color 0.2s;
 }
 .btn-action:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-color);
 }
 .btn-action-icon {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card-hover);
+  border: 1px solid var(--border-color);
   color: #aaa;
   width: 32px;
   height: 32px;
@@ -1776,7 +1776,7 @@ onMounted(() => {
   transition: all 0.2s;
 }
 .btn-action-icon:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-color);
   color: #eee;
 }
 

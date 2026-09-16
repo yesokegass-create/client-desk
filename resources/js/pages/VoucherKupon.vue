@@ -131,7 +131,7 @@ import {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -143,7 +143,7 @@ import {
 .btn-primary {
   display: flex;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   border-radius: 6px;
@@ -171,7 +171,7 @@ import {
 
 .metric-card {
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.25rem;
   display: flex;
@@ -188,7 +188,7 @@ import {
 .metric-label {
   font-size: 0.7rem;
   font-weight: 700;
-  color: #888;
+  color: var(--text-secondary);
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
@@ -196,7 +196,7 @@ import {
 .metric-value {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .text-gray {
@@ -241,16 +241,16 @@ import {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .search-input {
   width: 100%;
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.6rem 1rem 0.6rem 2.5rem;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 0.85rem;
   transition: all 0.2s;
 }
@@ -264,8 +264,8 @@ import {
   display: flex;
   align-items: center;
   background-color: #121212;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.6rem 1.25rem;
   font-size: 0.85rem;
@@ -275,7 +275,7 @@ import {
 }
 
 .btn-filter:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 /* Tabs */
@@ -288,8 +288,8 @@ import {
   display: flex;
   align-items: center;
   background: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #888;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
   font-weight: 600;
@@ -299,9 +299,9 @@ import {
 }
 
 .tab-btn.active {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
-  border-color: #ffffff;
+  border-color: var(--text-primary);
 }
 
 /* Empty State Area */
@@ -309,7 +309,7 @@ import {
   flex: 1;
   min-height: 400px;
   background-color: transparent;
-  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border: 1px dashed var(--border-color);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -327,7 +327,7 @@ import {
   position: relative;
   width: 64px;
   height: 64px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -336,14 +336,14 @@ import {
 }
 
 .empty-icon {
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .slash-line {
   position: absolute;
   width: 4px;
   height: 48px;
-  background-color: #1a1a1a;
+  background-color: var(--bg-card);
   transform: rotate(45deg);
   border-radius: 2px;
 }
@@ -355,20 +355,20 @@ import {
   left: 1px;
   right: 1px;
   bottom: 1px;
-  background-color: #888;
+  background-color: var(--text-secondary);
   border-radius: 1px;
 }
 
 .empty-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
 }
 
 .empty-desc {
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
   max-width: 300px;
   line-height: 1.5;
@@ -385,7 +385,7 @@ import {
 :root[data-theme="light"] .search-input,
 :root[data-theme="light"] .btn-filter,
 :root[data-theme="light"] .tab-btn {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
@@ -396,13 +396,13 @@ import {
 
 :root[data-theme="light"] .tab-btn.active {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
   border-color: #111827;
 }
 
 :root[data-theme="light"] .btn-primary {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .empty-state-container {
@@ -414,6 +414,6 @@ import {
 }
 
 :root[data-theme="light"] .slash-line {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
 }
 </style>

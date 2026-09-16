@@ -126,10 +126,10 @@ onUnmounted(() => {
 
 .tour-guide-card {
   width: 100%;
-  background-color: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--bg-card-hover);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -140,7 +140,7 @@ onUnmounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
 }
 
 .tour-header-left {
@@ -164,7 +164,7 @@ onUnmounted(() => {
 .close-btn {
   background: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 4px;
   display: flex;
@@ -174,8 +174,8 @@ onUnmounted(() => {
 }
 
 .close-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background-color: var(--border-color);
+  color: var(--text-primary);
 }
 
 .tour-content {
@@ -188,7 +188,7 @@ onUnmounted(() => {
 .tour-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -232,7 +232,7 @@ onUnmounted(() => {
 .btn-text {
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -252,7 +252,7 @@ onUnmounted(() => {
 }
 
 .btn-primary-sm {
-  background-color: #fff;
+  background-color: var(--text-primary);
   color: #000;
   border: none;
   border-radius: 6px;
@@ -347,6 +347,6 @@ input.tour-highlight {
 }
 
 :root[data-theme="light"] input.tour-highlight {
-  background-color: #ffffff !important;
+  background-color: var(--text-primary) !important;
 }
 </style>

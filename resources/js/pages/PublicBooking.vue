@@ -45,19 +45,19 @@
         <!-- Steps List -->
         <div class="mockup-steps-list">
           <div class="mockup-step" :class="{ active: currentStep >= 1 }" :style="currentStep > 1 ? { backgroundColor: '#f0fdf4', borderColor: '#22c55e' } : (currentStep === 1 ? { backgroundColor: brandColor + '20', borderColor: brandColor } : {})">
-            <span class="step-num" :style="currentStep > 1 ? { backgroundColor: '#22c55e', color: '#fff' } : (currentStep === 1 ? { backgroundColor: brandColor, color: '#fff' } : {})">1</span>
+            <span class="step-num" :style="currentStep > 1 ? { backgroundColor: '#22c55e', color: 'var(--text-primary)' } : (currentStep === 1 ? { backgroundColor: brandColor, color: 'var(--text-primary)' } : {})">1</span>
             <span class="step-text" :style="currentStep > 1 ? { color: '#166534', fontWeight: 600 } : (currentStep === 1 ? { color: '#000', fontWeight: 600 } : {})">{{ langStrings.clientInfo }}</span>
           </div>
           <div class="mockup-step" :class="{ active: currentStep >= 2 }" :style="currentStep > 2 ? { backgroundColor: '#f0fdf4', borderColor: '#22c55e' } : (currentStep === 2 ? { backgroundColor: brandColor + '20', borderColor: brandColor } : {})">
-            <span class="step-num" :style="currentStep > 2 ? { backgroundColor: '#22c55e', color: '#fff' } : (currentStep === 2 ? { backgroundColor: brandColor, color: '#fff' } : {})">2</span>
+            <span class="step-num" :style="currentStep > 2 ? { backgroundColor: '#22c55e', color: 'var(--text-primary)' } : (currentStep === 2 ? { backgroundColor: brandColor, color: 'var(--text-primary)' } : {})">2</span>
             <span class="step-text" :style="currentStep > 2 ? { color: '#166534', fontWeight: 600 } : (currentStep === 2 ? { color: '#000', fontWeight: 600 } : {})">{{ langStrings.packageAddon }}</span>
           </div>
           <div class="mockup-step" :class="{ active: currentStep >= 3 }" :style="currentStep > 3 ? { backgroundColor: '#f0fdf4', borderColor: '#22c55e' } : (currentStep === 3 ? { backgroundColor: brandColor + '20', borderColor: brandColor } : {})">
-            <span class="step-num" :style="currentStep > 3 ? { backgroundColor: '#22c55e', color: '#fff' } : (currentStep === 3 ? { backgroundColor: brandColor, color: '#fff' } : {})">3</span>
+            <span class="step-num" :style="currentStep > 3 ? { backgroundColor: '#22c55e', color: 'var(--text-primary)' } : (currentStep === 3 ? { backgroundColor: brandColor, color: 'var(--text-primary)' } : {})">3</span>
             <span class="step-text" :style="currentStep > 3 ? { color: '#166534', fontWeight: 600 } : (currentStep === 3 ? { color: '#000', fontWeight: 600 } : {})">{{ langStrings.summary }}</span>
           </div>
           <div class="mockup-step" :class="{ active: currentStep >= 4 }" :style="currentStep > 4 ? { backgroundColor: '#f0fdf4', borderColor: '#22c55e' } : (currentStep === 4 ? { backgroundColor: brandColor + '20', borderColor: brandColor } : {})">
-            <span class="step-num" :style="currentStep > 4 ? { backgroundColor: '#22c55e', color: '#fff' } : (currentStep === 4 ? { backgroundColor: brandColor, color: '#fff' } : {})">4</span>
+            <span class="step-num" :style="currentStep > 4 ? { backgroundColor: '#22c55e', color: 'var(--text-primary)' } : (currentStep === 4 ? { backgroundColor: brandColor, color: 'var(--text-primary)' } : {})">4</span>
             <span class="step-text" :style="currentStep > 4 ? { color: '#166534', fontWeight: 600 } : (currentStep === 4 ? { color: '#000', fontWeight: 600 } : {})">{{ langStrings.paymentConfirmation }}</span>
           </div>
         </div>
@@ -1134,7 +1134,7 @@ onMounted(async () => {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #111827;
   display: flex;
   align-items: center;
@@ -1160,7 +1160,7 @@ onMounted(async () => {
 }
 
 .mockup-form-card {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-radius: 12px;
   padding: 2.5rem;
   width: 100%;
@@ -1208,7 +1208,7 @@ onMounted(async () => {
 
 .mockup-step.active .step-num {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .mockup-section {
@@ -1249,7 +1249,7 @@ onMounted(async () => {
   border-radius: 8px;
   font-size: 1rem;
   color: #111827;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   outline: none;
   box-sizing: border-box;
   transition: border-color 0.2s;
@@ -1312,7 +1312,7 @@ onMounted(async () => {
   height: 48px;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1329,7 +1329,7 @@ onMounted(async () => {
 
 .mockup-btn-next {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
   padding: 0.8rem 2rem;
   border-radius: 8px;
   font-weight: 600;
@@ -1567,7 +1567,7 @@ onMounted(async () => {
   padding: 0.8rem 1rem;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -1636,7 +1636,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border: 1px solid #d1d5db;
   border-radius: 20px;
   padding: 0.25rem 0.5rem;
@@ -1665,7 +1665,7 @@ onMounted(async () => {
 .pkg-modal-backdrop {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.1);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -1673,7 +1673,7 @@ onMounted(async () => {
   padding: 1rem;
 }
 .pkg-modal-content {
-  background: #fff;
+  background: var(--text-primary);
   border-radius: 12px;
   width: 100%;
   max-width: 600px;
@@ -1873,7 +1873,7 @@ onMounted(async () => {
 }
 .bank-item.selected {
   border-color: #111827;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
 }
 .bank-header {
   display: flex;
@@ -1893,7 +1893,7 @@ onMounted(async () => {
   overflow: hidden;
 }
 .bank-detail-header {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #e5e7eb;
   font-weight: 600;
@@ -1936,7 +1936,7 @@ onMounted(async () => {
   padding: 0.5rem 1rem;
   border: 1px solid #d1d5db;
   border-radius: 6px;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #374151;
   font-weight: 500;
   font-size: 0.85rem;
@@ -1963,7 +1963,7 @@ onMounted(async () => {
 .cash-box {
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   padding: 1rem;
   color: #6b7280;
   font-size: 0.9rem;
@@ -1981,7 +1981,7 @@ onMounted(async () => {
 
 .closed-card {
   width: 100%;
-  background: #ffffff;
+  background: var(--text-primary);
   border: 1px solid #e5e7eb;
   border-radius: 20px;
   padding: 3rem 2rem;

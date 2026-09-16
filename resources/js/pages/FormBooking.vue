@@ -441,11 +441,11 @@
                       <!-- Steps List -->
                       <div class="mockup-steps-list">
                         <div class="mockup-step" :style="{ backgroundColor: '#f0fdf4', borderColor: '#22c55e' }">
-                          <span class="step-num" :style="{ backgroundColor: '#22c55e', color: '#fff' }">1</span>
+                          <span class="step-num" :style="{ backgroundColor: '#22c55e', color: 'var(--text-primary)' }">1</span>
                           <span class="step-text" :style="{ color: '#166534', fontWeight: 600 }">{{ langStrings.clientInfo }}</span>
                         </div>
                         <div class="mockup-step active" :style="{ backgroundColor: brandColor + '20', borderColor: brandColor }">
-                          <span class="step-num" :style="{ backgroundColor: brandColor, color: '#fff' }">2</span>
+                          <span class="step-num" :style="{ backgroundColor: brandColor, color: 'var(--text-primary)' }">2</span>
                           <span class="step-text" :style="{ color: '#000', fontWeight: 600 }">{{ langStrings.packageAddon }}</span>
                         </div>
                         <div class="mockup-step">
@@ -1084,7 +1084,7 @@ onMounted(async () => {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -1167,7 +1167,7 @@ onMounted(async () => {
 /* Tabs */
 .tabs-container {
   display: flex;
-  background-color: #1a1a1a;
+  background-color: var(--bg-card);
   border-radius: 8px;
   padding: 0.25rem;
 }
@@ -1176,7 +1176,7 @@ onMounted(async () => {
   flex: 1;
   background: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   padding: 0.75rem 1rem;
   font-size: 0.9rem;
   font-weight: 600;
@@ -1187,13 +1187,13 @@ onMounted(async () => {
 
 .tab-btn.active {
   background-color: #2a2a2a;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 /* Settings Sections */
 .settings-section {
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
 }
@@ -1208,13 +1208,13 @@ onMounted(async () => {
 .section-header h3 {
   font-size: 1rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .section-desc {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0 0 1.5rem 0;
   line-height: 1.4;
 }
@@ -1247,11 +1247,11 @@ onMounted(async () => {
 
 .form-control {
   width: 100%;
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.6rem 1rem;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.85rem;
   font-family: inherit;
 }
@@ -1268,7 +1268,7 @@ select.form-control {
 }
 
 select.form-control option {
-  background-color: #1a1a1a;
+  background-color: var(--bg-card);
 }
 
 .textarea {
@@ -1280,7 +1280,7 @@ select.form-control option {
   position: absolute;
   right: 1rem;
   pointer-events: none;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .input-hint {
@@ -1293,7 +1293,7 @@ select.form-control option {
 /* DP Toggle & Slider */
 .dp-toggle {
   display: flex;
-  background-color: #1a1a1a;
+  background-color: var(--bg-card);
   border-radius: 6px;
   padding: 0.25rem;
   margin-bottom: 1rem;
@@ -1303,7 +1303,7 @@ select.form-control option {
 .toggle-btn {
   background: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   padding: 0.4rem 1rem;
   font-size: 0.8rem;
   font-weight: 600;
@@ -1312,7 +1312,7 @@ select.form-control option {
 }
 
 .toggle-btn.active {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
 }
 
@@ -1337,14 +1337,14 @@ select.form-control option {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #ffffff;
+  background: var(--text-primary);
   cursor: pointer;
 }
 
 .slider-value {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   min-width: 40px;
 }
 
@@ -1352,18 +1352,18 @@ select.form-control option {
 .input-with-prefix {
   display: flex;
   align-items: center;
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   overflow: hidden;
 }
 
 .prefix {
   padding: 0.6rem 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.85rem;
-  background-color: #1a1a1a;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border-right: 1px solid var(--border-color);
 }
 
 .nominal-input {
@@ -1387,13 +1387,13 @@ select.form-control option {
 .summary-label {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #888;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .tag-value {
-  color: #fff;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
@@ -1405,7 +1405,7 @@ select.form-control option {
 }
 
 .method-card {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -1419,7 +1419,7 @@ select.form-control option {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: #1a1a1a;
+  background-color: var(--bg-card);
   cursor: pointer;
 }
 
@@ -1432,7 +1432,7 @@ select.form-control option {
 .method-icon-wrap {
   width: 36px;
   height: 36px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -1442,13 +1442,13 @@ select.form-control option {
 .method-title {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0 0 0.2rem 0;
 }
 
 .method-subtitle {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -1461,7 +1461,7 @@ select.form-control option {
 }
 
 .radio-btn.active {
-  border-color: #fff;
+  border-color: var(--text-primary);
 }
 
 .radio-btn.active::after {
@@ -1473,20 +1473,20 @@ select.form-control option {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: var(--text-primary);
 }
 
 .config-box {
   padding: 1.25rem;
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
 }
 
 .config-cash {
   padding: 1rem 1.25rem;
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .inline-icon {
@@ -1504,20 +1504,20 @@ select.form-control option {
 .bank-header h5, .qris-header h5 {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .bank-desc, .qris-desc {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0 0 1rem 0;
 }
 
 .btn-small {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.75rem;
   padding: 0.3rem 0.75rem;
   border-radius: 4px;
@@ -1533,7 +1533,7 @@ select.form-control option {
   padding: 1.5rem;
   text-align: center;
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .bank-list {
@@ -1543,8 +1543,8 @@ select.form-control option {
 }
 
 .bank-item {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1rem;
 }
@@ -1559,7 +1559,7 @@ select.form-control option {
 .bank-number {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .bank-actions {
@@ -1574,12 +1574,12 @@ select.form-control option {
   gap: 0.4rem;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   cursor: pointer;
 }
 
 .bank-active-checkbox input {
-  accent-color: #fff;
+  accent-color: var(--text-primary);
   cursor: pointer;
 }
 
@@ -1625,7 +1625,7 @@ select.form-control option {
 }
 
 .upload-icon {
-  color: #888;
+  color: var(--text-secondary);
   margin-bottom: 0.5rem;
 }
 
@@ -1633,7 +1633,7 @@ select.form-control option {
   margin: 0;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .upload-hint {
@@ -1683,7 +1683,7 @@ select.form-control option {
 .btn-qris-action {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  color: var(--text-primary);
   padding: 0.5rem 1rem;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -1695,7 +1695,7 @@ select.form-control option {
 }
 
 .btn-qris-action:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-card-hover);
 }
 
 .btn-qris-delete {
@@ -1744,11 +1744,11 @@ select.form-control option {
 }
 
 .method-footer {
-  background-color: #1a1a1a;
+  background-color: var(--bg-card);
   padding: 0.75rem 1rem;
   border-radius: 6px;
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 /* Tampilan */
@@ -1762,8 +1762,8 @@ select.form-control option {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.5rem 1rem;
   min-width: 150px;
@@ -1777,7 +1777,7 @@ select.form-control option {
 
 .color-input span {
   font-size: 0.85rem;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .color-swatch {
@@ -1795,8 +1795,8 @@ select.form-control option {
 }
 
 .tag-badge {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   color: #d1d5db;
   font-size: 0.75rem;
   padding: 0.35rem 0.75rem;
@@ -1826,12 +1826,12 @@ select.form-control option {
   color: #d1d5db;
 }
 
-.font-bold { font-weight: 700; color: #fff !important; }
+.font-bold { font-weight: 700; color: var(--text-primary) !important; }
 
 .switch {
   width: 36px;
   height: 20px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-color);
   border-radius: 10px;
   position: relative;
   cursor: pointer;
@@ -1845,13 +1845,13 @@ select.form-control option {
   left: 2px;
   width: 16px;
   height: 16px;
-  background-color: #fff;
+  background-color: var(--text-primary);
   border-radius: 50%;
   transition: all 0.2s;
 }
 
 .switch.active {
-  background-color: #fff;
+  background-color: var(--text-primary);
 }
 
 .switch.active::after {
@@ -1866,7 +1866,7 @@ select.form-control option {
 }
 
 .rich-text-editor {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -1875,14 +1875,14 @@ select.form-control option {
   display: flex;
   gap: 0.25rem;
   padding: 0.5rem;
-  background-color: #1a1a1a;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .editor-toolbar button {
   background: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   padding: 0.25rem;
   border-radius: 4px;
   cursor: pointer;
@@ -1908,7 +1908,7 @@ select.form-control option {
 .preview-header h3 {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -1921,7 +1921,7 @@ select.form-control option {
 .icon-btn {
   background: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   cursor: pointer;
 }
 
@@ -1937,8 +1937,8 @@ select.form-control option {
 .preview-empty {
   text-align: center;
   padding: 4rem 2rem;
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
 }
 
@@ -1957,22 +1957,22 @@ select.form-control option {
 
 .preview-empty h4 {
   font-size: 1rem;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
 }
 
 .preview-empty p {
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 /* Mockup Styles */
 .preview-mockup {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -2039,7 +2039,7 @@ select.form-control option {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border: 1px solid #e5e7eb;
   display: flex;
   align-items: center;
@@ -2065,7 +2065,7 @@ select.form-control option {
 }
 
 .mockup-form-card {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-radius: 12px;
   width: 100%;
   padding: 1.5rem;
@@ -2086,7 +2086,7 @@ select.form-control option {
   align-items: center;
   gap: 0.75rem;
   padding: 0.8rem 1.2rem;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border: 1px solid #f3f4f6;
   border-radius: 12px;
   color: #9ca3af;
@@ -2159,7 +2159,7 @@ select.form-control option {
   border-radius: 6px;
   font-size: 0.8rem;
   color: #111827;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   outline: none;
 }
 .mockup-input:focus, .mockup-select:focus, .mockup-textarea:focus {
@@ -2206,7 +2206,7 @@ select.form-control option {
   height: 40px;
   border-radius: 6px;
   border: 1px solid #e5e7eb;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2222,7 +2222,7 @@ select.form-control option {
 
 .mockup-btn-next {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
   padding: 0.8rem 1.5rem;
   border-radius: 6px;
   font-weight: 600;
@@ -2248,11 +2248,11 @@ select.form-control option {
   align-items: center;
   gap: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--bg-card-hover);
 }
 
 .btn-primary {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   border-radius: 6px;
@@ -2270,7 +2270,7 @@ select.form-control option {
 .btn-text {
   background: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.85rem;
   font-weight: 600;
   display: flex;
@@ -2279,7 +2279,7 @@ select.form-control option {
 }
 
 .btn-text:hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .mr-1 { margin-right: 0.25rem; }
@@ -2300,7 +2300,7 @@ select.form-control option {
 :root[data-theme="light"] .settings-section,
 :root[data-theme="light"] .method-content,
 :root[data-theme="light"] .editor-content {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
@@ -2319,7 +2319,7 @@ select.form-control option {
 
 :root[data-theme="light"] .tab-btn.active,
 :root[data-theme="light"] .toggle-btn.active {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #111827;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
@@ -2329,12 +2329,12 @@ select.form-control option {
 }
 
 :root[data-theme="light"] select.form-control option {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
 }
 
 :root[data-theme="light"] .btn-primary {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .btn-small {
@@ -2356,7 +2356,7 @@ select.form-control option {
   background-color: #111827;
 }
 :root[data-theme="light"] .switch.active::after {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
 }
 
 :root[data-theme="light"] .action-buttons-bottom {

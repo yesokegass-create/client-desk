@@ -373,15 +373,15 @@ const toggleTheme = () => {
   min-height: 100vh;
   width: 100%;
   background-color: #000000;
-  color: #ffffff;
+  color: var(--text-primary);
   font-family: 'Inter', sans-serif;
 }
 
 /* Sidebar Styles */
 .sidebar {
   width: 260px;
-  background-color: #0a0a0a;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-main);
+  border-right: 1px solid var(--bg-card-hover);
   display: flex;
   flex-direction: column;
   position: fixed;
@@ -402,7 +402,7 @@ const toggleTheme = () => {
   align-items: center;
   justify-content: space-between;
   padding: 0 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
 }
 
 .close-sidebar-btn {
@@ -413,7 +413,7 @@ const toggleTheme = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: var(--text-primary);
   opacity: 0.8;
   transition: opacity 0.2s;
 }
@@ -440,7 +440,7 @@ const toggleTheme = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: var(--text-primary);
   opacity: 0.8;
   transition: opacity 0.2s;
 }
@@ -450,7 +450,7 @@ const toggleTheme = () => {
 }
 
 .logo-icon {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-radius: 6px;
   padding: 4px;
   display: flex;
@@ -493,7 +493,7 @@ const toggleTheme = () => {
 .sidebar-bottom {
   padding: 0;
   margin-top: auto;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--bg-card-hover);
 }
 
 .bottom-menu {
@@ -537,12 +537,12 @@ const toggleTheme = () => {
 }
 
 .menu-item:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
+  background-color: var(--bg-card-hover);
+  color: var(--text-primary);
 }
 
 .menu-item.active {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
 }
 
@@ -561,7 +561,7 @@ const toggleTheme = () => {
 }
 
 .user-profile:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 .avatar {
@@ -569,7 +569,7 @@ const toggleTheme = () => {
   height: 32px;
   border-radius: 50%;
   background-color: #333;
-  color: #fff;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -586,7 +586,7 @@ const toggleTheme = () => {
 .user-name {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 0.1rem 0;
   white-space: nowrap;
   overflow: hidden;
@@ -595,7 +595,7 @@ const toggleTheme = () => {
 
 .user-role {
   font-size: 0.7rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -638,7 +638,7 @@ const toggleTheme = () => {
   justify-content: space-between;
   padding: 0 1.5rem;
   background-color: #000000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
   position: sticky;
   top: 0;
   z-index: 90;
@@ -653,7 +653,7 @@ const toggleTheme = () => {
 .page-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -677,7 +677,7 @@ const toggleTheme = () => {
 
 .icon-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   color: #a0a0a0;
   width: 32px;
   height: 32px;
@@ -691,7 +691,7 @@ const toggleTheme = () => {
 }
 
 .icon-btn:hover {
-  color: #ffffff;
+  color: var(--text-primary);
   border-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -748,11 +748,11 @@ const toggleTheme = () => {
 }
 
 :root[data-theme="light"] .logo-text {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .menu-toggle-btn {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .sidebar-header,
@@ -765,7 +765,7 @@ const toggleTheme = () => {
 }
 
 :root[data-theme="light"] .logo-icon .text-white {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .menu-item {
@@ -779,7 +779,7 @@ const toggleTheme = () => {
 
 :root[data-theme="light"] .menu-item.active {
   background-color: #000000;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .user-name {
@@ -787,7 +787,7 @@ const toggleTheme = () => {
 }
 
 :root[data-theme="light"] .top-header {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-bottom-color: #e5e7eb;
 }
 
@@ -814,7 +814,7 @@ const toggleTheme = () => {
 }
 
 :root[data-theme="light"] .badge {
-  border-color: #ffffff;
+  border-color: var(--text-primary);
 }
 .item-highlight {
   border: 1px solid rgba(168, 85, 247, 0.3); /* Default fallback */
@@ -891,7 +891,7 @@ const toggleTheme = () => {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.1);
     z-index: 95;
     backdrop-filter: blur(2px);
   }
@@ -900,7 +900,7 @@ const toggleTheme = () => {
   }
   .sidebar:not(.collapsed) {
     transform: translateX(0);
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
   }
   .dashboard-layout.is-collapsed .sidebar {
     transform: translateX(-100%);

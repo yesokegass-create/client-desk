@@ -188,7 +188,7 @@ import {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -217,7 +217,7 @@ import {
   align-items: center;
   gap: 0.5rem;
   background-color: transparent;
-  color: #ffffff;
+  color: var(--text-primary);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -229,14 +229,14 @@ import {
 }
 
 .btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 .btn-primary {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   border-radius: 6px;
@@ -261,7 +261,7 @@ import {
 
 .metric-card {
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.25rem;
   display: flex;
@@ -305,7 +305,7 @@ import {
 .metric-value {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Table Section */
@@ -336,7 +336,7 @@ import {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .search-input {
@@ -345,7 +345,7 @@ import {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   padding: 0.5rem 1rem 0.5rem 2.5rem;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 0.85rem;
 }
 
@@ -372,7 +372,7 @@ import {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
-  color: #ffffff;
+  color: var(--text-primary);
   padding: 0.5rem 2rem 0.5rem 1rem;
   font-size: 0.85rem;
   font-weight: 600;
@@ -386,20 +386,20 @@ import {
 
 .sort-select option {
   background-color: #121212;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .select-icon {
   position: absolute;
   right: 0.75rem;
   pointer-events: none;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 /* Table */
 .table-container {
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
   overflow-x: auto;
   position: relative;
@@ -418,26 +418,26 @@ import {
 .data-table td {
   padding: 1rem;
   text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
   white-space: nowrap;
 }
 
 .data-table th {
   font-size: 0.7rem;
   font-weight: 700;
-  color: #888;
+  color: var(--text-secondary);
   letter-spacing: 0.05em;
-  background-color: #1a1a1a;
+  background-color: var(--bg-card);
 }
 
 .data-table td {
   font-size: 0.85rem;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .empty-state {
   text-align: center !important;
-  color: #888 !important;
+  color: var(--text-secondary) !important;
   padding: 6rem 1rem !important;
 }
 
@@ -464,7 +464,7 @@ import {
   justify-content: space-between;
   align-items: center;
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-secondary);
   flex-wrap: wrap;
   gap: 1rem;
   padding-top: 0.5rem;
@@ -479,7 +479,7 @@ import {
 .size-select {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  color: var(--text-primary);
   border-radius: 4px;
   padding: 0.25rem;
   cursor: pointer;
@@ -487,7 +487,7 @@ import {
 
 .size-select option {
   background-color: #121212;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-nav {
@@ -503,7 +503,7 @@ import {
 .page-btn {
   background: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -512,12 +512,12 @@ import {
 }
 
 .page-btn:hover {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .page-current {
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Light Theme Adjustments */
@@ -535,7 +535,7 @@ import {
 :root[data-theme="light"] .table-container,
 :root[data-theme="light"] .sort-select option,
 :root[data-theme="light"] .size-select option {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
@@ -551,7 +551,7 @@ import {
 
 :root[data-theme="light"] .btn-primary {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .select-icon,

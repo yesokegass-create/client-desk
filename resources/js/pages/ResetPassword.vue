@@ -254,7 +254,7 @@ const toggleTheme = () => {
 .btn-submit {
   width: 100%;
   padding: 0.75rem;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   border-radius: var(--radius-md);
@@ -353,10 +353,10 @@ const toggleTheme = () => {
   justify-content: center;
   gap: 0.5rem;
   width: 100%;
-  background-color: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-main);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 6px;
-  color: #fff;
+  color: var(--text-primary);
   padding: 0.75rem;
   font-size: 0.9rem;
   font-weight: 500;
@@ -365,7 +365,7 @@ const toggleTheme = () => {
 }
 
 .btn-back:hover {
-  background-color: #1a1a1a;
+  background-color: var(--bg-card);
 }
 
 /* Light mode overrides */
@@ -374,12 +374,12 @@ const toggleTheme = () => {
 }
 
 :root[data-theme="light"] .card {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
 }
 
 :root[data-theme="light"] .btn-submit {
   background-color: #000000;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .btn-submit.is-submitting {

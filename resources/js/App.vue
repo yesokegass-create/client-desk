@@ -26,16 +26,16 @@ const hideNavAndFooter = computed(() => {
 :root {
   --bg-main: #121212;
   --bg-card: #1c1c1c;
-  --text-primary: #ffffff;
+  --text-primary: var(--text-primary);
   --text-secondary: #a0a0a0;
-  --border-color: rgba(255, 255, 255, 0.1);
+  --border-color: var(--border-color);
   --radius-md: 8px;
   --radius-lg: 12px;
 }
 
 :root[data-theme="light"] {
   --bg-main: #f9fafb;
-  --bg-card: #ffffff;
+  --bg-card: var(--text-primary);
   --text-primary: #111827;
   --text-secondary: #6b7280;
   --border-color: #e5e7eb;

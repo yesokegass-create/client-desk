@@ -435,19 +435,19 @@
               <p>Hubungkan akun Google untuk sinkronisasi kalender, penyimpanan file, dan auto export spreadsheet.</p>
             </div>
             
-            <div style="display:flex; gap:24px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:12px; margin-bottom:24px; overflow-x:auto;">
+            <div style="display:flex; gap:24px; border-bottom:1px solid var(--border-color); padding-bottom:12px; margin-bottom:24px; overflow-x:auto;">
               <div style="color:white; font-weight:600; font-size:14px; display:flex; align-items:center; gap:6px; cursor:pointer;">
                 Google Calendar <X :size="14" style="color:#666;" />
               </div>
-              <div style="color:#888; font-size:14px; display:flex; align-items:center; gap:6px; cursor:pointer;">
+              <div style="color:var(--text-secondary); font-size:14px; display:flex; align-items:center; gap:6px; cursor:pointer;">
                 Google Drive <X :size="14" style="color:#666;" />
               </div>
-              <div style="color:#888; font-size:14px; display:flex; align-items:center; gap:6px; cursor:pointer;">
+              <div style="color:var(--text-secondary); font-size:14px; display:flex; align-items:center; gap:6px; cursor:pointer;">
                 Google Spreadsheet <X :size="14" style="color:#666;" />
               </div>
             </div>
 
-            <div id="tour-target-google-calendar" style="background:#171717; border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:20px; margin-bottom:20px;">
+            <div id="tour-target-google-calendar" style="background:#171717; border:1px solid var(--bg-card-hover); border-radius:12px; padding:20px; margin-bottom:20px;">
               <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
                 <div style="background:#4285F4; color:white; width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;">
                   <span style="font-weight:700; font-size:20px;">31</span>
@@ -457,13 +457,13 @@
                   <p style="font-size:13px; color:#a0a0a0; margin:0;">Sinkronisasi jadwal sesi ke Google Calendar</p>
                 </div>
               </div>
-              <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:16px; display:flex; align-items:center; gap:8px;">
+              <div style="border-top:1px solid var(--bg-card-hover); padding-top:16px; display:flex; align-items:center; gap:8px;">
                 <X :size="14" style="color:#a0a0a0;" />
                 <span style="color:#a0a0a0; font-size:13px;">Belum terhubung</span>
               </div>
             </div>
 
-            <div id="tour-target-google-drive" style="background:#171717; border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:20px;">
+            <div id="tour-target-google-drive" style="background:#171717; border:1px solid var(--bg-card-hover); border-radius:12px; padding:20px;">
               <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
                 <div style="background:#0F9D58; color:white; width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center;">
                   <HardDrive :size="24" />
@@ -473,7 +473,7 @@
                   <p style="font-size:13px; color:#a0a0a0; margin:0;">Hubungkan akun Google Drive</p>
                 </div>
               </div>
-              <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:16px; display:flex; align-items:center; gap:8px;">
+              <div style="border-top:1px solid var(--bg-card-hover); padding-top:16px; display:flex; align-items:center; gap:8px;">
                 <X :size="14" style="color:#a0a0a0;" />
                 <span style="color:#a0a0a0; font-size:13px;">Belum terhubung</span>
               </div>
@@ -805,7 +805,7 @@ onMounted(() => {
 .breadcrumb {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -813,7 +813,7 @@ onMounted(() => {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -863,7 +863,7 @@ onMounted(() => {
   align-items: center;
   gap: 1.25rem;
   background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 1.25rem;
   text-decoration: none;
@@ -900,31 +900,31 @@ onMounted(() => {
 
 .card-num {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .card-title {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .card-desc {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
   line-height: 1.4;
   padding-right: 1rem;
 }
 
 .card-chevron {
-  color: #888;
+  color: var(--text-secondary);
   flex-shrink: 0;
 }
 
 .setting-card:hover .card-chevron {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 /* Icon Colors */
@@ -986,23 +986,23 @@ onMounted(() => {
   justify-content: center;
   width: 36px;
   height: 36px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
   border-radius: 8px;
-  color: #fff;
+  color: var(--text-primary);
   text-decoration: none;
   transition: background-color 0.2s;
   margin-top: 2px;
 }
 
 .back-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-color);
 }
 
 .tab-header h2 {
   font-size: 1.25rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .tab-header p {
@@ -1013,7 +1013,7 @@ onMounted(() => {
 
 .settings-form-card {
   background-color: #0f0f0f;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
 }
@@ -1026,13 +1026,13 @@ onMounted(() => {
 }
 
 .icon-wrap {
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .form-section-header h3 {
   font-size: 1rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0 0 0.25rem 0;
 }
 
@@ -1068,11 +1068,11 @@ onMounted(() => {
 }
 
 .form-control {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.75rem 1rem;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.9rem;
   outline: none;
   transition: border-color 0.2s;
@@ -1085,8 +1085,8 @@ onMounted(() => {
 .input-group {
   display: flex;
   align-items: stretch;
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   overflow: hidden;
   width: 100%;
@@ -1099,7 +1099,7 @@ onMounted(() => {
 
 .input-addon {
   background-color: rgba(255, 255, 255, 0.03);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid var(--border-color);
   padding: 0.75rem 1rem;
   color: #a0a0a0;
   font-size: 0.85rem;
@@ -1114,7 +1114,7 @@ onMounted(() => {
   background: transparent !important;
   flex: 1;
   padding: 0.75rem 1rem;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.9rem;
   outline: none;
   box-shadow: none !important;
@@ -1166,7 +1166,7 @@ onMounted(() => {
 
 .section-divider {
   border: 0;
-  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  border-top: 1px dashed var(--border-color);
   margin: 2rem 0;
 }
 
@@ -1176,11 +1176,11 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   padding: 1rem 1.25rem;
   border-radius: 8px;
 }
-.setting-toggle-info h4 { margin: 0 0 0.25rem 0; font-size: 0.95rem; color: #fff; }
+.setting-toggle-info h4 { margin: 0 0 0.25rem 0; font-size: 0.95rem; color: var(--text-primary); }
 .setting-toggle-info p { margin: 0; font-size: 0.85rem; color: #a0a0a0; }
 
 .switch {
@@ -1215,7 +1215,7 @@ input:checked + .slider:before {
 }
 .slider.round { border-radius: 24px; }
 .slider.round:before { border-radius: 50%; }
-.toggle-wrap { display: flex; align-items: center; color: #fff; }
+.toggle-wrap { display: flex; align-items: center; color: var(--text-primary); }
 
 /* Orientation Selector */
 .btn-orientation {
@@ -1230,9 +1230,9 @@ input:checked + .slider:before {
 .btn-orientation:first-of-type { border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-right: none; }
 .btn-orientation:last-of-type { border-top-right-radius: 20px; border-bottom-right-radius: 20px; }
 .btn-orientation.active {
-  background-color: #fff;
+  background-color: var(--text-primary);
   color: #000;
-  border-color: #fff;
+  border-color: var(--text-primary);
   font-weight: 500;
 }
 
@@ -1250,13 +1250,13 @@ input:checked + .slider:before {
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.upload-area:hover { background-color: rgba(255, 255, 255, 0.05); }
+.upload-area:hover { background-color: var(--bg-card-hover); }
 .upload-area p { margin: 0 0 0.25rem 0; color: #d1d5db; font-size: 0.9rem; }
 
 /* Sub Setting Box */
 .sub-setting-box {
   background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
   padding: 1rem 1.25rem;
 }
@@ -1272,7 +1272,7 @@ input:checked + .slider:before {
   accent-color: #a855f7;
   cursor: pointer;
 }
-.sub-setting-box h4 { margin: 0 0 0.25rem 0; font-size: 0.9rem; color: #fff; }
+.sub-setting-box h4 { margin: 0 0 0.25rem 0; font-size: 0.9rem; color: var(--text-primary); }
 
 /* Working Days List */
 .working-days-list {
@@ -1285,14 +1285,14 @@ input:checked + .slider:before {
   justify-content: space-between;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   padding: 0.75rem 1.25rem;
   border-radius: 8px;
 }
 .day-checkbox {
   display: flex;
   align-items: center;
-  color: #fff;
+  color: var(--text-primary);
   width: 150px;
 }
 .day-times {
@@ -1308,13 +1308,13 @@ input:checked + .slider:before {
 }
 .time-input-group label {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 /* Bottom Action Bar */
 .bottom-action-bar {
   background-color: #0f0f0f;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1rem 1.5rem;
   z-index: 100;
@@ -1348,7 +1348,7 @@ input:checked + .slider:before {
 }
 
 .text-green-500 { color: #22c55e; }
-.hover\:text-white:hover { color: #ffffff; }
+.hover\:text-white:hover { color: var(--text-primary); }
 
 /* Custom Checkbox */
 .custom-checkbox {
@@ -1360,7 +1360,7 @@ input:checked + .slider:before {
 }
 
 .btn-white-solid {
-  background-color: #fff;
+  background-color: var(--text-primary);
   color: #000;
   border: none;
   border-radius: 6px;
@@ -1379,8 +1379,8 @@ input:checked + .slider:before {
 
 /* Logo Preview */
 .logo-preview-box {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   overflow: hidden;
   display: flex;
@@ -1446,27 +1446,27 @@ input:checked + .slider:before {
   z-index: 9999;
 }
 .crop-modal-card {
-  background-color: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   width: 450px;
   max-width: 90vw;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 .crop-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
 }
 .crop-modal-header h3 {
   margin: 0;
   font-size: 1rem;
-  color: #fff;
+  color: var(--text-primary);
 }
 .crop-modal-body {
   padding: 1.5rem;
@@ -1496,13 +1496,13 @@ input:checked + .slider:before {
 .crop-overlay {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.1);
   pointer-events: none;
 }
 .crop-frame {
   position: absolute;
   border: 2px solid rgba(255,255,255,0.8);
-  box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.1);
   cursor: move;
   pointer-events: auto;
   /* Center it initially before transform translate kicks in */
@@ -1536,18 +1536,18 @@ input:checked + .slider:before {
 }
 .zoom-slider {
   flex: 1;
-  accent-color: #fff;
+  accent-color: var(--text-primary);
 }
 .crop-modal-footer {
   display: flex;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--bg-card-hover);
 }
 .btn-outline {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  color: var(--text-primary);
   padding: 0.5rem 1rem;
   border-radius: 6px;
   display: flex;
@@ -1556,7 +1556,7 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 .btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 .justify-center { justify-content: center; }
 .rotate-90 { transform: rotate(90deg); transition: transform 0.2s; }
@@ -1571,7 +1571,7 @@ input:checked + .slider:before {
 
 :root[data-theme="light"] .settings-form-card,
 :root[data-theme="light"] .bottom-action-bar {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
@@ -1584,10 +1584,10 @@ input:checked + .slider:before {
 }
 
 :root[data-theme="light"] .btn-orientation { color: #6b7280; border-color: #d1d5db; }
-:root[data-theme="light"] .btn-orientation.active { background-color: #111827; color: #fff; border-color: #111827; }
+:root[data-theme="light"] .btn-orientation.active { background-color: #111827; color: var(--text-primary); border-color: #111827; }
 
 :root[data-theme="light"] .form-control {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #d1d5db;
   color: #111827;
 }
@@ -1606,7 +1606,7 @@ input:checked + .slider:before {
 
 :root[data-theme="light"] .btn-white-solid {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 :root[data-theme="light"] .section-divider {
   border-top-color: #e5e7eb;

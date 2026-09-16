@@ -180,7 +180,7 @@ import {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -242,7 +242,7 @@ import {
 /* Settings Sections */
 .settings-section {
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
 }
@@ -257,13 +257,13 @@ import {
 .section-header h3 {
   font-size: 1rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .section-desc {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: -1rem 0 1.5rem 0;
   line-height: 1.4;
 }
@@ -304,7 +304,7 @@ import {
 .flag-icon {
   font-size: 0.7rem;
   font-weight: 700;
-  background-color: #fff;
+  background-color: var(--text-primary);
   color: #000;
   padding: 0.1rem 0.2rem;
   border-radius: 2px;
@@ -312,11 +312,11 @@ import {
 
 .form-control {
   width: 100%;
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.6rem 1rem;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.85rem;
   font-family: inherit;
 }
@@ -337,7 +337,7 @@ select.form-control {
 }
 
 select.form-control option {
-  background-color: #1a1a1a;
+  background-color: var(--bg-card);
 }
 
 .textarea {
@@ -349,7 +349,7 @@ select.form-control option {
   position: absolute;
   right: 1rem;
   pointer-events: none;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .input-hint {
@@ -365,7 +365,7 @@ select.form-control option {
 }
 
 .text-link:hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 /* Tampilan */
@@ -379,8 +379,8 @@ select.form-control option {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.5rem 1rem;
   min-width: 150px;
@@ -394,7 +394,7 @@ select.form-control option {
 
 .color-input span {
   font-size: 0.85rem;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .color-swatch {
@@ -413,7 +413,7 @@ select.form-control option {
 }
 
 .method-card {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -440,7 +440,7 @@ select.form-control option {
 .method-icon-wrap {
   width: 36px;
   height: 36px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -450,13 +450,13 @@ select.form-control option {
 .method-title {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0 0 0.2rem 0;
 }
 
 .method-subtitle {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -469,7 +469,7 @@ select.form-control option {
 }
 
 .radio-btn.active {
-  border-color: #fff;
+  border-color: var(--text-primary);
 }
 
 .radio-btn.active::after {
@@ -481,7 +481,7 @@ select.form-control option {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: var(--text-primary);
 }
 
 .mt-4 { margin-top: 1.5rem; }
@@ -495,7 +495,7 @@ select.form-control option {
 }
 
 .btn-primary {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   border-radius: 6px;
@@ -513,7 +513,7 @@ select.form-control option {
 .btn-text {
   background: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.85rem;
   font-weight: 600;
   display: flex;
@@ -522,7 +522,7 @@ select.form-control option {
 }
 
 .btn-text:hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .mr-1 { margin-right: 0.25rem; }
@@ -538,21 +538,21 @@ select.form-control option {
 .preview-header h3 {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .icon-btn {
   background: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   cursor: pointer;
 }
 
 .preview-container {
   flex: 1;
   background-color: transparent;
-  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border: 1px dashed var(--border-color);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -566,7 +566,7 @@ select.form-control option {
 
 .preview-empty p {
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
   max-width: 300px;
   line-height: 1.5;
@@ -581,7 +581,7 @@ select.form-control option {
 }
 
 :root[data-theme="light"] .settings-section {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
@@ -610,7 +610,7 @@ select.form-control option {
 
 :root[data-theme="light"] .btn-primary {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .preview-container {

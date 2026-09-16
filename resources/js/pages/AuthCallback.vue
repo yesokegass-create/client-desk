@@ -98,8 +98,8 @@ onMounted(async () => {
 .callback-card {
   width: 100%;
   max-width: 400px;
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 3rem 2rem;
   display: flex;
@@ -159,13 +159,13 @@ onMounted(async () => {
 }
 
 .text-white {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .header-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -182,7 +182,7 @@ onMounted(async () => {
   justify-content: center;
   width: 100%;
   padding: 0.75rem;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   border-radius: 6px;

@@ -210,7 +210,7 @@ const goToToday = () => {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -270,8 +270,8 @@ const goToToday = () => {
 
 /* Calendar Card */
 .calendar-card {
-  background-color: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-main);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -285,7 +285,7 @@ const goToToday = () => {
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -301,7 +301,7 @@ const goToToday = () => {
   align-items: center;
   gap: 0.5rem;
   background-color: transparent;
-  color: #ffffff;
+  color: var(--text-primary);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -311,7 +311,7 @@ const goToToday = () => {
 }
 
 .btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 .nav-group {
@@ -323,7 +323,7 @@ const goToToday = () => {
 .icon-btn {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  color: var(--text-primary);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -333,13 +333,13 @@ const goToToday = () => {
 }
 
 .icon-btn:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 .current-month {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -356,7 +356,7 @@ const goToToday = () => {
   gap: 0.4rem;
   background-color: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   padding: 0.5rem 0.75rem;
   font-size: 0.8rem;
   font-weight: 600;
@@ -368,13 +368,13 @@ const goToToday = () => {
 }
 
 .view-btn.active {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background-color: var(--border-color);
+  color: var(--text-primary);
 }
 
 .view-btn:hover:not(.active) {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
+  background-color: var(--bg-card-hover);
+  color: var(--text-primary);
 }
 
 /* Calendar Grid */
@@ -387,7 +387,7 @@ const goToToday = () => {
 .grid-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
 }
 
 .day-name {
@@ -395,8 +395,8 @@ const goToToday = () => {
   padding: 1rem 0;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #fff;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border-right: 1px solid var(--bg-card-hover);
 }
 
 .day-name:last-child {
@@ -414,7 +414,7 @@ const goToToday = () => {
   grid-template-columns: repeat(7, 1fr);
   flex: 1;
   min-height: 100px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
 }
 
 .grid-row:last-child {
@@ -423,7 +423,7 @@ const goToToday = () => {
 
 .day-cell {
   padding: 0.5rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid var(--bg-card-hover);
   position: relative;
   display: flex;
   justify-content: flex-end;
@@ -444,7 +444,7 @@ const goToToday = () => {
 
 .date-num {
   font-size: 0.85rem;
-  color: #fff;
+  color: var(--text-primary);
   font-weight: 500;
 }
 
@@ -465,7 +465,7 @@ const goToToday = () => {
 }
 
 :root[data-theme="light"] .calendar-card {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 

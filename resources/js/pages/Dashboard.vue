@@ -518,7 +518,7 @@ onMounted(async () => {
 
 .dashboard-card {
   background-color: #0f0f0f;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
 }
@@ -529,7 +529,7 @@ onMounted(async () => {
 
 /* Setup Section */
 .setup-section {
-  background: linear-gradient(to right, #111111, #0a0a0a);
+  background: linear-gradient(to right, var(--bg-main), var(--bg-main));
 }
 
 .setup-header {
@@ -548,7 +548,7 @@ onMounted(async () => {
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.25rem 0.75rem;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-color);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 100px;
   margin-bottom: 1rem;
@@ -584,7 +584,7 @@ onMounted(async () => {
 
 .progress-bar-bg {
   height: 6px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-color);
   border-radius: 3px;
   overflow: hidden;
   margin-bottom: 1rem;
@@ -592,12 +592,12 @@ onMounted(async () => {
 
 .progress-bar-fill {
   height: 100%;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-radius: 3px;
 }
 
 .btn-primary {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   border-radius: 6px;
@@ -631,7 +631,7 @@ onMounted(async () => {
   align-items: flex-start;
   gap: 1rem;
   padding: 1.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.02);
   transition: background-color 0.2s;
@@ -646,10 +646,10 @@ onMounted(async () => {
 }
 
 .item-icon {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
   padding: 0.5rem;
   border-radius: 8px;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .setup-item.completed .item-icon {
@@ -698,18 +698,18 @@ onMounted(async () => {
 }
 
 .status-badge.pending {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-color);
   color: #a0a0a0;
 }
 
 .status-badge.optional {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #888;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card-hover);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
 }
 
 .btn-white {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   border-radius: 6px;
@@ -722,7 +722,7 @@ onMounted(async () => {
 
 .btn-outline {
   background-color: transparent;
-  color: #ffffff;
+  color: var(--text-primary);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -733,13 +733,13 @@ onMounted(async () => {
 }
 
 .btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 .integrations-section {
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  border-top: 1px dashed var(--border-color);
 }
 
 .integrations-title {
@@ -777,7 +777,7 @@ onMounted(async () => {
 
 .metric-card {
   background-color: #0f0f0f;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
@@ -788,7 +788,7 @@ onMounted(async () => {
 .metric-label {
   font-size: 0.7rem;
   font-weight: 600;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0 0 0.5rem 0;
   letter-spacing: 0.05em;
 }
@@ -850,7 +850,7 @@ onMounted(async () => {
 }
 
 .icon-label h3 {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .empty-state {
@@ -858,7 +858,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
@@ -871,7 +871,7 @@ onMounted(async () => {
 .stat-box {
   flex: 1;
   background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
   padding: 1rem;
 }
@@ -879,7 +879,7 @@ onMounted(async () => {
 .stat-label {
   font-size: 0.65rem;
   font-weight: 600;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0 0 0.5rem 0;
   letter-spacing: 0.05em;
 }
@@ -903,7 +903,7 @@ onMounted(async () => {
 .quick-action-label {
   font-size: 0.65rem;
   font-weight: 600;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0 0 0.75rem 0;
   letter-spacing: 0.05em;
 }
@@ -928,8 +928,8 @@ onMounted(async () => {
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
+  background-color: var(--bg-card-hover);
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -937,7 +937,7 @@ onMounted(async () => {
 }
 
 .action-btn:hover .action-icon {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--border-color);
 }
 
 .action-btn span {
@@ -965,7 +965,7 @@ onMounted(async () => {
   padding-right: 1rem;
   color: #666;
   font-size: 0.7rem;
-  border-right: 1px dashed rgba(255, 255, 255, 0.1);
+  border-right: 1px dashed var(--border-color);
   padding-bottom: 20px; /* space for x axis */
 }
 
@@ -984,7 +984,7 @@ onMounted(async () => {
 
 .bar-chart-placeholder {
   flex: 1;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .x-axis {
@@ -1006,7 +1006,7 @@ onMounted(async () => {
 
 .card-header.with-padding h3 {
   font-size: 1.1rem;
-  color: #fff;
+  color: var(--text-primary);
   text-transform: none;
   letter-spacing: normal;
 }
@@ -1020,7 +1020,7 @@ onMounted(async () => {
 .btn-text {
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 0.85rem;
   cursor: pointer;
   display: flex;
@@ -1047,13 +1047,13 @@ onMounted(async () => {
   padding: 0.75rem 1.5rem;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #888;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--bg-card-hover);
 }
 
 .data-table td {
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
 }
 
 .text-right {
@@ -1102,12 +1102,12 @@ onMounted(async () => {
 
 /* Light Theme Adjustments */
 :root[data-theme="light"] .dashboard-card {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
 :root[data-theme="light"] .setup-section {
-  background: #ffffff;
+  background: var(--text-primary);
 }
 
 :root[data-theme="light"] .badge-quick-setup {
@@ -1135,11 +1135,11 @@ onMounted(async () => {
 :root[data-theme="light"] .progress-bar-fill,
 :root[data-theme="light"] .btn-primary {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .setup-item {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
@@ -1158,7 +1158,7 @@ onMounted(async () => {
 
 :root[data-theme="light"] .btn-white {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .btn-outline {

@@ -226,7 +226,7 @@ import {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -266,7 +266,7 @@ import {
 .column-title {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #888;
+  color: var(--text-secondary);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   margin: 0 0 1rem 0;
@@ -281,7 +281,7 @@ import {
   display: block;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -295,10 +295,10 @@ import {
 .form-control {
   width: 100%;
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.6rem 1rem;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.85rem;
   font-family: inherit;
 }
@@ -312,26 +312,26 @@ import {
 .info-box {
   display: flex;
   gap: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.25rem;
 }
 
 .info-icon {
-  color: #888;
+  color: var(--text-secondary);
   margin-top: 0.1rem;
 }
 
 .info-title {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
 }
 
 .info-desc {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
   line-height: 1.4;
 }
@@ -344,7 +344,7 @@ import {
 }
 
 .border-section {
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.25rem;
   background-color: #121212;
@@ -359,27 +359,27 @@ import {
 .section-header-flex h3 {
   font-size: 0.9rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0 0 0.25rem 0;
 }
 
 .section-desc {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
   max-width: 90%;
 }
 
 .empty-text {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .btn-unlock {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.75rem;
   padding: 0.3rem 0.75rem;
   border-radius: 4px;
@@ -392,7 +392,7 @@ import {
 .btn-outline-small {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.75rem;
   padding: 0.4rem 0.75rem;
   border-radius: 4px;
@@ -404,7 +404,7 @@ import {
 
 /* Scrollable List */
 .scrollable-list {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   height: 160px;
   overflow-y: hidden;
@@ -418,13 +418,13 @@ import {
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
   cursor: pointer;
 }
 
 .item-label {
   font-size: 0.85rem;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .scroll-track {
@@ -433,7 +433,7 @@ import {
   top: 2px;
   bottom: 2px;
   width: 6px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
   border-radius: 3px;
 }
 
@@ -446,8 +446,8 @@ import {
 
 /* Feature Box */
 .feature-box {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
   padding: 1rem;
 }
@@ -483,8 +483,8 @@ import {
 }
 
 .custom-checkbox:checked {
-  background-color: #fff;
-  border-color: #fff;
+  background-color: var(--text-primary);
+  border-color: var(--text-primary);
 }
 
 .custom-checkbox:checked::after {
@@ -511,11 +511,11 @@ import {
   color: #d1d5db;
 }
 
-.text-white { color: #fff !important; }
+.text-white { color: var(--text-primary) !important; }
 
 .checkbox-desc {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
   line-height: 1.4;
 }
 
@@ -525,7 +525,7 @@ import {
   border-radius: 6px;
   padding: 1rem;
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 /* Calc Summary */
@@ -540,11 +540,11 @@ import {
   display: flex;
   justify-content: space-between;
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .grand-total {
-  color: #fff;
+  color: var(--text-primary);
   margin-top: 0.5rem;
   padding-top: 0.5rem;
 }
@@ -571,7 +571,7 @@ import {
 }
 
 .btn-primary {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   border-radius: 6px;
@@ -582,9 +582,9 @@ import {
 }
 
 .btn-dark {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   border-radius: 6px;
   padding: 0.6rem 1.25rem;
   font-size: 0.85rem;
@@ -598,7 +598,7 @@ import {
 
 /* Right Column */
 .list-header-box {
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   background-color: #121212;
   border-radius: 8px;
   padding: 1.25rem;
@@ -610,13 +610,13 @@ import {
 
 .list-desc {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
   line-height: 1.4;
 }
 
 .list-container {
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   background-color: transparent;
   border-radius: 8px;
   padding: 1.25rem;
@@ -624,7 +624,7 @@ import {
 
 .list-empty {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 /* Light Theme Adjustments */
@@ -640,14 +640,14 @@ import {
 }
 
 :root[data-theme="light"] .form-control {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #d1d5db;
   color: #111827;
 }
 
 :root[data-theme="light"] .border-section,
 :root[data-theme="light"] .list-header-box {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
@@ -668,7 +668,7 @@ import {
 
 :root[data-theme="light"] .btn-primary {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .custom-checkbox {
@@ -676,7 +676,7 @@ import {
 }
 
 :root[data-theme="light"] .custom-checkbox.dark-bg {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
 }
 
 :root[data-theme="light"] .custom-checkbox:checked {
@@ -685,7 +685,7 @@ import {
 }
 
 :root[data-theme="light"] .custom-checkbox:checked::after {
-  border-color: #ffffff;
+  border-color: var(--text-primary);
 }
 
 :root[data-theme="light"] .dashed-box {

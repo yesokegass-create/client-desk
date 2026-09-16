@@ -374,7 +374,7 @@ const handleCurrency = (field, event) => {
 .back-button {
   background: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   padding: 8px;
   cursor: pointer;
   border-radius: 8px;
@@ -382,19 +382,19 @@ const handleCurrency = (field, event) => {
 }
 
 .back-button:hover {
-  background: rgba(255,255,255,0.1);
-  color: #fff;
+  background: var(--border-color);
+  color: var(--text-primary);
 }
 
 .page-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0 0 4px 0;
 }
 
 .page-subtitle {
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.85rem;
   margin: 0;
 }
@@ -406,8 +406,8 @@ const handleCurrency = (field, event) => {
 }
 
 .form-section {
-  background-color: #111111;
-  border: 1px solid rgba(255,255,255,0.05);
+  background-color: var(--bg-main);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 20px;
 }
@@ -441,7 +441,7 @@ const handleCurrency = (field, event) => {
 label {
   display: block;
   font-size: 0.85rem;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 8px;
 }
 
@@ -451,10 +451,10 @@ label {
 .form-control {
   width: 100%;
   background-color: #1d1e26;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 10px 12px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.9rem;
   transition: all 0.2s;
 }
@@ -468,7 +468,7 @@ label {
 .input-group {
   display: flex;
   background-color: #1d1e26;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   overflow: hidden;
   transition: border-color 0.2s;
@@ -490,9 +490,9 @@ label {
   gap: 4px;
   padding: 0 12px;
   background: rgba(0,0,0,0.2);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid var(--border-color);
   font-size: 0.85rem;
-  color: #fff;
+  color: var(--text-primary);
   font-weight: 500;
 }
 
@@ -500,14 +500,14 @@ label {
   display: flex;
   align-items: center;
   background-color: #1d1e26;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   overflow: hidden;
 }
 
 .input-prefix .prefix {
   padding: 0 12px;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.9rem;
 }
 
@@ -521,7 +521,7 @@ label {
 .btn-icon-inside {
   background: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   padding: 0 12px;
   cursor: pointer;
 }
@@ -551,7 +551,7 @@ label {
 
 .disabled-box {
   background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
   padding: 10px 12px;
   color: #666;
@@ -567,7 +567,7 @@ label {
 .btn-outline-small {
   background: transparent;
   border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
+  color: var(--text-primary);
   border-radius: 6px;
   padding: 6px 12px;
   font-size: 0.8rem;
@@ -575,7 +575,7 @@ label {
 }
 
 .btn-outline-small:hover {
-  background: rgba(255,255,255,0.05);
+  background: var(--bg-card-hover);
 }
 
 .help-text {
@@ -587,19 +587,19 @@ label {
 
 .pajak-booking-box {
   background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
   padding: 16px;
 }
 
 .box-title {
   font-size: 0.95rem;
-  color: #fff;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .dashed-box {
-  border: 1px dashed rgba(255,255,255,0.1);
+  border: 1px dashed var(--border-color);
   border-radius: 6px;
   padding: 16px;
   text-align: center;
@@ -617,25 +617,25 @@ label {
   display: flex;
   justify-content: space-between;
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .grand-total {
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid var(--border-color);
   padding-top: 8px;
   margin-top: 4px;
-  color: #fff;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
 .btn-secondary {
   background: #2a2a35;
-  color: #fff;
+  color: var(--text-primary);
   border: none;
   padding: 0 16px;
   font-size: 0.85rem;
   cursor: pointer;
-  border-left: 1px solid rgba(255,255,255,0.1);
+  border-left: 1px solid var(--border-color);
 }
 
 .btn-secondary:hover {
@@ -658,11 +658,11 @@ label {
 }
 
 .btn-text-cancel:hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .btn-primary {
-  background-color: #fff;
+  background-color: var(--text-primary);
   color: #000;
   border: none;
   border-radius: 8px;

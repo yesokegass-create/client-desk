@@ -168,7 +168,7 @@ onMounted(() => {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -188,7 +188,7 @@ onMounted(() => {
   align-items: center;
   gap: 0.5rem;
   background-color: transparent;
-  color: #ffffff;
+  color: var(--text-primary);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -199,7 +199,7 @@ onMounted(() => {
 }
 
 .btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 /* Filters */
@@ -220,7 +220,7 @@ onMounted(() => {
 .search-icon {
   position: absolute;
   left: 1rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .search-input {
@@ -229,7 +229,7 @@ onMounted(() => {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 6px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.85rem;
 }
 
@@ -251,7 +251,7 @@ onMounted(() => {
   gap: 0.4rem;
   background-color: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
   font-weight: 600;
@@ -264,13 +264,13 @@ onMounted(() => {
 }
 
 .view-btn.active {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background-color: var(--border-color);
+  color: var(--text-primary);
 }
 
 .view-btn:hover:not(.active) {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
+  background-color: var(--bg-card-hover);
+  color: var(--text-primary);
 }
 
 .sort-container {
@@ -282,7 +282,7 @@ onMounted(() => {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 6px;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.85rem;
   appearance: none;
   cursor: pointer;
@@ -294,8 +294,8 @@ onMounted(() => {
 
 /* Table Card */
 .table-card {
-  background-color: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-main);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -306,7 +306,7 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0.5rem 0 0.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
 }
 
 .tabs-left {
@@ -320,7 +320,7 @@ onMounted(() => {
   gap: 0.5rem;
   background-color: transparent;
   border: none;
-  color: #888;
+  color: var(--text-secondary);
   padding: 0.75rem 1.25rem;
   font-size: 0.85rem;
   font-weight: 600;
@@ -330,12 +330,12 @@ onMounted(() => {
 }
 
 .tab-btn.active {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
 }
 
 .tab-btn:not(.active):hover {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .btn-text {
@@ -344,7 +344,7 @@ onMounted(() => {
   gap: 0.5rem;
   background-color: transparent;
   border: none;
-  color: #fff;
+  color: var(--text-primary);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
@@ -372,25 +372,25 @@ onMounted(() => {
   padding: 1rem;
   font-size: 0.7rem;
   font-weight: 600;
-  color: #888;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--bg-card-hover);
   white-space: nowrap;
 }
 
 .data-table th:not(:last-child) {
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid var(--bg-card-hover);
 }
 
 .data-table td {
   padding: 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--bg-card-hover);
   font-size: 0.85rem;
 }
 
 .empty-state {
   text-align: center;
   padding: 5rem 0;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.85rem;
 }
 
@@ -400,7 +400,7 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid var(--bg-card-hover);
   background-color: rgba(255, 255, 255, 0.02);
 }
 
@@ -409,13 +409,13 @@ onMounted(() => {
   align-items: center;
   gap: 0.5rem;
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .per-page-select {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #fff;
+  color: var(--text-primary);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
 }
@@ -425,13 +425,13 @@ onMounted(() => {
   align-items: center;
   gap: 0.75rem;
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 .page-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -447,7 +447,7 @@ onMounted(() => {
 
 .page-info {
   font-weight: 600;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 /* Light Theme Adjustments */
@@ -482,7 +482,7 @@ onMounted(() => {
 }
 
 :root[data-theme="light"] .table-card {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
@@ -496,7 +496,7 @@ onMounted(() => {
 
 :root[data-theme="light"] .tab-btn.active {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .tab-btn:not(.active):hover,

@@ -231,7 +231,7 @@ import {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -257,7 +257,7 @@ import {
   background-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
-  color: #ffffff;
+  color: var(--text-primary);
   padding: 0.5rem 2rem 0.5rem 1rem;
   font-size: 0.85rem;
   font-weight: 600;
@@ -271,14 +271,14 @@ import {
 
 .period-select option {
   background-color: #121212;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .select-icon {
   position: absolute;
   right: 0.75rem;
   pointer-events: none;
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .btn-outline {
@@ -286,7 +286,7 @@ import {
   align-items: center;
   gap: 0.5rem;
   background-color: transparent;
-  color: #ffffff;
+  color: var(--text-primary);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -297,22 +297,22 @@ import {
 }
 
 .btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 /* Period Indicator */
 .period-indicator {
   background-color: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
   padding: 1rem 1.25rem;
   font-size: 0.85rem;
-  color: #ffffff;
+  color: var(--text-primary);
   font-weight: 500;
 }
 
 .text-gray {
-  color: #888;
+  color: var(--text-secondary);
 }
 
 /* Metrics Grid */
@@ -324,7 +324,7 @@ import {
 
 .metric-card {
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.25rem;
   display: flex;
@@ -371,13 +371,13 @@ import {
 .metric-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .metric-desc {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
   line-height: 1.4;
 }
 
@@ -387,7 +387,7 @@ import {
 
 .divider {
   height: 1px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
   margin: 0.5rem 0;
 }
 
@@ -412,7 +412,7 @@ import {
   flex: 2;
   min-width: 400px;
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
@@ -431,13 +431,13 @@ import {
 .chart-title {
   font-size: 1.15rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 0.25rem 0;
 }
 
 .chart-desc {
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -500,7 +500,7 @@ import {
 
 .grid-line {
   width: 100%;
-  border-top: 1px dashed rgba(255, 255, 255, 0.05);
+  border-top: 1px dashed var(--bg-card-hover);
 }
 
 .x-axis {
@@ -526,7 +526,7 @@ import {
 
 .widget-card {
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
 }
@@ -544,23 +544,23 @@ import {
 .widget-title {
   font-size: 1rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 0.25rem 0;
 }
 
 .widget-desc {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--text-secondary);
   margin: 0;
   line-height: 1.4;
 }
 
 .widget-empty {
-  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border: 1px dashed var(--border-color);
   border-radius: 8px;
   padding: 1.5rem 1rem;
   text-align: center;
-  color: #888;
+  color: var(--text-secondary);
   font-size: 0.85rem;
   background-color: rgba(255, 255, 255, 0.01);
 }
@@ -581,7 +581,7 @@ import {
 :root[data-theme="light"] .widget-card,
 :root[data-theme="light"] .period-indicator,
 :root[data-theme="light"] .period-select option {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 

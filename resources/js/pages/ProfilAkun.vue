@@ -215,7 +215,7 @@ const saveProfile = async () => {
 }
 
 .breadcrumb-link:hover {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .separator {
@@ -223,7 +223,7 @@ const saveProfile = async () => {
 }
 
 .breadcrumb-current {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .header-title-row {
@@ -234,8 +234,8 @@ const saveProfile = async () => {
 
 .back-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   width: 36px;
   height: 36px;
   border-radius: 8px;
@@ -249,7 +249,7 @@ const saveProfile = async () => {
 }
 
 .back-btn:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
   border-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -263,7 +263,7 @@ const saveProfile = async () => {
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .page-subtitle {
@@ -275,7 +275,7 @@ const saveProfile = async () => {
 /* Main Card */
 .profile-card {
   background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 2.5rem;
   display: flex;
@@ -300,7 +300,7 @@ const saveProfile = async () => {
   height: 96px;
   border-radius: 50%;
   background-color: #333333;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 2.5rem;
   font-weight: 600;
   display: flex;
@@ -312,7 +312,7 @@ const saveProfile = async () => {
   position: absolute;
   bottom: 0;
   right: 0;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   width: 28px;
@@ -352,15 +352,15 @@ const saveProfile = async () => {
 .form-group label, .membership-section label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .form-control {
-  background-color: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 0.75rem 1rem;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 0.9rem;
   font-family: inherit;
   width: 100%;
@@ -373,7 +373,7 @@ const saveProfile = async () => {
 
 .form-control:disabled {
   background-color: rgba(59, 130, 246, 0.05); /* Slight blue tint as in image */
-  color: #888;
+  color: var(--text-secondary);
   cursor: not-allowed;
   border-color: rgba(59, 130, 246, 0.2);
 }
@@ -394,7 +394,7 @@ const saveProfile = async () => {
 
 .help-text {
   font-size: 0.75rem;
-  color: #888;
+  color: var(--text-secondary);
 }
 
 /* Membership */
@@ -410,7 +410,7 @@ const saveProfile = async () => {
   align-items: center;
   justify-content: space-between;
   background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1rem 1.25rem;
 }
@@ -442,7 +442,7 @@ const saveProfile = async () => {
   margin: 0 0 0.25rem 0;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .expiry-text {
@@ -456,7 +456,7 @@ const saveProfile = async () => {
   align-items: center;
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  color: var(--text-primary);
   padding: 0.5rem 1rem;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -466,7 +466,7 @@ const saveProfile = async () => {
 }
 
 .btn-outline:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--bg-card-hover);
 }
 
 .mr-2 {
@@ -485,7 +485,7 @@ const saveProfile = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #000000;
   border: none;
   padding: 0.75rem 1rem;
@@ -505,9 +505,9 @@ const saveProfile = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #1a1a1a;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
   padding: 0.75rem 1rem;
   border-radius: 8px;
   font-size: 0.9rem;
@@ -562,12 +562,12 @@ const saveProfile = async () => {
 }
 
 :root[data-theme="light"] .profile-card {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #e5e7eb;
 }
 
 :root[data-theme="light"] .form-control {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   border-color: #d1d5db;
   color: #111827;
 }
@@ -593,11 +593,11 @@ const saveProfile = async () => {
 
 :root[data-theme="light"] .btn-primary {
   background-color: #111827;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 :root[data-theme="light"] .btn-secondary {
-  background-color: #ffffff;
+  background-color: var(--text-primary);
   color: #111827;
   border-color: #d1d5db;
 }
