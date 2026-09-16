@@ -1186,13 +1186,13 @@ onMounted(async () => {
 }
 
 .tab-btn.active {
-  background-color: #2a2a2a;
+  background-color: var(--bg-card-hover);
   color: var(--text-primary);
 }
 
 /* Settings Sections */
 .settings-section {
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
@@ -1313,7 +1313,7 @@ select.form-control option {
 
 .toggle-btn.active {
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
 }
 
 .slider-container {
@@ -1478,7 +1478,7 @@ select.form-control option {
 
 .config-box {
   padding: 1.25rem;
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
 }
@@ -1892,7 +1892,7 @@ select.form-control option {
 }
 
 .editor-content {
-  background-color: #121212;
+  background-color: var(--bg-main);
   min-height: 150px;
   padding: 1rem;
 }
@@ -1943,7 +1943,7 @@ select.form-control option {
 }
 
 .preview-empty-icon {
-  background-color: #2a2a2a;
+  background-color: var(--bg-card-hover);
   width: 64px;
   height: 64px;
   border-radius: 12px;
@@ -1980,7 +1980,7 @@ select.form-control option {
 }
 
 .mockup-header {
-  background-color: #2a2a2a;
+  background-color: var(--bg-card-hover);
   padding: 0.65rem 1rem;
   display: flex;
   align-items: center;
@@ -2112,7 +2112,7 @@ select.form-control option {
 }
 
 .mockup-step.active .step-num {
-  background-color: #111827;
+  background-color: var(--bg-main);
   color: #fbbf24;
 }
 
@@ -2221,7 +2221,7 @@ select.form-control option {
 }
 
 .mockup-btn-next {
-  background-color: #111827;
+  background-color: var(--bg-main);
   color: var(--text-primary);
   padding: 0.8rem 1.5rem;
   border-radius: 6px;
@@ -2253,7 +2253,7 @@ select.form-control option {
 
 .btn-primary {
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.6rem 1.5rem;

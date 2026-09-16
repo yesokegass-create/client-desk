@@ -203,7 +203,7 @@ import {
   align-items: center;
   gap: 0.5rem;
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -248,7 +248,7 @@ import {
 
 .search-input {
   width: 100%;
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.5rem 1rem 0.5rem 2.5rem;
@@ -285,7 +285,7 @@ import {
 }
 
 .sort-select option {
-  background-color: #121212;
+  background-color: var(--bg-main);
   color: var(--text-primary);
 }
 
@@ -333,12 +333,12 @@ import {
 
 .tab-btn.active {
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
 }
 
 /* Table */
 .table-container {
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--bg-card-hover);
   border-radius: 8px;
   overflow-x: auto;
@@ -425,7 +425,7 @@ import {
 }
 
 .size-select option {
-  background-color: #121212;
+  background-color: var(--bg-main);
   color: var(--text-primary);
 }
 

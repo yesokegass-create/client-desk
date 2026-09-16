@@ -146,7 +146,7 @@ import {
 
 /* Cards */
 .portal-card {
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
@@ -254,7 +254,7 @@ import {
   align-items: center;
   gap: 0.5rem;
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -354,7 +354,7 @@ import {
 }
 
 .sort-select option {
-  background-color: #121212;
+  background-color: var(--bg-main);
   color: var(--text-primary);
 }
 
@@ -408,7 +408,7 @@ import {
 }
 
 .size-select option {
-  background-color: #121212;
+  background-color: var(--bg-main);
   color: var(--text-primary);
 }
 

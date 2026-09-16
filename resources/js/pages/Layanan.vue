@@ -838,7 +838,7 @@ onMounted(() => {
   align-items: center;
   gap: 0.5rem;
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -1203,7 +1203,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   background-color: var(--text-primary);
-  color: #000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.6rem 1.25rem;
@@ -1502,7 +1502,7 @@ onMounted(() => {
 .section-divider {
   border: 0;
   height: 1px;
-  background-color: #2a2a2a;
+  background-color: var(--bg-card-hover);
   margin: 2rem 0;
 }
 

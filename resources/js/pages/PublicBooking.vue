@@ -1207,7 +1207,7 @@ onMounted(async () => {
 }
 
 .mockup-step.active .step-num {
-  background-color: #111827;
+  background-color: var(--bg-main);
   color: var(--text-primary);
 }
 
@@ -1328,7 +1328,7 @@ onMounted(async () => {
 }
 
 .mockup-btn-next {
-  background-color: #111827;
+  background-color: var(--bg-main);
   color: var(--text-primary);
   padding: 0.8rem 2rem;
   border-radius: 8px;

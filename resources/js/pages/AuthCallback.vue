@@ -92,7 +92,7 @@ onMounted(async () => {
   align-items: center;
   min-height: 100vh;
   padding: 2rem;
-  background-color: #121212;
+  background-color: var(--bg-main);
 }
 
 .callback-card {
@@ -183,7 +183,7 @@ onMounted(async () => {
   width: 100%;
   padding: 0.75rem;
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   font-size: 0.95rem;

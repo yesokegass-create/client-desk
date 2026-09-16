@@ -686,7 +686,7 @@ const removeTag = (index) => {
   align-items: center;
   gap: 0.5rem;
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -916,7 +916,7 @@ const removeTag = (index) => {
 }
 
 .role-pill {
-  background-color: #2a2a2a;
+  background-color: var(--bg-card-hover);
   color: #aaa;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
@@ -930,7 +930,7 @@ const removeTag = (index) => {
 }
 
 .tag-pill-sm {
-  background-color: #2a2a2a;
+  background-color: var(--bg-card-hover);
   color: var(--text-primary);
   padding: 0.15rem 0.5rem;
   border-radius: 12px;
@@ -1097,7 +1097,7 @@ const removeTag = (index) => {
 
 .btn-white-solid {
   background-color: var(--text-primary);
-  color: #000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 8px;
   padding: 0.6rem 1.5rem;
@@ -1442,7 +1442,7 @@ const removeTag = (index) => {
   margin-top: 0.75rem;
 }
 .tag-pill {
-  background-color: #2a2a2a;
+  background-color: var(--bg-card-hover);
   color: var(--text-primary);
   padding: 0.25rem 0.75rem;
   border-radius: 16px;

@@ -4,6 +4,7 @@
   --bg-card-hover: #1a1a1a;
   --text-primary: #ffffff;
   --text-secondary: #a3a3a3;
+  --text-inverse: #000000;
   --accent-color: #d4af37; /* Gold accent */
   --accent-hover: #e6c555;
   --border-color: #262626;
@@ -24,11 +25,12 @@
 }
 
 :root[data-theme="light"] {
-  --bg-main: #ffffff;
-  --bg-card: #f9fafb;
+  --bg-main: #f9fafb;
+  --bg-card: #ffffff;
   --bg-card-hover: #f3f4f6;
   --text-primary: #0a0a0a;
   --text-secondary: #525252;
+  --text-inverse: #ffffff;
   --border-color: #e5e7eb;
   
   --bg-gradient-1: #ffffff;

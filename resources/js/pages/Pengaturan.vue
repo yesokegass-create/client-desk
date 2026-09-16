@@ -1001,7 +1001,7 @@ onMounted(() => {
 }
 
 .settings-form-card {
-  background-color: #0f0f0f;
+  background-color: var(--bg-card);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
@@ -1220,7 +1220,7 @@ input:checked + .slider:before {
 .btn-orientation:last-of-type { border-top-right-radius: 20px; border-bottom-right-radius: 20px; }
 .btn-orientation.active {
   background-color: var(--text-primary);
-  color: #000;
+  color: var(--text-inverse);
   border-color: var(--text-primary);
   font-weight: 500;
 }
@@ -1302,7 +1302,7 @@ input:checked + .slider:before {
 
 /* Bottom Action Bar */
 .bottom-action-bar {
-  background-color: #0f0f0f;
+  background-color: var(--bg-card);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1rem 1.5rem;
@@ -1350,7 +1350,7 @@ input:checked + .slider:before {
 
 .btn-white-solid {
   background-color: var(--text-primary);
-  color: #000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.5rem 1.5rem;

@@ -395,7 +395,7 @@ const toggleTheme = () => {
   width: 100%;
   padding: 0.75rem;
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: var(--radius-md);
   font-size: 0.95rem;
@@ -537,7 +537,7 @@ const toggleTheme = () => {
   align-items: center;
   text-align: center;
   padding: 3rem 2rem;
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--bg-card-hover);
 }
 

@@ -274,7 +274,7 @@ const saveProfile = async () => {
 
 /* Main Card */
 .profile-card {
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 2.5rem;
@@ -313,7 +313,7 @@ const saveProfile = async () => {
   bottom: 0;
   right: 0;
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   width: 28px;
   height: 28px;
@@ -486,7 +486,7 @@ const saveProfile = async () => {
   align-items: center;
   justify-content: center;
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   padding: 0.75rem 1rem;
   border-radius: 8px;
@@ -517,7 +517,7 @@ const saveProfile = async () => {
 }
 
 .btn-secondary:hover {
-  background-color: #2a2a2a;
+  background-color: var(--bg-card-hover);
 }
 
 /* Responsive */

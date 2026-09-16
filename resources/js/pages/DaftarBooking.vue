@@ -261,7 +261,7 @@
           Freelance belum tersedia untuk template ini.
         </p>
         <div style="display: flex; justify-content: flex-end;">
-          <button style="padding: 0.5rem 1.5rem; background: var(--text-primary); border: none; color: #000; border-radius: 8px; font-weight: 600; cursor: pointer;" @click="showInfoModal = false">OK</button>
+          <button style="padding: 0.5rem 1.5rem; background: var(--text-primary); border: none; color: var(--text-inverse); border-radius: 8px; font-weight: 600; cursor: pointer;" @click="showInfoModal = false">OK</button>
         </div>
       </div>
     </div>
@@ -314,7 +314,7 @@
           </div>
           <div style="display: flex; gap: 0.5rem;">
             <button style="padding: 0.5rem 1.5rem; background: transparent; border: none; color: var(--text-primary); font-weight: 600; cursor: pointer;" @click="closeFreelanceModal">Batal</button>
-            <button style="padding: 0.5rem 1.5rem; background: var(--text-primary); border: none; color: #000; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center;" @click="saveFreelanceAssignment" :disabled="isSavingFreelance">
+            <button style="padding: 0.5rem 1.5rem; background: var(--text-primary); border: none; color: var(--text-inverse); border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center;" @click="saveFreelanceAssignment" :disabled="isSavingFreelance">
               <Loader2 v-if="isSavingFreelance" :size="16" class="spin mr-2" style="margin-right: 8px;" />
               <Users v-else :size="16" style="margin-right: 8px;" />
               {{ isSavingFreelance ? 'Menyimpan...' : 'Simpan' }}
@@ -778,7 +778,7 @@ const copyTemplateFreelance = (booking) => {
   align-items: center;
   gap: 0.5rem;
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -887,7 +887,7 @@ const copyTemplateFreelance = (booking) => {
 
 .tab-btn.active {
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
 }
 
 .tab-btn:not(.active):hover {

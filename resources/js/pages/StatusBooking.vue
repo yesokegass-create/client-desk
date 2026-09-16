@@ -331,7 +331,7 @@ onMounted(() => {
 
 .tab-btn.active {
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
 }
 
 .tab-btn:not(.active):hover {

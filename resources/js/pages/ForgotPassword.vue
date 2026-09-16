@@ -201,7 +201,7 @@ const toggleTheme = () => {
   width: 100%;
   padding: 0.75rem;
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: var(--radius-md);
   font-size: 0.95rem;

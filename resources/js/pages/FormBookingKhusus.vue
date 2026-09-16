@@ -294,7 +294,7 @@ import {
 
 .form-control {
   width: 100%;
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.6rem 1rem;
@@ -347,7 +347,7 @@ import {
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.25rem;
-  background-color: #121212;
+  background-color: var(--bg-main);
 }
 
 .section-header-flex {
@@ -479,7 +479,7 @@ import {
 }
 
 .custom-checkbox.dark-bg {
-  background-color: #121212;
+  background-color: var(--bg-main);
 }
 
 .custom-checkbox:checked {
@@ -572,7 +572,7 @@ import {
 
 .btn-primary {
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.6rem 1.5rem;
@@ -599,7 +599,7 @@ import {
 /* Right Column */
 .list-header-box {
   border: 1px solid var(--bg-card-hover);
-  background-color: #121212;
+  background-color: var(--bg-main);
   border-radius: 8px;
   padding: 1.25rem;
 }

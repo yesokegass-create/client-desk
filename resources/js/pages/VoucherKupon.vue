@@ -144,7 +144,7 @@ import {
   display: flex;
   align-items: center;
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.6rem 1.25rem;
@@ -170,7 +170,7 @@ import {
 }
 
 .metric-card {
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.25rem;
@@ -246,7 +246,7 @@ import {
 
 .search-input {
   width: 100%;
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.6rem 1rem 0.6rem 2.5rem;
@@ -263,7 +263,7 @@ import {
 .btn-filter {
   display: flex;
   align-items: center;
-  background-color: #121212;
+  background-color: var(--bg-main);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   border-radius: 6px;
@@ -287,7 +287,7 @@ import {
 .tab-btn {
   display: flex;
   align-items: center;
-  background: #121212;
+  background: var(--bg-main);
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
   padding: 0.5rem 1rem;
@@ -300,7 +300,7 @@ import {
 
 .tab-btn.active {
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border-color: var(--text-primary);
 }
 

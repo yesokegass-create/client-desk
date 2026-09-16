@@ -663,7 +663,7 @@ label {
 
 .btn-primary {
   background-color: var(--text-primary);
-  color: #000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 8px;
   padding: 10px 20px;

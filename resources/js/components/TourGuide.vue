@@ -253,7 +253,7 @@ onUnmounted(() => {
 
 .btn-primary-sm {
   background-color: var(--text-primary);
-  color: #000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 6px 12px;

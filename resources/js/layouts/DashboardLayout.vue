@@ -698,7 +698,7 @@ const toggleTheme = () => {
   top: -4px;
   right: -4px;
   background-color: #10b981;
-  color: #000;
+  color: var(--text-inverse);
   font-size: 0.65rem;
   font-weight: 700;
   width: 16px;
@@ -715,7 +715,7 @@ const toggleTheme = () => {
   height: 28px;
   border-radius: 50%;
   background-color: #10b981;
-  color: #000;
+  color: var(--text-inverse);
   display: flex;
   align-items: center;
   justify-content: center;

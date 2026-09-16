@@ -270,7 +270,7 @@ import {
 }
 
 .period-select option {
-  background-color: #121212;
+  background-color: var(--bg-main);
   color: var(--text-primary);
 }
 
@@ -323,7 +323,7 @@ import {
 }
 
 .metric-card {
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.25rem;
@@ -411,7 +411,7 @@ import {
 .chart-section {
   flex: 2;
   min-width: 400px;
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
@@ -525,7 +525,7 @@ import {
 }
 
 .widget-card {
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;

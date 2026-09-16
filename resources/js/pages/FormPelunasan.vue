@@ -241,7 +241,7 @@ import {
 
 /* Settings Sections */
 .settings-section {
-  background-color: #121212;
+  background-color: var(--bg-main);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
@@ -305,7 +305,7 @@ import {
   font-size: 0.7rem;
   font-weight: 700;
   background-color: var(--text-primary);
-  color: #000;
+  color: var(--text-inverse);
   padding: 0.1rem 0.2rem;
   border-radius: 2px;
 }
@@ -496,7 +496,7 @@ select.form-control option {
 
 .btn-primary {
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.6rem 1.5rem;

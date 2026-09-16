@@ -394,7 +394,7 @@ watch(() => props.show, async (newVal) => {
   display: flex;
   align-items: center;
   padding: 0.6rem 1.25rem;
-  background: #111827;
+  background: var(--bg-main);
   color: white;
   border: none;
   border-radius: 6px;

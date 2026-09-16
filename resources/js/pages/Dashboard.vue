@@ -517,7 +517,7 @@ onMounted(async () => {
 }
 
 .dashboard-card {
-  background-color: #0f0f0f;
+  background-color: var(--bg-card);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
@@ -598,7 +598,7 @@ onMounted(async () => {
 
 .btn-primary {
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.6rem 1rem;
@@ -710,7 +710,7 @@ onMounted(async () => {
 
 .btn-white {
   background-color: var(--text-primary);
-  color: #000000;
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   padding: 0.5rem 1rem;
@@ -776,7 +776,7 @@ onMounted(async () => {
 }
 
 .metric-card {
-  background-color: #0f0f0f;
+  background-color: var(--bg-card);
   border: 1px solid var(--bg-card-hover);
   border-radius: 12px;
   padding: 1.5rem;
