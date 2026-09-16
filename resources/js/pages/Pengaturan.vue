@@ -293,7 +293,7 @@
               <div class="logo-preview-box" :class="logoOrientation">
                 <img :src="uploadedLogoUrl" alt="Logo Preview" />
               </div>
-              <button class="btn-text-danger" style="margin-top: 0.75rem;" @click="removeLogo">
+              <button class="btn-danger-outline" style="margin-top: 0.75rem;" @click="removeLogo">
                 <Trash2 :size="14" class="mr-1" /> Hapus Logo
               </button>
             </div>
@@ -1412,6 +1412,24 @@ input:checked + .slider:before {
 }
 .btn-text-danger:hover {
   text-decoration: underline;
+}
+.btn-danger-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+  color: #ef4444;
+  transition: all 0.2s;
+}
+.btn-danger-outline:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.5);
 }
 
 /* Crop Modal */
