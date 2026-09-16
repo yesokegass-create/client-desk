@@ -317,10 +317,10 @@
             </div>
           </div>
 
-          <hr class="section-divider" />
+          <hr class="section-divider" v-if="false" />
 
-          <!-- SECTION 4: Jam Kerja -->
-          <div class="form-section mb-6">
+          <!-- SECTION 4: Jam Kerja (Temporarily Hidden) -->
+          <div class="form-section mb-6" v-if="false">
             <div class="setting-toggle-row">
               <div class="setting-toggle-info">
                 <h4><Clock :size="16" class="mr-2 inline" /> Jam Kerja</h4>
