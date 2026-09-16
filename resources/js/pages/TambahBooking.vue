@@ -27,7 +27,7 @@
               <label>Nomor WhatsApp <span class="text-danger">*</span></label>
               <div class="input-group">
                 <div class="country-code" style="cursor: default; padding-right: 12px;">
-                  <span>ID +62</span>
+                  <span>+62</span>
                 </div>
                 <input type="tel" class="form-control flex-1" placeholder="8123456789" v-model="form.whatsapp" @input="formatWhatsApp" />
               </div>
@@ -319,8 +319,13 @@ watch(() => currentStep()?.id, (newVal, oldVal) => {
 });
 
 const handleSimpanBooking = () => {
+  const phoneRegex = /^8[1-9][0-9]{7,11}$/;
   if (!form.value.nama || !form.value.whatsapp || !form.value.tanggal || !form.value.jam) {
     alert('Mohon lengkapi data wajib: Nama Klien, WhatsApp, Tanggal, dan Jam sebelum menyimpan.');
+    return;
+  }
+  if (!phoneRegex.test(form.value.whatsapp)) {
+    alert('Format nomor WhatsApp tidak valid (harus 8-12 digit angka dan diawali dengan 8).');
     return;
   }
   if (isActive.value && currentStep()?.id === 'add-booking-3') {

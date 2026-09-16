@@ -14,11 +14,21 @@ class TeamMemberController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->has('phone_number') && !empty($request->phone_number)) {
+            $phone = preg_replace('/[^0-9]/', '', $request->phone_number);
+            if (str_starts_with($phone, '0')) {
+                $phone = '62' . substr($phone, 1);
+            } elseif (!str_starts_with($phone, '62')) {
+                $phone = '62' . $phone;
+            }
+            $request->merge(['phone_number' => '+' . $phone]);
+        }
+
         $request->validate([
             'nama' => 'required|string',
             'peran' => 'required|string',
             'phone_country_code' => 'required|string',
-            'phone_number' => 'required|string',
+            'phone_number' => 'required|phone:ID,mobile',
             'email' => 'nullable|email',
             'tags' => 'nullable|array',
             'pricelist' => 'nullable|array',
@@ -31,11 +41,21 @@ class TeamMemberController extends Controller
 
     public function update(Request $request, $id)
     {
+        if ($request->has('phone_number') && !empty($request->phone_number)) {
+            $phone = preg_replace('/[^0-9]/', '', $request->phone_number);
+            if (str_starts_with($phone, '0')) {
+                $phone = '62' . substr($phone, 1);
+            } elseif (!str_starts_with($phone, '62')) {
+                $phone = '62' . $phone;
+            }
+            $request->merge(['phone_number' => '+' . $phone]);
+        }
+
         $request->validate([
             'nama' => 'required|string',
             'peran' => 'required|string',
             'phone_country_code' => 'required|string',
-            'phone_number' => 'required|string',
+            'phone_number' => 'required|phone:ID,mobile',
             'email' => 'nullable|email',
             'tags' => 'nullable|array',
             'pricelist' => 'nullable|array',

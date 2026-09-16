@@ -744,7 +744,8 @@ const saveSettings = async () => {
 
   // Validation
   errors.value.vendorName = !vendorName.value.trim();
-  errors.value.phoneNumber = !phoneNumber.value || phoneNumber.value.length < 8;
+  const phoneRegex = /^8[1-9][0-9]{7,11}$/;
+  errors.value.phoneNumber = !phoneNumber.value || !phoneRegex.test(phoneNumber.value);
 
   if (errors.value.vendorName || errors.value.phoneNumber) {
     alert('Mohon perbaiki field yang wajib diisi.');

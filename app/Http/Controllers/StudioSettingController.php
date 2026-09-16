@@ -28,11 +28,21 @@ class StudioSettingController extends Controller
             ['name' => 'Test User', 'password' => bcrypt('password')]
         );
 
+        if ($request->has('phone_number') && !empty($request->phone_number)) {
+            $phone = preg_replace('/[^0-9]/', '', $request->phone_number);
+            if (str_starts_with($phone, '0')) {
+                $phone = '62' . substr($phone, 1);
+            } elseif (!str_starts_with($phone, '62')) {
+                $phone = '62' . $phone;
+            }
+            $request->merge(['phone_number' => '+' . $phone]);
+        }
+
         $data = $request->validate([
             'vendor_name' => 'nullable|string',
             'custom_url' => 'nullable|string|max:255',
             'phone_country_code' => 'nullable|string|max:10',
-            'phone_number' => 'nullable|string|max:20',
+            'phone_number' => 'nullable|phone:ID,mobile',
             'disable_slug' => 'boolean',
             'logo_url' => 'nullable|string',
             'address' => 'nullable|string',

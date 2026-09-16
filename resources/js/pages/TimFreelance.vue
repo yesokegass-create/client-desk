@@ -502,13 +502,16 @@ const filteredTeamMembers = computed(() => {
 
 const saveTeamMember = async () => {
   formErrors.value.nama = !form.value.nama.trim();
-  formErrors.value.phone_number = !form.value.phone_number || form.value.phone_number.length < 8;
-
-  formErrors.value.nama = !form.value.nama.trim();
-  formErrors.value.phone_number = !form.value.phone_number.trim();
+  
+  if (form.value.phone_country_code === 'ID') {
+    const phoneRegex = /^8[1-9][0-9]{7,11}$/;
+    formErrors.value.phone_number = !form.value.phone_number || !phoneRegex.test(form.value.phone_number);
+  } else {
+    formErrors.value.phone_number = !form.value.phone_number || form.value.phone_number.length < 5;
+  }
   
   if (formErrors.value.nama || formErrors.value.phone_number) {
-    alert('Mohon lengkapi field yang wajib diisi.');
+    alert('Mohon lengkapi field yang wajib diisi dengan format yang benar.');
     return;
   }
   

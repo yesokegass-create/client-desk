@@ -35,9 +35,19 @@ class BookingController extends Controller
             return response()->json(['error' => 'Vendor not found'], 404);
         }
 
+        if ($request->has('noWhatsapp') && !empty($request->noWhatsapp)) {
+            $phone = preg_replace('/[^0-9]/', '', $request->noWhatsapp);
+            if (str_starts_with($phone, '0')) {
+                $phone = '62' . substr($phone, 1);
+            } elseif (!str_starts_with($phone, '62')) {
+                $phone = '62' . $phone;
+            }
+            $request->merge(['noWhatsapp' => '+' . $phone]);
+        }
+
         $validated = $request->validate([
             'namaLengkap' => 'required|string',
-            'noWhatsapp' => 'required',
+            'noWhatsapp' => 'required|phone:ID,mobile',
             'instagram' => 'nullable|string',
             'tipeAcara' => 'required|string',
             'jadwal' => 'nullable|string',
