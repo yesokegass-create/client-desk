@@ -12,7 +12,7 @@
         </div>
         
         <div class="header-title-row">
-          <button class="back-btn" @click="$router.push('/pengaturan')">
+          <button class="back-btn" @click="goBack">
             <ArrowLeft :size="20" />
           </button>
           <div class="title-content">
@@ -100,6 +100,14 @@ import {
 
 const router = useRouter();
 const { isActive, endTour, completeStep } = useTour();
+
+const goBack = () => {
+  if (window.history.state && window.history.state.back) {
+    router.back();
+  } else {
+    router.push('/pengaturan');
+  }
+};
 
 const form = ref({
   nama: '',
