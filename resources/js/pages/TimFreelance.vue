@@ -252,7 +252,7 @@
                       </ul>
                     </div>
                   </div>
-                  <input type="tel" autocomplete="tel" class="form-control phone-input" :class="{ 'has-error': formErrors.phone_number }" :value="form.phone_number" @input="handlePhoneInput" placeholder="8123456789" />
+                  <input type="tel" maxlength="13" autocomplete="tel" class="form-control phone-input" :class="{ 'has-error': formErrors.phone_number }" :value="form.phone_number" @input="handlePhoneInput" placeholder="8123456789" />
                 </div>
               </div>
 
@@ -296,7 +296,7 @@
                     <label class="mt-3">Harga</label>
                     <div class="input-prefix">
                       <span class="prefix">Rp</span>
-                      <input type="tel" class="form-control" :value="formatRupiah(item.harga)" @input="e => updateHarga(index, e)" placeholder="0" />
+                      <input type="tel" maxlength="13" class="form-control" :value="formatRupiah(item.harga)" @input="e => updateHarga(index, e)" placeholder="0" />
                     </div>
                   </div>
                 </div>

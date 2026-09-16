@@ -242,7 +242,7 @@
                 <label><Phone :size="14" /> Nomor WhatsApp Studio <span class="text-danger">*</span></label>
                 <div class="input-group" :class="{ 'has-error': errors.phoneNumber }">
                   <span class="input-addon">ID +62</span>
-                  <input type="tel" class="form-control border-0" :value="phoneNumber" @input="handlePhoneInput" placeholder="812 3456 7890" />
+                  <input type="tel" maxlength="13" class="form-control border-0" :value="phoneNumber" @input="handlePhoneInput" placeholder="812 3456 7890" />
                 </div>
                 <span v-if="errors.phoneNumber" class="error-msg">Nomor WhatsApp wajib diisi dengan benar</span>
               </div>

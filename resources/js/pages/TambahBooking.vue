@@ -29,7 +29,7 @@
                 <div class="country-code" style="cursor: default; padding-right: 12px;">
                   <span>+62</span>
                 </div>
-                <input type="tel" class="form-control flex-1" placeholder="8123456789" v-model="form.whatsapp" @input="formatWhatsApp" />
+                <input type="tel" maxlength="13" class="form-control flex-1" placeholder="8123456789" v-model="form.whatsapp" @input="formatWhatsApp" />
               </div>
             </div>
           </div>
@@ -174,14 +174,14 @@
               <label>Harga Total <span class="text-danger">*</span></label>
               <div class="input-prefix">
                 <span class="prefix">Rp</span>
-                <input type="tel" class="form-control" placeholder="0" v-model="form.hargaTotal" @input="e => handleCurrency('hargaTotal', e)" />
+                <input type="tel" maxlength="13" class="form-control" placeholder="0" v-model="form.hargaTotal" @input="e => handleCurrency('hargaTotal', e)" />
               </div>
             </div>
             <div class="form-group flex-1">
               <label>DP Dibayar</label>
               <div class="input-prefix">
                 <span class="prefix">Rp</span>
-                <input type="tel" class="form-control" placeholder="0" v-model="form.dp" @input="e => handleCurrency('dp', e)" />
+                <input type="tel" maxlength="13" class="form-control" placeholder="0" v-model="form.dp" @input="e => handleCurrency('dp', e)" />
               </div>
             </div>
           </div>
@@ -190,14 +190,14 @@
               <label>Biaya Akomodasi (Rp)</label>
               <div class="input-prefix">
                 <span class="prefix">Rp</span>
-                <input type="tel" class="form-control" placeholder="0" v-model="form.akomodasi" @input="e => handleCurrency('akomodasi', e)" />
+                <input type="tel" maxlength="13" class="form-control" placeholder="0" v-model="form.akomodasi" @input="e => handleCurrency('akomodasi', e)" />
               </div>
             </div>
             <div class="form-group flex-1">
               <label>Diskon Nominal (Rp)</label>
               <div class="input-prefix">
                 <span class="prefix">Rp</span>
-                <input type="tel" class="form-control" placeholder="0" v-model="form.diskon" @input="e => handleCurrency('diskon', e)" />
+                <input type="tel" maxlength="13" class="form-control" placeholder="0" v-model="form.diskon" @input="e => handleCurrency('diskon', e)" />
               </div>
             </div>
           </div>
@@ -339,7 +339,7 @@ const formatWhatsApp = (e) => {
   let val = e.target.value.replace(/\D/g, '');
   if (val.startsWith('0')) val = val.substring(1);
   else if (val.startsWith('62')) val = val.substring(2);
-  form.value.whatsapp = val;
+  form.value.whatsapp = val.slice(0, 13);
   e.target.value = val;
 };
 

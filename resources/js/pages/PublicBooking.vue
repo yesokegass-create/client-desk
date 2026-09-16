@@ -77,7 +77,7 @@
               <label><Phone :size="16" /> Nomor WhatsApp <span class="req" :style="{ color: brandColor }">*</span></label>
               <div class="mockup-phone-input" style="display: flex;">
                 <div style="padding: 0 16px; background: #f9fafb; color: #6b7280; border: 1px solid #e5e7eb; border-right: none; border-radius: 8px 0 0 8px; display: flex; align-items: center; justify-content: center; width: auto; font-weight: 600;">+62</div>
-                <input type="tel" id="field-noWhatsapp" :value="formData.noWhatsapp" @input="formatWhatsApp" :class="['mockup-input', {'has-error': errors.noWhatsapp}]" placeholder="8123456789" style="border-top-left-radius: 0; border-bottom-left-radius: 0; flex: 1;" />
+                <input type="tel" maxlength="13" id="field-noWhatsapp" :value="formData.noWhatsapp" @input="formatWhatsApp" :class="['mockup-input', {'has-error': errors.noWhatsapp}]" placeholder="8123456789" style="border-top-left-radius: 0; border-bottom-left-radius: 0; flex: 1;" />
               </div>
               <span v-if="errors.noWhatsapp" class="error-msg">Bidang ini wajib diisi</span>
             </div>
