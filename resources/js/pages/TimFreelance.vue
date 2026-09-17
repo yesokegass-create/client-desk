@@ -303,9 +303,9 @@
               </div>
             </div>
 
-            <div class="modal-footer">
-              <button class="btn-cancel" @click="closeAddModal" :disabled="isSaving">Batal</button>
-              <button class="btn-submit" @click="saveTeamMember" :disabled="isSaving">
+            <div class="modal-footer" style="padding: 1.25rem 1.5rem; display: flex; justify-content: flex-end; align-items: center; gap: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+              <button type="button" class="btn-outline" @click="closeAddModal" :disabled="isSaving">Batal</button>
+              <button type="button" class="btn-primary" @click="saveTeamMember" :disabled="isSaving">
                 <span v-if="isSaving">Menyimpan...</span>
                 <span v-else>Simpan</span>
               </button>
