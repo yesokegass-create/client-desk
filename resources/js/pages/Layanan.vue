@@ -126,7 +126,7 @@
                 </div>
               </div>
               
-              <div class="sc-actions" v-if="!isReorderingMode">
+              <div class="sc-actions">
                 <button class="sc-btn sc-btn-edit" @click="editService(svc)"><Edit2 :size="16" /> <span>Edit</span></button>
                 <button class="sc-btn-icon" :class="svc.is_active ? 'sc-icon-active' : 'sc-icon-inactive'" @click="toggleActive(svc)" title="Toggle Aktif/Nonaktif">
                   <ToggleRight v-if="svc.is_active" :size="18" />
@@ -138,10 +138,9 @@
                 </button>
                 <button class="sc-btn-icon sc-icon-duplicate" @click="confirmDuplicate(svc)" title="Duplikat Layanan"><Copy :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-delete" @click="confirmDelete(svc)" title="Hapus Layanan"><Trash2 :size="18" /></button>
-              </div>
-              <div v-else class="sc-footer" style="justify-content: flex-end; padding: 12px 20px;">
-                <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('utama', index)"><ArrowUp :size="18" /></button>
-                <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('utama', index)"><ArrowDown :size="18" /></button>
+                <div style="flex-grow: 1;"></div>
+                <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('utama', index)" title="Pindah ke Atas"><ArrowUp :size="18" /></button>
+                <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('utama', index)" title="Pindah ke Bawah"><ArrowDown :size="18" /></button>
               </div>
             </div>
             </template>
@@ -210,7 +209,7 @@
                 </div>
               </div>
               
-              <div class="sc-actions" v-if="!isReorderingMode">
+              <div class="sc-actions">
                 <button class="sc-btn sc-btn-edit" @click="editService(svc)"><Edit2 :size="16" /> <span>Edit</span></button>
                 <button class="sc-btn-icon" :class="svc.is_active ? 'sc-icon-active' : 'sc-icon-inactive'" @click="toggleActive(svc)" title="Toggle Aktif/Nonaktif">
                   <ToggleRight v-if="svc.is_active" :size="18" />
@@ -222,10 +221,9 @@
                 </button>
                 <button class="sc-btn-icon sc-icon-duplicate" @click="confirmDuplicate(svc)" title="Duplikat Layanan"><Copy :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-delete" @click="confirmDelete(svc)" title="Hapus Layanan"><Trash2 :size="18" /></button>
-              </div>
-              <div v-else class="sc-footer" style="justify-content: flex-end; padding: 12px 20px;">
-                <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('addon', index)"><ArrowUp :size="18" /></button>
-                <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('addon', index)"><ArrowDown :size="18" /></button>
+                <div style="flex-grow: 1;"></div>
+                <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('addon', index)" title="Pindah ke Atas"><ArrowUp :size="18" /></button>
+                <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('addon', index)" title="Pindah ke Bawah"><ArrowDown :size="18" /></button>
               </div>
             </div>
             </template>
@@ -767,21 +765,23 @@ const saveService = async () => {
   }
 };
 
-const moveServiceUp = (listName, index) => {
+const moveServiceUp = async (listName, index) => {
   const list = listName === 'utama' ? localPaketUtama.value : localAddon.value;
   if (index > 0) {
     const temp = list[index];
     list[index] = list[index - 1];
     list[index - 1] = temp;
+    await saveOrder();
   }
 };
 
-const moveServiceDown = (listName, index) => {
+const moveServiceDown = async (listName, index) => {
   const list = listName === 'utama' ? localPaketUtama.value : localAddon.value;
   if (index < list.length - 1) {
     const temp = list[index];
     list[index] = list[index + 1];
     list[index + 1] = temp;
+    await saveOrder();
   }
 };
 
