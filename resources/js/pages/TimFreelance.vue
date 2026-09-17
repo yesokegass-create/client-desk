@@ -495,8 +495,8 @@ const saveTeamMember = async () => {
   
   isSaving.value = true;
 
-  // Phone number smart cleanup if ID +62
-  if (form.value.phone_country_code === '62' && form.value.phone_number) {
+  // Phone number smart cleanup if ID
+  if (form.value.phone_country_code === 'ID' && form.value.phone_number) {
      let cleaned = form.value.phone_number.replace(/\s+/g, '');
      if (cleaned.startsWith('0')) cleaned = cleaned.substring(1);
      else if (cleaned.startsWith('+62')) cleaned = cleaned.substring(3);
@@ -537,7 +537,16 @@ const saveTeamMember = async () => {
     }
   } catch (error) {
     console.error('Failed to save team member', error);
-    alert('Gagal menyimpan anggota tim. Mohon periksa kembali form Anda.');
+    if (error.response && error.response.status === 422) {
+       if (error.response.data.errors && error.response.data.errors.phone_number) {
+          formErrors.value.phone_number = true;
+          alert('Nomor WhatsApp yang Anda masukkan tidak valid.');
+       } else {
+          alert('Mohon lengkapi field yang wajib diisi dengan format yang benar.');
+       }
+    } else {
+       alert('Gagal menyimpan anggota tim. Mohon periksa kembali form Anda.');
+    }
     isSaving.value = false;
   }
 };
