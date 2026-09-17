@@ -236,7 +236,7 @@ watch(() => props.show, async (newVal) => {
 }
 
 .map-modal-content {
-  background: white;
+  background: var(--bg-card);
   width: 90%;
   max-width: 700px;
   border-radius: 12px;
@@ -251,7 +251,7 @@ watch(() => props.show, async (newVal) => {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
+  
 }
 
 .map-modal-header h3 {
@@ -265,7 +265,7 @@ watch(() => props.show, async (newVal) => {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #6b7280;
+  color: var(--text-secondary);
 }
 
 .map-search-bar {
@@ -285,13 +285,13 @@ watch(() => props.show, async (newVal) => {
   left: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #9ca3af;
+  color: var(--text-secondary);
 }
 
 .map-search-input {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.5rem;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   outline: none;
   font-size: 0.95rem;
@@ -299,7 +299,7 @@ watch(() => props.show, async (newVal) => {
 }
 
 .map-search-input:focus {
-  border-color: #111827;
+  border-color: var(--text-primary);
 }
 
 .autocomplete-list {
@@ -307,8 +307,8 @@ watch(() => props.show, async (newVal) => {
   top: 100%;
   left: 0;
   right: 0;
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   margin-top: 4px;
   padding: 0;
@@ -322,13 +322,13 @@ watch(() => props.show, async (newVal) => {
 .autocomplete-list li {
   padding: 0.75rem 1rem;
   cursor: pointer;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--border-color);
   font-size: 0.9rem;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .autocomplete-list li:hover {
-  background: #f9fafb;
+  background: var(--bg-card-hover);
 }
 
 .autocomplete-list li:last-child {
@@ -365,14 +365,14 @@ watch(() => props.show, async (newVal) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #f9fafb;
-  border-top: 1px solid #e5e7eb;
+  background: var(--bg-card-hover);
+  
   z-index: 20;
 }
 
 .footer-hint {
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--text-secondary);
 }
 
 .footer-actions {
@@ -382,20 +382,20 @@ watch(() => props.show, async (newVal) => {
 
 .btn-cancel {
   padding: 0.6rem 1.25rem;
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
-  color: #374151;
+  color: var(--text-primary);
 }
 
 .btn-select {
   display: flex;
   align-items: center;
   padding: 0.6rem 1.25rem;
-  background: var(--bg-main);
-  color: white;
+  background: var(--text-primary);
+  color: var(--text-inverse);
   border: none;
   border-radius: 6px;
   font-weight: 600;

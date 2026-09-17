@@ -771,7 +771,7 @@ const removeTag = (index) => {
 
 .modal-content {
   background-color: var(--bg-card);
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   width: 100%;
   max-width: 720px;
@@ -797,7 +797,7 @@ const removeTag = (index) => {
 /* Table Card & Controls */
 .table-card {
   background-color: var(--bg-card);
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
@@ -809,7 +809,7 @@ const removeTag = (index) => {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 1px solid var(--border-color);
   gap: 1rem;
 }
 
@@ -878,7 +878,7 @@ const removeTag = (index) => {
   padding: 1rem 1.5rem;
   text-align: left;
   font-size: 0.85rem;
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 1px solid var(--border-color);
   color: #ccc;
 }
 
@@ -1050,7 +1050,6 @@ const removeTag = (index) => {
 
 .modal-header {
   padding: 1.5rem;
-  border-bottom: 1px solid #2a2a2a;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -1090,7 +1089,6 @@ const removeTag = (index) => {
 
 .modal-footer {
   padding: 1.25rem 1.5rem;
-  border-top: 1px solid #2a2a2a;
   display: flex;
   justify-content: flex-end;
 }
@@ -1305,7 +1303,7 @@ const removeTag = (index) => {
 /* Pricelist */
 .pricelist-group {
   background-color: transparent;
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1rem;
 }
@@ -1355,7 +1353,7 @@ const removeTag = (index) => {
 .pricelist-item-box {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid #2a2a2a;
+  border-top: 1px solid var(--border-color);
 }
 .pricelist-item-box:first-child {
   margin-top: 0;
@@ -1476,7 +1474,7 @@ const removeTag = (index) => {
   
   .member-mobile-card {
     background-color: var(--bg-main);
-    border: 1px solid #2a2a2a;
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 1rem;
     display: flex;

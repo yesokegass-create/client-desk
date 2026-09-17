@@ -938,7 +938,6 @@ onMounted(() => {
   justify-content: space-between;
   align-items: flex-start;
   padding: 1.5rem;
-  border-bottom: 1px solid var(--border-color);
 }
 
 .modal-header h3 {
@@ -981,8 +980,6 @@ onMounted(() => {
 
 .modal-footer {
   padding: 1.5rem;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid var(--bg-card-hover);
   border-radius: 0 0 12px 12px;
 }
 
@@ -1478,7 +1475,7 @@ onMounted(() => {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.75rem;
   background-color: var(--bg-card);
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   color: var(--text-primary);
   font-size: 0.95rem;
@@ -1489,7 +1486,7 @@ onMounted(() => {
 .filter-select {
   padding: 0.75rem 2rem 0.75rem 1.25rem;
   background-color: var(--bg-card);
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   color: var(--text-primary);
   font-size: 0.95rem;
@@ -1534,7 +1531,7 @@ onMounted(() => {
 
 .service-card-new {
   background-color: var(--bg-card);
-  border: 1px solid #2a2a2a;
+  border: 1px solid var(--border-color);
   border-radius: 16px;
   padding: 1.5rem;
   display: flex;
