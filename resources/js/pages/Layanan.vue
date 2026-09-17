@@ -88,7 +88,7 @@
             <div class="service-card-new" :class="{ 'is-reorder-view': isReorderingMode }">
               <div class="sc-header" :style="{ display: 'flex', alignItems: 'center', justifyContent: isReorderingMode ? 'flex-start' : 'space-between', gap: '12px' }">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                  <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: var(--bg-card-hover); border-radius: 6px; color: var(--text-secondary);">
+                  <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: transparent; border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-secondary);">
                     <GripVertical :size="18" />
                   </div>
                   <h3 class="sc-title" style="margin-bottom: 0;">
@@ -185,7 +185,7 @@
             <div class="service-card-new" :class="{ 'is-reorder-view': isReorderingMode }">
               <div class="sc-header" :style="{ display: 'flex', alignItems: 'center', justifyContent: isReorderingMode ? 'flex-start' : 'space-between', gap: '12px' }">
                 <div style="display: flex; align-items: center; gap: 12px;">
-                  <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: var(--bg-card-hover); border-radius: 6px; color: var(--text-secondary);">
+                  <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: transparent; border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-secondary);">
                     <GripVertical :size="18" />
                   </div>
                   <h3 class="sc-title" style="margin-bottom: 0;">
