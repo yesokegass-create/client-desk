@@ -1770,3 +1770,13 @@ h1, h2, h3 {
     font-size: 2rem !important;
   }
 }
+
+/* Required Asterisks */
+.text-danger, .req {
+  color: #ef4444 !important;
+}
+
+/* Required Asterisks */
+.text-danger, .req {
+  color: #ef4444 !important;
+}
