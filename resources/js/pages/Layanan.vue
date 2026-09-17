@@ -477,6 +477,7 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
+import draggable from 'vuedraggable';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
