@@ -9,15 +9,21 @@
         </div>
         
         <div class="header-actions">
-          <button class="btn-outline">
+          <button v-if="!isReorderingMode" class="btn-outline" @click="toggleReorderMode">
             <ArrowUpDown :size="16" />
             Atur Urutan
           </button>
-          <button class="btn-outline">
+          <button v-else class="btn-dark" @click="toggleReorderMode">
+            <ArrowUpDown :size="16" />
+            Selesai Atur Urutan
+          </button>
+          
+          <button class="btn-outline" :disabled="isReorderingMode" :style="{ opacity: isReorderingMode ? 0.5 : 1 }">
             <Settings2 :size="16" />
             Kelola
           </button>
-          <button class="btn-primary" @click="openModal" id="tour-target-add-service">
+          
+          <button class="btn-primary" @click="openModal" :disabled="isReorderingMode" :style="{ opacity: isReorderingMode ? 0.5 : 1 }" id="tour-target-add-service">
             <Plus :size="16" />
             Tambah Layanan
           </button>
@@ -48,7 +54,11 @@
       <div v-else class="services-list mt-6">
         
         <!-- Search and Filter (Matching reference image) -->
-        <div class="search-filter-row">
+        
+        <div v-if="isReorderingMode" class="alert-info" style="background-color: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; padding: 16px; border-radius: 8px; margin-bottom: 24px; font-size: 14px;">
+          Mode atur urutan aktif. Seret paket di dalam section yang sama untuk mengubah posisi. Pencarian, filter, dan pagination disembunyikan sementara agar urutan tetap aman.
+        </div>
+        <div v-if="!isReorderingMode" class="search-filter-row">
           <div class="search-input-wrapper">
             <Search :size="18" class="search-icon" />
             <input type="text" class="search-input" placeholder="Cari nama atau deskripsi layanan..." v-model="serviceSearch" />
@@ -67,10 +77,20 @@
         <div class="service-category mb-8">
           <h2 class="category-title">Paket Utama <span class="badge">{{ paketUtama.length }}</span></h2>
           <p class="category-subtitle">Paket utama tampil sebagai pilihan inti di form booking publik.</p>
-          <div class="cards-grid">
-            <div v-for="(svc, index) in paketUtama" :key="svc.id" class="service-card-new">
-              <div class="sc-header">
-                <h3 class="sc-title">
+          <draggable 
+            v-model="localPaketUtama" 
+            item-key="id" 
+            class="cards-grid" 
+            handle=".drag-handle" 
+            :disabled="!isReorderingMode"
+          >
+            <template #item="{element: svc, index}">
+            <div class="service-card-new">
+              <div class="sc-header" style="display: flex; align-items: center; gap: 12px;">
+                <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: var(--bg-card-hover); border-radius: 6px; color: var(--text-secondary);">
+                  <GripVertical :size="18" />
+                </div>
+                <h3 class="sc-title" style="margin-bottom: 0;">
                   {{ formatTitleCase(svc.nama_layanan) }}
                   <span v-if="svc.warna_paket" class="sc-color-dot" :style="{ backgroundColor: svc.warna_paket }"></span>
                 </h3>
@@ -106,7 +126,7 @@
                 </div>
               </div>
               
-              <div class="sc-actions">
+              <div v-if="!isReorderingMode" class="sc-actions">
                 <button class="sc-btn sc-btn-edit" @click="editService(svc)"><Edit2 :size="16" /> <span>Edit</span></button>
                 <button class="sc-btn-icon" :class="svc.is_active ? 'sc-icon-active' : 'sc-icon-inactive'" @click="toggleActive(svc)" title="Toggle Aktif/Nonaktif">
                   <ToggleRight v-if="svc.is_active" :size="18" />
@@ -118,12 +138,14 @@
                 </button>
                 <button class="sc-btn-icon sc-icon-duplicate" @click="confirmDuplicate(svc)" title="Duplikat Layanan"><Copy :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-delete" @click="confirmDelete(svc)" title="Hapus Layanan"><Trash2 :size="18" /></button>
-                <div class="sc-spacer"></div>
+              </div>
+              <div v-else class="sc-actions" style="justify-content: flex-end; padding: 12px 20px;">
                 <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('utama', index)"><ArrowUp :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('utama', index)"><ArrowDown :size="18" /></button>
               </div>
             </div>
-          </div>
+            </template>
+          </draggable>
         </div>
         
         <hr class="section-divider" />
@@ -139,10 +161,20 @@
             </div>
           </div>
           
-          <div v-else class="cards-grid">
-            <div v-for="(svc, index) in addon" :key="svc.id" class="service-card-new">
-              <div class="sc-header">
-                <h3 class="sc-title">
+          <draggable 
+            v-model="localAddon" 
+            item-key="id" 
+            class="cards-grid" 
+            handle=".drag-handle" 
+            :disabled="!isReorderingMode"
+          >
+            <template #item="{element: svc, index}">
+            <div class="service-card-new">
+              <div class="sc-header" style="display: flex; align-items: center; gap: 12px;">
+                <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: var(--bg-card-hover); border-radius: 6px; color: var(--text-secondary);">
+                  <GripVertical :size="18" />
+                </div>
+                <h3 class="sc-title" style="margin-bottom: 0;">
                   {{ formatTitleCase(svc.nama_layanan) }}
                   <span v-if="svc.warna_paket" class="sc-color-dot" :style="{ backgroundColor: svc.warna_paket }"></span>
                 </h3>
@@ -178,7 +210,7 @@
                 </div>
               </div>
               
-              <div class="sc-actions">
+              <div v-if="!isReorderingMode" class="sc-actions">
                 <button class="sc-btn sc-btn-edit" @click="editService(svc)"><Edit2 :size="16" /> <span>Edit</span></button>
                 <button class="sc-btn-icon" :class="svc.is_active ? 'sc-icon-active' : 'sc-icon-inactive'" @click="toggleActive(svc)" title="Toggle Aktif/Nonaktif">
                   <ToggleRight v-if="svc.is_active" :size="18" />
@@ -190,12 +222,14 @@
                 </button>
                 <button class="sc-btn-icon sc-icon-duplicate" @click="confirmDuplicate(svc)" title="Duplikat Layanan"><Copy :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-delete" @click="confirmDelete(svc)" title="Hapus Layanan"><Trash2 :size="18" /></button>
-                <div class="sc-spacer"></div>
+              </div>
+              <div v-else class="sc-actions" style="justify-content: flex-end; padding: 12px 20px;">
                 <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('addon', index)"><ArrowUp :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('addon', index)"><ArrowDown :size="18" /></button>
               </div>
             </div>
-          </div>
+            </template>
+          </draggable>
         </div>
       </div>
 
@@ -583,6 +617,46 @@ const showDeleteModal = ref(false);
 const selectedService = ref(null);
 const isProcessing = ref(false);
 
+const isReorderingMode = ref(false);
+const localPaketUtama = ref([]);
+const localAddon = ref([]);
+
+watch(paketUtama, (newVal) => {
+  if (!isReorderingMode.value) localPaketUtama.value = [...newVal];
+}, { immediate: true });
+
+watch(addon, (newVal) => {
+  if (!isReorderingMode.value) localAddon.value = [...newVal];
+}, { immediate: true });
+
+const toggleReorderMode = () => {
+  if (isReorderingMode.value) {
+    saveOrder();
+  } else {
+    serviceFilter.value = 'all';
+    serviceSearch.value = '';
+    localPaketUtama.value = [...paketUtama.value];
+    localAddon.value = [...addon.value];
+    isReorderingMode.value = true;
+  }
+};
+
+const saveOrder = async () => {
+  isReorderingMode.value = false;
+  try {
+    const orders = [...localPaketUtama.value, ...localAddon.value].map(s => s.id);
+    await axios.post('/api/services/reorder', { orders });
+    showToast.value = true;
+    toastMessage.value = 'Urutan berhasil disimpan!';
+    setTimeout(() => { showToast.value = false; }, 3000);
+    fetchServices();
+  } catch (err) {
+    console.error('Gagal menyimpan urutan', err);
+    alert('Gagal menyimpan urutan');
+  }
+};
+
+
 const filteredServices = computed(() => {
   let result = services.value;
   
@@ -692,7 +766,7 @@ const saveService = async () => {
 };
 
 const moveServiceUp = (listName, index) => {
-  const list = listName === 'utama' ? paketUtama.value : addon.value;
+  const list = listName === 'utama' ? localPaketUtama.value : localAddon.value;
   if (index > 0) {
     const temp = list[index];
     list[index] = list[index - 1];
@@ -701,7 +775,7 @@ const moveServiceUp = (listName, index) => {
 };
 
 const moveServiceDown = (listName, index) => {
-  const list = listName === 'utama' ? paketUtama.value : addon.value;
+  const list = listName === 'utama' ? localPaketUtama.value : localAddon.value;
   if (index < list.length - 1) {
     const temp = list[index];
     list[index] = list[index + 1];
@@ -1814,5 +1888,25 @@ onMounted(() => {
   .service-card-new {
     max-width: 100%;
   }
+}
+</style>
+
+<style scoped>
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-dark:hover {
+  background-color: #000000;
 }
 </style>

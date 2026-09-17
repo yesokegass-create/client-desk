@@ -23,6 +23,7 @@ class Service extends Model
         'kota',
         'biaya_operasional',
         'is_active',
+        'sort_order',
         'warna_paket',
         'jumlah_edit',
         'template_cetak',

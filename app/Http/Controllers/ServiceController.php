@@ -15,6 +15,7 @@ class ServiceController extends Controller
         if (!$user) return response()->json([], 401);
 
         $services = Service::where('user_id', $user->id)
+            ->orderBy('sort_order', 'asc')
             ->orderBy('created_at', 'desc')
             ->get();
         return response()->json($services);
@@ -120,5 +121,25 @@ class ServiceController extends Controller
         $newService->save();
 
         return response()->json($newService, 201);
+    }
+    public function updateOrder(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $orders = $request->input('orders');
+        if (!is_array($orders)) {
+            return response()->json(['message' => 'Invalid data format'], 400);
+        }
+
+        foreach ($orders as $index => $id) {
+            Service::where('id', $id)
+                ->where('user_id', $user->id)
+                ->update(['sort_order' => $index]);
+        }
+
+        return response()->json(['message' => 'Order updated successfully']);
     }
 }

@@ -157,6 +157,7 @@ class StudioSettingController extends Controller
         $services = \App\Models\Service::where('user_id', $settings->user_id)
             ->where('is_active', true)
             ->where('tampilkan_publik', true)
+            ->orderBy('sort_order', 'asc')
             ->orderBy('created_at', 'desc')
             ->get();
 
