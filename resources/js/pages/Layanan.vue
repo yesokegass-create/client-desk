@@ -705,7 +705,7 @@ const confirmBulkDelete = async () => {
     for (const id of selectedServices.value) {
       await axios.delete(`/api/services/${id}`);
     }
-    await loadServices();
+    await fetchServices();
     selectedServices.value = [];
     showBulkDeleteModal.value = false;
     isManageMode.value = false;
