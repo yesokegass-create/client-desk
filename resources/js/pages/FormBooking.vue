@@ -1516,7 +1516,7 @@ select.form-control option {
 
 .btn-small {
   background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   color: var(--text-primary);
   font-size: 0.75rem;
   padding: 0.3rem 0.75rem;
@@ -1528,7 +1528,7 @@ select.form-control option {
 }
 
 .empty-bank {
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border: 1px dashed var(--border-color);
   border-radius: 6px;
   padding: 1.5rem;
   text-align: center;
@@ -1613,7 +1613,7 @@ select.form-control option {
 }
 
 .upload-area {
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border: 1px dashed var(--border-color);
   border-radius: 6px;
   padding: 2rem 1.5rem;
   text-align: center;
@@ -1682,7 +1682,7 @@ select.form-control option {
 
 .btn-qris-action {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   color: var(--text-primary);
   padding: 0.5rem 1rem;
   border-radius: 6px;

@@ -760,7 +760,7 @@ const copyTemplateFreelance = (booking) => {
   gap: 0.5rem;
   background-color: transparent;
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
@@ -943,7 +943,7 @@ const copyTemplateFreelance = (booking) => {
   background-color: var(--bg-main);
   z-index: 10;
   box-shadow: -8px 0 15px -5px rgba(0, 0, 0, 0.1);
-  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-left: 1px solid var(--border-color);
 }
 
 .data-table td {

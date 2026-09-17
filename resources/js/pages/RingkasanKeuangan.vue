@@ -255,7 +255,7 @@ import {
 .period-select {
   appearance: none;
   background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   color: var(--text-primary);
   padding: 0.5rem 2rem 0.5rem 1rem;
@@ -287,7 +287,7 @@ import {
   gap: 0.5rem;
   background-color: transparent;
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.5rem 1rem;
   font-size: 0.85rem;

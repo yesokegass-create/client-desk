@@ -820,7 +820,7 @@ onMounted(() => {
   gap: 0.5rem;
   background-color: transparent;
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
@@ -981,6 +981,10 @@ onMounted(() => {
 .modal-footer {
   padding: 1.5rem;
   border-radius: 0 0 12px 12px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 /* Form Styles */
@@ -1227,7 +1231,7 @@ onMounted(() => {
   transition: border-color 0.2s;
 }
 .custom-dropdown-trigger:hover {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--border-color);
 }
 
 .custom-dropdown-overlay {
@@ -1367,7 +1371,7 @@ onMounted(() => {
   align-items: center;
   gap: 0.5rem;
   background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   color: #eee;
   padding: 0.4rem 0.6rem 0.4rem 0.8rem;
   border-radius: 20px;

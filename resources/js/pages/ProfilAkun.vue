@@ -250,7 +250,7 @@ const saveProfile = async () => {
 
 .back-btn:hover {
   background-color: var(--bg-card-hover);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--border-color);
 }
 
 .title-content {
@@ -455,7 +455,7 @@ const saveProfile = async () => {
   display: flex;
   align-items: center;
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   color: var(--text-primary);
   padding: 0.5rem 1rem;
   border-radius: 6px;

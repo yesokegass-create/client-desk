@@ -872,7 +872,7 @@ onMounted(() => {
 
 .setting-card:hover {
   background-color: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--border-color);
 }
 
 .card-icon-wrap {
@@ -1209,7 +1209,7 @@ input:checked + .slider:before {
 /* Orientation Selector */
 .btn-orientation {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   color: #a0a0a0;
   padding: 0.4rem 1rem;
   font-size: 0.8rem;
@@ -1227,7 +1227,7 @@ input:checked + .slider:before {
 
 /* Upload Area */
 .upload-area {
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border: 1px dashed var(--border-color);
   border-radius: 8px;
   padding: 2.5rem;
   display: flex;
@@ -1535,7 +1535,7 @@ input:checked + .slider:before {
 }
 .btn-outline {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   color: var(--text-primary);
   padding: 0.5rem 1rem;
   border-radius: 6px;

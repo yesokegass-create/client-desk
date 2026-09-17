@@ -668,7 +668,7 @@ const removeTag = (index) => {
   gap: 0.5rem;
   background-color: transparent;
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
@@ -1091,6 +1091,8 @@ const removeTag = (index) => {
   padding: 1.25rem 1.5rem;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .btn-white-solid {

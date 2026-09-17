@@ -549,7 +549,7 @@ onMounted(async () => {
   font-weight: 600;
   padding: 0.25rem 0.75rem;
   background-color: var(--border-color);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   border-radius: 100px;
   margin-bottom: 1rem;
 }
@@ -723,7 +723,7 @@ onMounted(async () => {
 .btn-outline {
   background-color: transparent;
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 0.5rem 1rem;
   font-size: 0.85rem;
