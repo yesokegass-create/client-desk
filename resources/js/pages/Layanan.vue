@@ -126,7 +126,7 @@
                 </div>
               </div>
               
-              <div v-if="!isReorderingMode" class="sc-actions">
+              <div class="sc-actions" v-if="!isReorderingMode">
                 <button class="sc-btn sc-btn-edit" @click="editService(svc)"><Edit2 :size="16" /> <span>Edit</span></button>
                 <button class="sc-btn-icon" :class="svc.is_active ? 'sc-icon-active' : 'sc-icon-inactive'" @click="toggleActive(svc)" title="Toggle Aktif/Nonaktif">
                   <ToggleRight v-if="svc.is_active" :size="18" />
@@ -139,7 +139,7 @@
                 <button class="sc-btn-icon sc-icon-duplicate" @click="confirmDuplicate(svc)" title="Duplikat Layanan"><Copy :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-delete" @click="confirmDelete(svc)" title="Hapus Layanan"><Trash2 :size="18" /></button>
               </div>
-              <div v-else class="sc-actions" style="justify-content: flex-end; padding: 12px 20px;">
+              <div v-else class="sc-footer" style="justify-content: flex-end; padding: 12px 20px;">
                 <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('utama', index)"><ArrowUp :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('utama', index)"><ArrowDown :size="18" /></button>
               </div>
@@ -161,7 +161,7 @@
             </div>
           </div>
           
-          <draggable 
+          <draggable v-else
             v-model="localAddon" 
             item-key="id" 
             class="cards-grid" 
@@ -210,7 +210,7 @@
                 </div>
               </div>
               
-              <div v-if="!isReorderingMode" class="sc-actions">
+              <div class="sc-actions" v-if="!isReorderingMode">
                 <button class="sc-btn sc-btn-edit" @click="editService(svc)"><Edit2 :size="16" /> <span>Edit</span></button>
                 <button class="sc-btn-icon" :class="svc.is_active ? 'sc-icon-active' : 'sc-icon-inactive'" @click="toggleActive(svc)" title="Toggle Aktif/Nonaktif">
                   <ToggleRight v-if="svc.is_active" :size="18" />
@@ -223,7 +223,7 @@
                 <button class="sc-btn-icon sc-icon-duplicate" @click="confirmDuplicate(svc)" title="Duplikat Layanan"><Copy :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-delete" @click="confirmDelete(svc)" title="Hapus Layanan"><Trash2 :size="18" /></button>
               </div>
-              <div v-else class="sc-actions" style="justify-content: flex-end; padding: 12px 20px;">
+              <div v-else class="sc-footer" style="justify-content: flex-end; padding: 12px 20px;">
                 <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('addon', index)"><ArrowUp :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('addon', index)"><ArrowDown :size="18" /></button>
               </div>
@@ -617,33 +617,6 @@ const showDeleteModal = ref(false);
 const selectedService = ref(null);
 const isProcessing = ref(false);
 
-
-
-
-const filteredServices = computed(() => {
-  let result = services.value;
-  
-  if (serviceFilter.value !== 'all') {
-    if (serviceFilter.value === 'active') result = result.filter(s => s.is_active);
-    if (serviceFilter.value === 'inactive') result = result.filter(s => !s.is_active);
-    if (serviceFilter.value === 'public') result = result.filter(s => s.tampilkan_publik);
-    if (serviceFilter.value === 'private') result = result.filter(s => !s.tampilkan_publik);
-  }
-  
-  if (serviceSearch.value.trim()) {
-    const q = serviceSearch.value.toLowerCase();
-    result = result.filter(s => 
-      s.nama_layanan.toLowerCase().includes(q) || 
-      (s.deskripsi && s.deskripsi.toLowerCase().includes(q))
-    );
-  }
-  
-  return result;
-});
-
-const paketUtama = computed(() => filteredServices.value.filter(s => s.jenis_layanan === 'paket'));
-const addon = computed(() => filteredServices.value.filter(s => s.jenis_layanan === 'addon'));
-
 const isReorderingMode = ref(false);
 const localPaketUtama = ref([]);
 const localAddon = ref([]);
@@ -682,6 +655,31 @@ const saveOrder = async () => {
     alert('Gagal menyimpan urutan');
   }
 };
+
+
+const filteredServices = computed(() => {
+  let result = services.value;
+  
+  if (serviceFilter.value !== 'all') {
+    if (serviceFilter.value === 'active') result = result.filter(s => s.is_active);
+    if (serviceFilter.value === 'inactive') result = result.filter(s => !s.is_active);
+    if (serviceFilter.value === 'public') result = result.filter(s => s.tampilkan_publik);
+    if (serviceFilter.value === 'private') result = result.filter(s => !s.tampilkan_publik);
+  }
+  
+  if (serviceSearch.value.trim()) {
+    const q = serviceSearch.value.toLowerCase();
+    result = result.filter(s => 
+      s.nama_layanan.toLowerCase().includes(q) || 
+      (s.deskripsi && s.deskripsi.toLowerCase().includes(q))
+    );
+  }
+  
+  return result;
+});
+
+const paketUtama = computed(() => filteredServices.value.filter(s => s.jenis_layanan === 'paket'));
+const addon = computed(() => filteredServices.value.filter(s => s.jenis_layanan === 'addon'));
 
 const fetchServices = async () => {
   isLoadingServices.value = true;
