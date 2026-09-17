@@ -583,8 +583,29 @@ const showDeleteModal = ref(false);
 const selectedService = ref(null);
 const isProcessing = ref(false);
 
-const paketUtama = computed(() => services.value.filter(s => s.jenis_layanan === 'paket'));
-const addon = computed(() => services.value.filter(s => s.jenis_layanan === 'addon'));
+const filteredServices = computed(() => {
+  let result = services.value;
+  
+  if (serviceFilter.value !== 'all') {
+    if (serviceFilter.value === 'active') result = result.filter(s => s.is_active);
+    if (serviceFilter.value === 'inactive') result = result.filter(s => !s.is_active);
+    if (serviceFilter.value === 'public') result = result.filter(s => s.tampilkan_publik);
+    if (serviceFilter.value === 'private') result = result.filter(s => !s.tampilkan_publik);
+  }
+  
+  if (serviceSearch.value.trim()) {
+    const q = serviceSearch.value.toLowerCase();
+    result = result.filter(s => 
+      s.nama_layanan.toLowerCase().includes(q) || 
+      (s.deskripsi && s.deskripsi.toLowerCase().includes(q))
+    );
+  }
+  
+  return result;
+});
+
+const paketUtama = computed(() => filteredServices.value.filter(s => s.jenis_layanan === 'paket'));
+const addon = computed(() => filteredServices.value.filter(s => s.jenis_layanan === 'addon'));
 
 const fetchServices = async () => {
   isLoadingServices.value = true;
