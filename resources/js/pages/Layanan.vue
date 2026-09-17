@@ -112,7 +112,7 @@
                   <ToggleRight v-if="svc.is_active" :size="18" />
                   <ToggleLeft v-else :size="18" />
                 </button>
-                <button class="sc-btn-icon sc-icon-public" @click="togglePublic(svc)" title="Toggle Publik/Privat">
+                <button class="sc-btn-icon" :class="svc.tampilkan_publik ? 'sc-icon-public' : 'sc-icon-private'" @click="togglePublic(svc)" title="Toggle Publik/Privat">
                   <Eye v-if="svc.tampilkan_publik" :size="18" />
                   <EyeOff v-else :size="18" />
                 </button>
@@ -184,7 +184,7 @@
                   <ToggleRight v-if="svc.is_active" :size="18" />
                   <ToggleLeft v-else :size="18" />
                 </button>
-                <button class="sc-btn-icon sc-icon-public" @click="togglePublic(svc)" title="Toggle Publik/Privat">
+                <button class="sc-btn-icon" :class="svc.tampilkan_publik ? 'sc-icon-public' : 'sc-icon-private'" @click="togglePublic(svc)" title="Toggle Publik/Privat">
                   <Eye v-if="svc.tampilkan_publik" :size="18" />
                   <EyeOff v-else :size="18" />
                 </button>
@@ -1720,6 +1720,8 @@ onMounted(() => {
 
 .sc-icon-public { border: 1px solid rgba(59, 130, 246, 0.5); color: #60a5fa; }
 .sc-icon-public:hover { background: rgba(59, 130, 246, 0.1); }
+.sc-icon-private { border: 1px solid rgba(245, 158, 11, 0.5); color: #f59e0b; }
+.sc-icon-private:hover { background: rgba(245, 158, 11, 0.1); }
 
 .sc-icon-duplicate { border: 1px solid rgba(168, 85, 247, 0.5); color: #c084fc; }
 .sc-icon-duplicate:hover { background: rgba(168, 85, 247, 0.1); }

@@ -24,40 +24,13 @@ class StudioSetting extends Model
     protected $casts = [
         'working_days' => 'array',
         'form_booking_settings' => 'array',
+        'working_hours_enabled' => 'boolean',
+        'close_booking_outside_hours' => 'boolean',
+        'disable_slug' => 'boolean',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function getWorkingHoursEnabledAttribute($value)
-    {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-    }
-
-    public function setWorkingHoursEnabledAttribute($value)
-    {
-        $this->attributes['working_hours_enabled'] = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
-    }
-
-    public function getCloseBookingOutsideHoursAttribute($value)
-    {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-    }
-
-    public function setCloseBookingOutsideHoursAttribute($value)
-    {
-        $this->attributes['close_booking_outside_hours'] = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
-    }
-
-    public function getDisableSlugAttribute($value)
-    {
-        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-    }
-
-    public function setDisableSlugAttribute($value)
-    {
-        $this->attributes['disable_slug'] = filter_var($value, FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
     }
 }

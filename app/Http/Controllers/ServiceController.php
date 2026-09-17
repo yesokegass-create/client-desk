@@ -44,13 +44,13 @@ class ServiceController extends Controller
         ]);
 
         if (array_key_exists('wajib_pilih_kuota', $validated)) {
-            $validated['wajib_pilih_kuota'] = filter_var($validated['wajib_pilih_kuota'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+            $validated['wajib_pilih_kuota'] = filter_var($validated['wajib_pilih_kuota'], FILTER_VALIDATE_BOOLEAN);
         }
         if (array_key_exists('tampilkan_publik', $validated)) {
-            $validated['tampilkan_publik'] = filter_var($validated['tampilkan_publik'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+            $validated['tampilkan_publik'] = filter_var($validated['tampilkan_publik'], FILTER_VALIDATE_BOOLEAN);
         }
         if (array_key_exists('is_active', $validated)) {
-            $validated['is_active'] = filter_var($validated['is_active'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+            $validated['is_active'] = filter_var($validated['is_active'], FILTER_VALIDATE_BOOLEAN);
         }
 
         $service = Service::create(array_merge($validated, ['user_id' => $user->id]));
@@ -84,13 +84,13 @@ class ServiceController extends Controller
         ]);
 
         if (array_key_exists('wajib_pilih_kuota', $validated)) {
-            $validated['wajib_pilih_kuota'] = filter_var($validated['wajib_pilih_kuota'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+            $validated['wajib_pilih_kuota'] = filter_var($validated['wajib_pilih_kuota'], FILTER_VALIDATE_BOOLEAN);
         }
         if (array_key_exists('tampilkan_publik', $validated)) {
-            $validated['tampilkan_publik'] = filter_var($validated['tampilkan_publik'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+            $validated['tampilkan_publik'] = filter_var($validated['tampilkan_publik'], FILTER_VALIDATE_BOOLEAN);
         }
         if (array_key_exists('is_active', $validated)) {
-            $validated['is_active'] = filter_var($validated['is_active'], FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+            $validated['is_active'] = filter_var($validated['is_active'], FILTER_VALIDATE_BOOLEAN);
         }
 
         $service->update($validated);
