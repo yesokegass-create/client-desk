@@ -8,7 +8,10 @@ class TeamMemberController extends Controller
 {
     public function index(Request $request)
     {
-        $members = $request->user()->teamMembers()->orderBy('created_at', 'desc')->get();
+        $members = $request->user()->teamMembers()
+            ->orderBy('sort_order', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->get();
         return response()->json($members);
     }
 
@@ -74,5 +77,19 @@ class TeamMemberController extends Controller
         $member->delete();
 
         return response()->json(['message' => 'Team member deleted successfully']);
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $orders = $request->input('orders');
+        if (!is_array($orders)) {
+            return response()->json(['message' => 'Invalid data format'], 400);
+        }
+
+        foreach ($orders as $index => $id) {
+            $request->user()->teamMembers()->where('id', $id)->update(['sort_order' => $index]);
+        }
+
+        return response()->json(['message' => 'Order updated successfully']);
     }
 }

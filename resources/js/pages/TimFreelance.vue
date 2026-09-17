@@ -9,9 +9,9 @@
         </div>
         
         <div class="header-actions">
-          <button class="btn-outline">
+          <button class="btn-outline" @click="toggleReorderMode" :disabled="isSavingOrder">
             <ArrowUpDown :size="16" />
-            Atur Urutan
+            {{ isReorderingMode ? 'Selesai Atur Urutan' : 'Atur Urutan' }}
           </button>
           <button class="btn-outline">
             <Palette :size="16" />
@@ -41,6 +41,40 @@
 
       <!-- Data Table -->
       <div class="table-card" v-if="teamMembers.length > 0">
+        
+        <div v-if="isReorderingMode" class="alert-info" style="background-color: #1d1e26; border: 1px solid rgba(255, 255, 255, 0.1); color: #a0a0a0; padding: 16px; border-radius: 8px; margin-bottom: 24px; font-size: 14px; display: flex; align-items: flex-start; gap: 12px; line-height: 1.5;">
+          Mode atur urutan aktif. Seret anggota tim / freelance untuk mengubah posisi. Pencarian, filter, pagination, dan mode kelola disembunyikan sementara agar urutan tetap aman.
+        </div>
+
+        <div v-if="isReorderingMode" class="reorder-container">
+          <draggable 
+            v-model="teamMembers" 
+            item-key="id" 
+            handle=".drag-handle" 
+            ghost-class="ghost-item"
+            animation="200"
+          >
+            <template #item="{ element, index }">
+              <div class="draggable-item">
+                <div class="drag-handle">
+                  <GripVertical :size="16" />
+                </div>
+                <div class="draggable-content">
+                  <span class="d-name">{{ element.nama }}</span>
+                  <span class="role-pill">{{ element.peran }}</span>
+                  <span class="d-status text-green" v-if="element.status === 'Aktif'">Aktif</span>
+                  <span class="d-status text-gray" v-else>{{ element.status }}</span>
+                </div>
+                <div class="draggable-actions">
+                  <button @click="moveItemUp(index)" :disabled="index === 0"><ArrowUp :size="16" /></button>
+                  <button @click="moveItemDown(index)" :disabled="index === teamMembers.length - 1"><ArrowDown :size="16" /></button>
+                </div>
+              </div>
+            </template>
+          </draggable>
+        </div>
+
+        <template v-else>
         <!-- Controls -->
         <div class="table-controls">
           <div class="search-box">
@@ -189,6 +223,7 @@
             <button class="page-btn"><ChevronRight :size="16" /></button>
           </div>
         </div>
+        </template>
       </div>
 
       <!-- Add Member Modal -->
@@ -298,12 +333,13 @@
 
 <script setup>
 import axios from 'axios';
+import draggable from 'vuedraggable';
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useTour } from '../composables/useTour';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { 
-  ArrowUpDown, Plus, Palette, Users, X, ChevronDown, Search, Trash2, Check, SlidersHorizontal, MessageCircle, Edit2, ChevronLeft, ChevronRight
+  ArrowUpDown, Plus, Palette, Users, X, ChevronDown, Search, Trash2, Check, SlidersHorizontal, MessageCircle, Edit2, ChevronLeft, ChevronRight, GripVertical, ArrowUp, ArrowDown
 } from 'lucide-vue-next';
 
 const { isActive, currentStep, completeStep, endTour } = useTour();
@@ -312,6 +348,8 @@ const router = useRouter();
 const teamMembers = ref([]);
 const isLoading = ref(true);
 const isSaving = ref(false);
+const isReorderingMode = ref(false);
+const isSavingOrder = ref(false);
 
 const searchQuery = ref('');
 const filterStatus = ref('');
@@ -453,6 +491,47 @@ const sanitizeMember = (member) => {
      else if (member.phone_number.startsWith('62')) member.phone_number = member.phone_number.substring(2);
   }
   return member;
+};
+
+const toggleReorderMode = async () => {
+  if (isReorderingMode.value) {
+    // Save order
+    isSavingOrder.value = true;
+    try {
+      const token = localStorage.getItem('auth_token');
+      const orders = teamMembers.value.map(m => m.id);
+      await axios.post('/api/team-members/reorder', { orders }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      isReorderingMode.value = false;
+    } catch (error) {
+      console.error('Failed to save order', error);
+      alert('Gagal menyimpan urutan');
+    } finally {
+      isSavingOrder.value = false;
+    }
+  } else {
+    // Enable reorder mode, optionally reset filters so all items show
+    searchQuery.value = '';
+    filterStatus.value = '';
+    filterPeran.value = '';
+    filterTag.value = '';
+    isReorderingMode.value = true;
+  }
+};
+
+const moveItemUp = (index) => {
+  if (index > 0) {
+    const item = teamMembers.value.splice(index, 1)[0];
+    teamMembers.value.splice(index - 1, 0, item);
+  }
+};
+
+const moveItemDown = (index) => {
+  if (index < teamMembers.value.length - 1) {
+    const item = teamMembers.value.splice(index, 1)[0];
+    teamMembers.value.splice(index + 1, 0, item);
+  }
 };
 
 const fetchTeamMembers = async () => {
@@ -1521,5 +1600,93 @@ const removeTag = (index) => {
 .error-msg { font-size: 0.75rem; color: #ef4444; margin-top: 0.25rem; display: block; }
 .form-control.has-error { border-color: #ef4444; }
 .has-error-box { border: 1px solid #ef4444; border-radius: 8px; padding: 0.5rem; }
+
+
+.reorder-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.draggable-item {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  transition: all 0.2s;
+}
+
+.draggable-item:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.ghost-item {
+  opacity: 0.5;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.drag-handle {
+  cursor: grab;
+  color: #a0a0a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 6px;
+  margin-right: 16px;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.draggable-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.d-name {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.d-status {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.draggable-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.draggable-actions button {
+  background: none;
+  border: none;
+  color: #a0a0a0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.draggable-actions button:hover:not(:disabled) {
+  color: var(--text-primary);
+}
+
+.draggable-actions button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
 
 </style>
