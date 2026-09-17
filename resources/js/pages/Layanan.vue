@@ -661,17 +661,17 @@ const filteredServices = computed(() => {
   let result = services.value;
   
   if (serviceFilter.value !== 'all') {
-    if (serviceFilter.value === 'active') result = result.filter(s => s.is_active);
-    if (serviceFilter.value === 'inactive') result = result.filter(s => !s.is_active);
-    if (serviceFilter.value === 'public') result = result.filter(s => s.tampilkan_publik);
-    if (serviceFilter.value === 'private') result = result.filter(s => !s.tampilkan_publik);
+    if (serviceFilter.value === 'active') result = result.filter(s => s.is_active == 1);
+    if (serviceFilter.value === 'inactive') result = result.filter(s => s.is_active == 0);
+    if (serviceFilter.value === 'public') result = result.filter(s => s.tampilkan_publik == 1);
+    if (serviceFilter.value === 'private') result = result.filter(s => s.tampilkan_publik == 0);
   }
   
   if (serviceSearch.value.trim()) {
     const q = serviceSearch.value.toLowerCase();
     result = result.filter(s => 
-      s.nama_layanan.toLowerCase().includes(q) || 
-      (s.deskripsi && s.deskripsi.toLowerCase().includes(q))
+      (s.nama_layanan || '').toLowerCase().includes(q) || 
+      (s.deskripsi || '').toLowerCase().includes(q)
     );
   }
   
