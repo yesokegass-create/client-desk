@@ -18,10 +18,10 @@
             Selesai Atur Urutan
           </button>
           
-          <button class="btn-outline" :disabled="isReorderingMode" :style="{ opacity: isReorderingMode ? 0.5 : 1 }">
-            <Settings2 :size="16" />
-            Kelola
-          </button>
+          <button class="btn-outline" :disabled="isReorderingMode" :style="{ opacity: isReorderingMode ? 0.5 : 1 }" @click="toggleManageMode">
+              <Settings2 :size="16" />
+              Kelola
+            </button>
           
           <button class="btn-primary" @click="openModal" :disabled="isReorderingMode" :style="{ opacity: isReorderingMode ? 0.5 : 1 }" id="tour-target-add-service">
             <Plus :size="16" />
@@ -58,7 +58,20 @@
         <div v-if="isReorderingMode" class="alert-info" style="background-color: #f8fafc; border: 1px solid #e2e8f0; color: #64748b; padding: 16px; border-radius: 8px; margin-bottom: 24px; font-size: 14px;">
           Mode atur urutan aktif. Seret paket di dalam section yang sama untuk mengubah posisi. Pencarian, filter, dan pagination disembunyikan sementara agar urutan tetap aman.
         </div>
-        <div v-if="!isReorderingMode" class="search-filter-row">
+        <div v-if="isManageMode" class="manage-toolbar" style="display: flex; align-items: center; gap: 16px; padding: 12px 16px; margin-bottom: 24px; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-card);">
+            <div style="font-size: 14px; font-weight: 500; color: var(--text-primary);">{{ selectedServices.length }} dipilih</div>
+            <button class="btn-outline" style="border: none; padding: 4px 12px; gap: 6px;" @click="selectAll">
+              <Check :size="16" /> Pilih Semua
+            </button>
+            <button class="btn-primary" style="padding: 4px 12px; border-radius: 8px; background-color: #ef4444; color: white; border: none; display: flex; align-items: center; gap: 6px; cursor: pointer;" :disabled="selectedServices.length === 0" @click="openBulkDeleteModal">
+              <Trash2 :size="16" /> Hapus Terpilih
+            </button>
+            <div style="flex-grow: 1;"></div>
+            <button style="background: none; border: none; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center;" @click="toggleManageMode">
+              <X :size="20" />
+            </button>
+          </div>
+          <div v-if="!isReorderingMode && !isManageMode" class="search-filter-row">
           <div class="search-input-wrapper">
             <Search :size="18" class="search-icon" />
             <input type="text" class="search-input" placeholder="Cari nama atau deskripsi layanan..." v-model="serviceSearch" />
@@ -86,11 +99,12 @@
           >
             <template #item="{element: svc, index}">
             <div class="service-card-new" :class="{ 'is-reorder-view': isReorderingMode }">
-              <div class="sc-header" :style="{ display: 'flex', alignItems: 'center', justifyContent: isReorderingMode ? 'flex-start' : 'space-between', gap: '12px' }">
+              <div class="sc-header" :style="{ display: 'flex', alignItems: 'center', justifyContent: (isReorderingMode || isManageMode) ? 'flex-start' : 'space-between', gap: '12px' }">
                 <div style="display: flex; align-items: center; gap: 12px;">
                   <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: transparent; border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-secondary);">
                     <GripVertical :size="18" />
                   </div>
+                  <input v-if="isManageMode" type="checkbox" :value="svc.id" v-model="selectedServices" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color);" />
                   <h3 class="sc-title" style="margin-bottom: 0;">
                     {{ formatTitleCase(svc.nama_layanan) }}
                     <span v-if="svc.warna_paket" class="sc-color-dot" :style="{ backgroundColor: svc.warna_paket }"></span>
@@ -113,7 +127,7 @@
                   </span>
                 </div>
                 
-                <div :class="{'sc-price-duration-wrapper': !isReorderingMode}">
+                <div :class="{'sc-price-duration-wrapper': !isReorderingMode && !isManageMode, 'sc-price-duration-wrapper-manage': isManageMode}">
                   <div class="sc-price-row">
                     <span class="sc-price-main">Rp {{ svc.harga }}</span>
                     <span v-if="svc.harga_coret" class="sc-price-strike">Rp {{ svc.harga_coret }}</span>
@@ -129,7 +143,7 @@
                 </div>
               </div>
               
-              <div class="sc-actions" v-if="!isReorderingMode">
+              <div class="sc-actions" v-if="!isReorderingMode && !isManageMode">
                 <button class="sc-btn sc-btn-edit" @click="editService(svc)"><Edit2 :size="16" /> <span>Edit</span></button>
                 <button class="sc-btn-icon" :class="svc.is_active ? 'sc-icon-active' : 'sc-icon-inactive'" @click="toggleActive(svc)" title="Toggle Aktif/Nonaktif">
                   <ToggleRight v-if="svc.is_active" :size="18" />
@@ -183,11 +197,12 @@
           >
             <template #item="{element: svc, index}">
             <div class="service-card-new" :class="{ 'is-reorder-view': isReorderingMode }">
-              <div class="sc-header" :style="{ display: 'flex', alignItems: 'center', justifyContent: isReorderingMode ? 'flex-start' : 'space-between', gap: '12px' }">
+              <div class="sc-header" :style="{ display: 'flex', alignItems: 'center', justifyContent: (isReorderingMode || isManageMode) ? 'flex-start' : 'space-between', gap: '12px' }">
                 <div style="display: flex; align-items: center; gap: 12px;">
                   <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: transparent; border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-secondary);">
                     <GripVertical :size="18" />
                   </div>
+                  <input v-if="isManageMode" type="checkbox" :value="svc.id" v-model="selectedServices" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color);" />
                   <h3 class="sc-title" style="margin-bottom: 0;">
                     {{ formatTitleCase(svc.nama_layanan) }}
                     <span v-if="svc.warna_paket" class="sc-color-dot" :style="{ backgroundColor: svc.warna_paket }"></span>
@@ -210,7 +225,7 @@
                   </span>
                 </div>
                 
-                <div :class="{'sc-price-duration-wrapper': !isReorderingMode}">
+                <div :class="{'sc-price-duration-wrapper': !isReorderingMode && !isManageMode, 'sc-price-duration-wrapper-manage': isManageMode}">
                   <div class="sc-price-row">
                     <span class="sc-price-main">Rp {{ svc.harga }}</span>
                     <span v-if="svc.harga_coret" class="sc-price-strike">Rp {{ svc.harga_coret }}</span>
@@ -226,7 +241,7 @@
                 </div>
               </div>
               
-              <div class="sc-actions" v-if="!isReorderingMode">
+              <div class="sc-actions" v-if="!isReorderingMode && !isManageMode">
                 <button class="sc-btn sc-btn-edit" @click="editService(svc)"><Edit2 :size="16" /> <span>Edit</span></button>
                 <button class="sc-btn-icon" :class="svc.is_active ? 'sc-icon-active' : 'sc-icon-inactive'" @click="toggleActive(svc)" title="Toggle Aktif/Nonaktif">
                   <ToggleRight v-if="svc.is_active" :size="18" />
@@ -259,6 +274,25 @@
         </div>
       </div>
 
+      
+      <!-- Bulk Delete Modal -->
+      <div v-if="showBulkDeleteModal" class="modal-overlay" @click="showBulkDeleteModal = false">
+        <div class="modal-container modal-sm" @click.stop style="max-width: 400px;">
+          <div class="modal-header">
+            <div>
+              <h3>Konfirmasi</h3>
+              <p>{{ selectedServices.length }} layanan akan dihapus.</p>
+            </div>
+            <button class="close-btn" @click="showBulkDeleteModal = false"><X :size="20" /></button>
+          </div>
+          
+          <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+            <button type="button" class="btn-outline" @click="showBulkDeleteModal = false">Batal</button>
+            <button type="button" class="btn-primary" style="background-color: #ef4444; color: white; border: none;" @click="confirmBulkDelete">Hapus Terpilih</button>
+          </div>
+        </div>
+      </div>
+      
       <!-- Add Service Modal -->
       <div v-if="showAddModal" class="modal-overlay" @click="closeModal">
         <div class="modal-container" @click.stop>
@@ -509,7 +543,7 @@ import axios from 'axios';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { useTour } from '../composables/useTour';
 import { 
-  ArrowUpDown, Settings2, Plus, Package, X, Save, Copy, ClipboardPaste, Trash2, ChevronDown, Search, CheckCircle2, Edit2, Eye, EyeOff, ArrowUp, ArrowDown, Clock, ToggleRight, ToggleLeft
+  ArrowUpDown, Settings2, Plus, Package, X, Save, Copy, ClipboardPaste, Trash2, ChevronDown, Search, CheckCircle2, Check, Edit2, Eye, EyeOff, ArrowUp, ArrowDown, Clock, ToggleRight, ToggleLeft
 } from 'lucide-vue-next';
 
 const router = useRouter();
@@ -637,6 +671,49 @@ const showToast = ref(false);
 const toastMessage = ref('Layanan berhasil disimpan.');
 const editingId = ref(null);
 const serviceSearch = ref('');
+const isManageMode = ref(false);
+const selectedServices = ref([]);
+const showBulkDeleteModal = ref(false);
+
+const toggleManageMode = () => {
+  isManageMode.value = !isManageMode.value;
+  if (!isManageMode.value) {
+    selectedServices.value = [];
+  }
+};
+
+const selectAll = () => {
+  const allIds = [
+    ...paketUtama.value.map(s => s.id),
+    ...addon.value.map(s => s.id)
+  ];
+  if (selectedServices.value.length === allIds.length) {
+    selectedServices.value = [];
+  } else {
+    selectedServices.value = allIds;
+  }
+};
+
+const openBulkDeleteModal = () => {
+  if (selectedServices.value.length > 0) {
+    showBulkDeleteModal.value = true;
+  }
+};
+
+const confirmBulkDelete = async () => {
+  try {
+    for (const id of selectedServices.value) {
+      await axios.delete(`/api/services/${id}`);
+    }
+    await loadServices();
+    selectedServices.value = [];
+    showBulkDeleteModal.value = false;
+    isManageMode.value = false;
+  } catch (error) {
+    console.error('Error bulk deleting:', error);
+    alert('Gagal menghapus beberapa layanan.');
+  }
+};
 const serviceFilter = ref('all');
 
 const showDuplicateModal = ref(false);
@@ -1660,6 +1737,18 @@ onMounted(() => {
 
 
   
+  
+  .sc-price-duration-wrapper-manage {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 0;
+  }
+  .sc-price-duration-wrapper-manage .sc-price-row,
+  .sc-price-duration-wrapper-manage .sc-duration {
+    margin-bottom: 0;
+  }
+
   .sc-price-duration-wrapper {
     display: flex;
     align-items: center;
