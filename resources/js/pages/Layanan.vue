@@ -104,7 +104,7 @@
                   <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: transparent; border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-secondary);">
                     <GripVertical :size="18" />
                   </div>
-                  <input v-if="isManageMode" type="checkbox" :value="svc.id" v-model="selectedServices" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color);" />
+                  <input v-if="isManageMode" type="checkbox" :value="svc.id" v-model="selectedServices" class="custom-checkbox" />
                   <h3 class="sc-title" style="margin-bottom: 0;">
                     {{ formatTitleCase(svc.nama_layanan) }}
                     <span v-if="svc.warna_paket" class="sc-color-dot" :style="{ backgroundColor: svc.warna_paket }"></span>
@@ -202,7 +202,7 @@
                   <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: transparent; border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-secondary);">
                     <GripVertical :size="18" />
                   </div>
-                  <input v-if="isManageMode" type="checkbox" :value="svc.id" v-model="selectedServices" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--primary-color);" />
+                  <input v-if="isManageMode" type="checkbox" :value="svc.id" v-model="selectedServices" class="custom-checkbox" />
                   <h3 class="sc-title" style="margin-bottom: 0;">
                     {{ formatTitleCase(svc.nama_layanan) }}
                     <span v-if="svc.warna_paket" class="sc-color-dot" :style="{ backgroundColor: svc.warna_paket }"></span>
@@ -1791,6 +1791,98 @@ onMounted(() => {
   .sc-reorder-buttons {
     display: flex;
     gap: 8px;
+  }
+
+  
+  .manage-toolbar-custom {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 20px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    background-color: var(--bg-card);
+  }
+  .manage-toolbar-custom .selected-count {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .manage-toolbar-custom .btn-select-all {
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+  }
+  .manage-toolbar-custom .btn-delete-bulk {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: rgba(239, 68, 68, 0.5);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: not-allowed;
+    transition: all 0.2s;
+  }
+  .manage-toolbar-custom .btn-delete-bulk:not(:disabled) {
+    background-color: #ef4444;
+    color: white;
+    cursor: pointer;
+  }
+  .manage-toolbar-custom .btn-close-toolbar {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: auto;
+    padding: 0;
+  }
+  .manage-toolbar-custom .btn-close-toolbar:hover {
+    color: var(--text-primary);
+  }
+
+  .custom-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #4b5563;
+    border-radius: 6px;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.2s;
+    margin: 0;
+  }
+  .custom-checkbox:checked {
+    background-color: var(--text-primary);
+    border-color: var(--text-primary);
+  }
+  .custom-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 10px;
+    border: solid var(--bg-card);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    margin-top: -2px;
   }
 
   .service-card-new {
