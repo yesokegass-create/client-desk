@@ -228,31 +228,9 @@
 
               <div class="form-group mt-4">
                 <label>Nomor WhatsApp</label>
-                <div class="input-group phone-input-group">
-                  <div class="country-dropdown-container">
-                    <button class="country-selector-btn" @click="toggleCountryDropdown">
-                      <span class="country-code-text">{{ selectedCountry.code }} {{ selectedCountry.dial_code }}</span>
-                      <ArrowUpDown :size="14" class="dropdown-arrow-icon" />
-                    </button>
-                    
-                    <div v-if="showCountryDropdown" class="country-dropdown-menu">
-                      <div class="country-search-wrapper">
-                        <div class="country-search">
-                          <Search :size="14" class="search-icon" />
-                          <input type="text" v-model="countrySearchQuery" placeholder="Cari negara atau kode..." @click.stop />
-                        </div>
-                      </div>
-                      <ul class="country-list">
-                        <li v-for="country in filteredCountries" :key="country.code" @click="selectCountry(country)">
-                          <span class="country-code-col">{{ country.code }}</span>
-                          <span class="country-name-col">{{ country.name }}</span>
-                          <span class="country-dial-col">{{ country.dial_code }}</span>
-                          <span class="country-check-col" v-if="form.phone_country_code === country.code"><Check :size="14" /></span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <input type="tel" maxlength="13" autocomplete="tel" class="form-control phone-input" :class="{ 'has-error': formErrors.phone_number }" :value="form.phone_number" @input="handlePhoneInput" placeholder="8123456789" />
+                <div class="input-group" :class="{ 'has-error': formErrors.phone_number }">
+                  <span class="input-addon">ID +62</span>
+                  <input type="tel" maxlength="13" class="form-control border-0" :value="form.phone_number" @input="handlePhoneInput" placeholder="812 3456 7890" />
                 </div>
               </div>
 
@@ -1175,131 +1153,43 @@ const removeTag = (index) => {
 .input-group {
   display: flex;
   align-items: stretch;
-  gap: 0.5rem;
-}
-
-.phone-input-group .country-dropdown-container {
-  width: 110px;
-}
-
-.phone-input {
-  background-color: #1d1e26;
-}
-
-/* Country Dropdown */
-.country-dropdown-container {
-  position: relative;
-}
-
-.country-selector-btn {
-  cursor: pointer;
-  background-color: transparent;
+  background-color: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  white-space: nowrap;
-  height: 100%;
-}
-
-.country-code-text {
-  font-size: 0.85rem;
-  color: var(--text-primary);
-}
-
-.dropdown-arrow-icon {
-  color: #a0a0a0;
-}
-
-.country-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  width: 320px;
-  background-color: var(--bg-main);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  z-index: 50;
+  border-radius: 6px;
   overflow: hidden;
-}
-
-.country-search-wrapper {
-  padding: 0.75rem;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.country-search {
-  display: flex;
-  align-items: center;
-  background-color: transparent;
-  border: 1px solid var(--text-primary);
-  border-radius: 20px;
-  padding: 0.4rem 0.75rem;
-}
-
-.country-search .search-icon {
-  color: #a0a0a0;
-  margin-right: 0.5rem;
-}
-
-.country-search input {
-  background: transparent;
-  border: none;
-  color: var(--text-primary);
-  font-size: 0.85rem;
   width: 100%;
-  outline: none;
+  transition: border-color 0.2s;
 }
 
-.country-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  max-height: 250px;
-  overflow-y: auto;
+.input-group:focus-within {
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
-.country-list li {
-  display: grid;
-  grid-template-columns: 30px 1fr 40px 20px;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  font-size: 0.85rem;
+.input-group.has-error {
+  border-color: #ef4444;
 }
 
-.country-list li:hover {
-  background-color: var(--bg-card-hover);
-}
-
-.country-code-col {
-  color: var(--text-primary);
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.country-name-col {
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.country-dial-col {
+.input-addon {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-right: 1px solid var(--border-color);
+  padding: 0.75rem 1rem;
   color: #a0a0a0;
-  text-align: right;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
-.country-check-col {
+.input-group .form-control {
+  border: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  flex: 1;
+  padding: 0.75rem 1rem;
   color: var(--text-primary);
-  display: flex;
-  justify-content: flex-end;
+  font-size: 0.9rem;
+  outline: none;
+  box-shadow: none !important;
 }
 
 /* Pricelist */
