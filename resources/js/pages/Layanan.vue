@@ -85,7 +85,7 @@
             :disabled="!isReorderingMode"
           >
             <template #item="{element: svc, index}">
-            <div class="service-card-new">
+            <div class="service-card-new" :class="{ 'is-reorder-view': isReorderingMode }">
               <div class="sc-header" style="display: flex; align-items: center; gap: 12px;">
                 <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: var(--bg-card-hover); border-radius: 6px; color: var(--text-secondary);">
                   <GripVertical :size="18" />
@@ -116,17 +116,17 @@
                   <span v-if="svc.harga_coret" class="sc-price-strike">Rp {{ svc.harga_coret }}</span>
                 </div>
                 
-                <div class="sc-duration">
+                <div class="sc-duration" v-if="!isReorderingMode">
                   <span v-if="svc.durasi_kuota" class="sc-dur-item"><Clock :size="14" /> {{ svc.durasi_kuota }}</span>
                   <span v-if="svc.jumlah_edit" class="sc-dur-item">{{ svc.jumlah_edit }} edit foto</span>
                 </div>
                 
-                <div v-if="svc.biaya_operasional && svc.biaya_operasional.length > 0" class="sc-operational">
+                <div v-if="!isReorderingMode && svc.biaya_operasional && svc.biaya_operasional.length > 0" class="sc-operational">
                   Biaya operasional default: <strong>Rp {{ svc.biaya_operasional[0].nominal }}</strong>
                 </div>
               </div>
               
-              <div class="sc-actions">
+              <div class="sc-actions" v-if="!isReorderingMode">
                 <button class="sc-btn sc-btn-edit" @click="editService(svc)"><Edit2 :size="16" /> <span>Edit</span></button>
                 <button class="sc-btn-icon" :class="svc.is_active ? 'sc-icon-active' : 'sc-icon-inactive'" @click="toggleActive(svc)" title="Toggle Aktif/Nonaktif">
                   <ToggleRight v-if="svc.is_active" :size="18" />
@@ -138,9 +138,17 @@
                 </button>
                 <button class="sc-btn-icon sc-icon-duplicate" @click="confirmDuplicate(svc)" title="Duplikat Layanan"><Copy :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-delete" @click="confirmDelete(svc)" title="Hapus Layanan"><Trash2 :size="18" /></button>
-                <div style="flex-grow: 1;"></div>
-                <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('utama', index)" title="Pindah ke Atas"><ArrowUp :size="18" /></button>
-                <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('utama', index)" title="Pindah ke Bawah"><ArrowDown :size="18" /></button>
+                </div>
+
+              <div class="sc-footer-reorder" v-if="isReorderingMode">
+                <div class="sc-duration">
+                  <span v-if="svc.durasi_kuota" class="sc-dur-item"><Clock :size="14" /> {{ svc.durasi_kuota }}</span>
+                  <span v-if="svc.jumlah_edit" class="sc-dur-item">{{ svc.jumlah_edit }} edit foto</span>
+                </div>
+                <div class="sc-reorder-buttons">
+                  <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('utama', index)" title="Pindah ke Atas"><ArrowUp :size="18" /></button>
+                  <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('utama', index)" title="Pindah ke Bawah"><ArrowDown :size="18" /></button>
+                </div>
               </div>
             </div>
             </template>
@@ -168,7 +176,7 @@
             :disabled="!isReorderingMode"
           >
             <template #item="{element: svc, index}">
-            <div class="service-card-new">
+            <div class="service-card-new" :class="{ 'is-reorder-view': isReorderingMode }">
               <div class="sc-header" style="display: flex; align-items: center; gap: 12px;">
                 <div v-if="isReorderingMode" class="drag-handle" style="cursor: grab; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background-color: var(--bg-card-hover); border-radius: 6px; color: var(--text-secondary);">
                   <GripVertical :size="18" />
@@ -199,17 +207,17 @@
                   <span v-if="svc.harga_coret" class="sc-price-strike">Rp {{ svc.harga_coret }}</span>
                 </div>
                 
-                <div class="sc-duration">
+                <div class="sc-duration" v-if="!isReorderingMode">
                   <span v-if="svc.durasi_kuota" class="sc-dur-item"><Clock :size="14" /> {{ svc.durasi_kuota }}</span>
                   <span v-if="svc.jumlah_edit" class="sc-dur-item">{{ svc.jumlah_edit }} edit foto</span>
                 </div>
                 
-                <div v-if="svc.biaya_operasional && svc.biaya_operasional.length > 0" class="sc-operational">
+                <div v-if="!isReorderingMode && svc.biaya_operasional && svc.biaya_operasional.length > 0" class="sc-operational">
                   Biaya operasional default: <strong>Rp {{ svc.biaya_operasional[0].nominal }}</strong>
                 </div>
               </div>
               
-              <div class="sc-actions">
+              <div class="sc-actions" v-if="!isReorderingMode">
                 <button class="sc-btn sc-btn-edit" @click="editService(svc)"><Edit2 :size="16" /> <span>Edit</span></button>
                 <button class="sc-btn-icon" :class="svc.is_active ? 'sc-icon-active' : 'sc-icon-inactive'" @click="toggleActive(svc)" title="Toggle Aktif/Nonaktif">
                   <ToggleRight v-if="svc.is_active" :size="18" />
@@ -221,9 +229,17 @@
                 </button>
                 <button class="sc-btn-icon sc-icon-duplicate" @click="confirmDuplicate(svc)" title="Duplikat Layanan"><Copy :size="18" /></button>
                 <button class="sc-btn-icon sc-icon-delete" @click="confirmDelete(svc)" title="Hapus Layanan"><Trash2 :size="18" /></button>
-                <div style="flex-grow: 1;"></div>
-                <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('addon', index)" title="Pindah ke Atas"><ArrowUp :size="18" /></button>
-                <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('addon', index)" title="Pindah ke Bawah"><ArrowDown :size="18" /></button>
+                </div>
+
+              <div class="sc-footer-reorder" v-if="isReorderingMode">
+                <div class="sc-duration">
+                  <span v-if="svc.durasi_kuota" class="sc-dur-item"><Clock :size="14" /> {{ svc.durasi_kuota }}</span>
+                  <span v-if="svc.jumlah_edit" class="sc-dur-item">{{ svc.jumlah_edit }} edit foto</span>
+                </div>
+                <div class="sc-reorder-buttons">
+                  <button class="sc-btn-icon sc-icon-move" @click="moveServiceUp('addon', index)" title="Pindah ke Atas"><ArrowUp :size="18" /></button>
+                  <button class="sc-btn-icon sc-icon-move" @click="moveServiceDown('addon', index)" title="Pindah ke Bawah"><ArrowDown :size="18" /></button>
+                </div>
               </div>
             </div>
             </template>
@@ -1630,7 +1646,39 @@ onMounted(() => {
   margin: 0;
 }
 
-.service-card-new {
+
+  .is-reorder-view {
+    max-width: 100% !important;
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  .is-reorder-view .sc-price-row {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    margin: 0;
+  }
+  .is-reorder-view .sc-desc,
+  .is-reorder-view .sc-tags {
+    margin-right: 150px;
+  }
+  .sc-footer-reorder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+  .sc-footer-reorder .sc-duration {
+    margin-bottom: 0;
+  }
+  .sc-reorder-buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  .service-card-new {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 16px;
