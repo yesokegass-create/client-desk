@@ -447,13 +447,21 @@ const toggleStatus = async (member) => {
   }
 };
 
+const sanitizeMember = (member) => {
+  if (member.phone_country_code === 'ID' && member.phone_number) {
+     if (member.phone_number.startsWith('+62')) member.phone_number = member.phone_number.substring(3);
+     else if (member.phone_number.startsWith('62')) member.phone_number = member.phone_number.substring(2);
+  }
+  return member;
+};
+
 const fetchTeamMembers = async () => {
   try {
     const token = localStorage.getItem('auth_token');
     const response = await axios.get('/api/team-members', {
       headers: { Authorization: `Bearer ${token}` }
     });
-    teamMembers.value = response.data;
+    teamMembers.value = response.data.map(sanitizeMember);
     if (teamMembers.value.length > 0) {
       completeStep('add-team');
     }
@@ -514,13 +522,13 @@ const saveTeamMember = async () => {
       });
       const index = teamMembers.value.findIndex(m => m.id === editingId.value);
       if (index !== -1) {
-        teamMembers.value[index] = response.data.data;
+        teamMembers.value[index] = sanitizeMember(response.data.data);
       }
     } else {
       const response = await axios.post('/api/team-members', payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      teamMembers.value.unshift(response.data.data);
+      teamMembers.value.unshift(sanitizeMember(response.data.data));
     }
     
     const setupStatus = JSON.parse(localStorage.getItem('vender_setup_status') || '{}');
