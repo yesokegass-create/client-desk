@@ -35,6 +35,7 @@ class TeamMemberController extends Controller
         ]);
 
         $member = $request->user()->teamMembers()->create($request->all());
+        $member->refresh();
 
         return response()->json(['message' => 'Team member created successfully', 'data' => $member], 201);
     }
