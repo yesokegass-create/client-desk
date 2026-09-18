@@ -19,6 +19,7 @@ class TeamMember extends Model
         'tags',
         'pricelist',
         'status',
+        'sort_order',
     ];
 
     protected $casts = [
