@@ -244,11 +244,11 @@
             </div>
             
             <div class="modal-body" style="max-height: 500px; overflow-y: auto; padding-right: 8px;">
-              <draggable v-model="tempColumns" item-key="id" handle=".drag-handle" ghost-class="ghost" :move="checkMove">
+              <draggable v-model="tempColumns" item-key="id" handle=".drag-handle" filter=".locked-drag-handle" ghost-class="ghost" :move="checkMove">
                 <template #item="{ element }">
                   <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
                     <div style="display: flex; align-items: center; gap: 16px;">
-                      <button class="drag-handle" v-if="!element.locked" style="background: rgba(255,255,255,0.05); border: none; padding: 8px; border-radius: 6px; cursor: grab; color: #a0a0a0; display: flex; align-items: center; justify-content: center;"><GripVertical :size="16" /></button><div v-else style="width: 32px; height: 32px;"></div>
+                      <button class="drag-handle" :class="{ 'locked-drag-handle': element.locked }" style="background: rgba(255,255,255,0.05); border: none; padding: 8px; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" :style="{ cursor: element.locked ? 'not-allowed' : 'grab', opacity: element.locked ? 0.3 : 1, color: '#a0a0a0' }"><GripVertical :size="16" /></button>
                       <div style="display: flex; flex-direction: column;">
                         <span style="color: #fff; font-weight: 500; font-size: 14px;">{{ element.label }}</span>
                         <span style="color: #888; font-size: 12px; margin-top: 2px;">{{ element.description }}</span>
