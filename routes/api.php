@@ -35,6 +35,25 @@ Route::get('/reset-db-now', function () {
     }
 })->withoutMiddleware([\Illuminate\Routing\Middleware\ThrottleRequests::class]);
 
+Route::get('/run-migrations', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return response("
+            <html><body style='background: #111; color: #fff; font-family: sans-serif; text-align: center; padding-top: 20%;'>
+            <h2>MIGRASI DATABASE BERHASIL!</h2>
+            <p>Sistem database telah diperbarui dengan kolom terbaru. Mengarahkan Anda kembali ke halaman Tim dalam 3 detik...</p>
+            <script>
+                setTimeout(function() {
+                    window.location.href = '/id/team';
+                }, 3000);
+            </script>
+            </body></html>
+        ");
+    } catch (\Throwable $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
