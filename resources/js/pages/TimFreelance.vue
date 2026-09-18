@@ -244,13 +244,11 @@
             </div>
             
             <div class="modal-body" style="max-height: 500px; overflow-y: auto; padding-right: 8px;">
-              <draggable v-model="tempColumns" item-key="id" handle=".drag-handle" ghost-class="ghost">
+              <draggable v-model="tempColumns" item-key="id" handle=".drag-handle" ghost-class="ghost" :move="checkMove">
                 <template #item="{ element }">
                   <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
                     <div style="display: flex; align-items: center; gap: 16px;">
-                      <button class="drag-handle" style="background: rgba(255,255,255,0.05); border: none; padding: 8px; border-radius: 6px; cursor: grab; color: #a0a0a0; display: flex; align-items: center; justify-content: center;">
-                        <GripVertical :size="16" />
-                      </button>
+                      <button class="drag-handle" v-if="!element.locked" style="background: rgba(255,255,255,0.05); border: none; padding: 8px; border-radius: 6px; cursor: grab; color: #a0a0a0; display: flex; align-items: center; justify-content: center;"><GripVertical :size="16" /></button><div v-else style="width: 32px; height: 32px;"></div>
                       <div style="display: flex; flex-direction: column;">
                         <span style="color: #fff; font-weight: 500; font-size: 14px;">{{ element.label }}</span>
                         <span style="color: #888; font-size: 12px; margin-top: 2px;">{{ element.description }}</span>
@@ -260,7 +258,7 @@
                       <Lock v-if="element.locked" :size="18" style="color: #a0a0a0;" />
                       <Unlock v-else :size="18" style="color: #a0a0a0;" />
                       
-                      <button @click="toggleColumnVisibility(element)" :disabled="element.locked" style="background: none; border: none; cursor: pointer; color: #a0a0a0;" :style="{ opacity: element.locked ? 0.5 : 1 }">
+                      <button @click="toggleColumnVisibility(element)" :disabled="element.locked" style="background: none; border: none; cursor: pointer; color: #a0a0a0;" :style="{ opacity: element.locked ? 0.5 : 1, cursor: element.locked ? 'not-allowed' : 'pointer' }">
                         <Eye v-if="element.visible" :size="18" />
                         <EyeOff v-else :size="18" />
                       </button>
@@ -464,7 +462,7 @@ const isSavingColors = ref(false);
 const roleTagColors = ref({ roles: {}, tags: {} });
 
 const defaultColumns = [
-  { id: 'no', label: 'No.', visible: true, locked: false, description: 'Tampil, tapi terkunci saat digeser.' },
+  { id: 'no', label: 'No.', visible: true, locked: true, description: 'Kolom ini selalu tampil.' },
   { id: 'nama', label: 'Nama', visible: true, locked: true, description: 'Kolom ini selalu terkunci.' },
   { id: 'whatsapp', label: 'Nomor WhatsApp', visible: true, locked: false, description: 'Tampil, tapi terkunci saat digeser.' },
   { id: 'peran', label: 'Peran / Role', visible: true, locked: false, description: 'Tampil di tabel.' },
@@ -502,6 +500,13 @@ const saveColumns = () => {
   localStorage.setItem('timFreelanceColumns', JSON.stringify(columns.value));
   showColumnModal.value = false;
 };
+
+const checkMove = (evt) => {
+  // Do not allow dragging if related element is locked
+  if (evt.relatedContext.element.locked) return false;
+  return true;
+};
+
 
 
 const availableRoles = [
