@@ -17,7 +17,7 @@
             <Palette :size="16" />
             Warna Role & Tag
           </button>
-          <button class="btn-outline">
+          <button class="btn-outline" @click="openColumnModal">
             <SlidersHorizontal :size="16" />
             Kelola kolom
           </button>
