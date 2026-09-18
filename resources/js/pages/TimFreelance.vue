@@ -76,49 +76,48 @@
 
         <template v-else>
         <!-- Controls -->
-        <div class="table-controls">
+        <div class="table-controls" :style="isManageMode ? 'border-bottom: none; padding-bottom: 0.5rem;' : ''">
           <div class="search-box">
             <Search :size="16" class="search-icon" />
             <input type="text" placeholder="Cari nama atau peran..." v-model="searchQuery" />
           </div>
           <div class="filters">
-            <template v-if="!isManageMode">
-              <select class="filter-select" v-model="filterStatus">
-                <option value="">Semua Status</option>
-                <option value="Aktif">Aktif</option>
-                <option value="Nonaktif">Nonaktif</option>
-              </select>
-              <select class="filter-select" v-model="filterPeran">
-                <option value="">Semua Peran</option>
-                <option value="Photographer">Photographer</option>
-                <option value="Videographer">Videographer</option>
-                <option value="Hybrid Shooter">Hybrid Shooter</option>
-                <option value="WCC">WCC</option>
-                <option value="Editor">Editor</option>
-                <option value="Asisten">Asisten</option>
-                <option value="Lainnya">Lainnya</option>
-              </select>
-              <select class="filter-select" v-model="filterTag">
-                <option value="">Semua Tag</option>
-                <option v-for="tag in availableTags" :key="tag" :value="tag">{{ tag }}</option>
-              </select>
-              <button class="btn-outline btn-filter" @click="toggleManageMode"><SlidersHorizontal :size="16" /> Kelola</button>
-            </template>
-            <template v-else>
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-weight: 600; font-size: 14px; margin-right: 4px;">{{ selectedMembers.length }} dipilih</span>
-                <button class="btn-outline" @click="selectAll" style="display: flex; align-items: center; gap: 8px; font-size: 13px; height: 32px; border-color: rgba(255,255,255,0.2);">
-                  <CheckCheck :size="14" /> Pilih Semua
-                </button>
-                <button class="btn-primary" @click="showDeleteConfirmModal = true" style="background: #ef4444; color: #fff; border: none; display: flex; align-items: center; gap: 8px; font-size: 13px; height: 32px;" :disabled="selectedMembers.length === 0">
-                  <Trash2 :size="14" /> Hapus Terpilih
-                </button>
-                <button @click="toggleManageMode" style="background: none; border: none; color: #a0a0a0; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-left: 4px;">
-                  <X :size="18" />
-                </button>
-              </div>
-                        </template>
+            <select class="filter-select" v-model="filterStatus">
+              <option value="">Semua Status</option>
+              <option value="Aktif">Aktif</option>
+              <option value="Nonaktif">Nonaktif</option>
+            </select>
+            <select class="filter-select" v-model="filterPeran">
+              <option value="">Semua Peran</option>
+              <option value="Photographer">Photographer</option>
+              <option value="Videographer">Videographer</option>
+              <option value="Hybrid Shooter">Hybrid Shooter</option>
+              <option value="WCC">WCC</option>
+              <option value="Editor">Editor</option>
+              <option value="Asisten">Asisten</option>
+              <option value="Lainnya">Lainnya</option>
+            </select>
+            <select class="filter-select" v-model="filterTag">
+              <option value="">Semua Tag</option>
+              <option v-for="tag in availableTags" :key="tag" :value="tag">{{ tag }}</option>
+            </select>
+            <button v-if="!isManageMode" class="btn-outline btn-filter" @click="toggleManageMode"><SlidersHorizontal :size="16" /> Kelola</button>
           </div>
+        </div>
+        
+        <div v-if="isManageMode" style="display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 1.5rem 1rem 1.5rem; border-bottom: 1px solid var(--border-color);">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-weight: 600; font-size: 14px; margin-right: 4px; color: #fff;">{{ selectedMembers.length }} dipilih</span>
+            <button class="btn-outline" @click="selectAll" style="display: flex; align-items: center; gap: 8px; font-size: 13px; height: 32px; border-color: rgba(255,255,255,0.2);">
+              <CheckCheck :size="14" /> Pilih Semua
+            </button>
+            <button class="btn-primary" @click="showDeleteConfirmModal = true" style="background: #ef4444; color: #fff; border: none; display: flex; align-items: center; gap: 8px; font-size: 13px; height: 32px;" :disabled="selectedMembers.length === 0">
+              <Trash2 :size="14" /> Hapus Terpilih
+            </button>
+          </div>
+          <button @click="toggleManageMode" style="background: none; border: none; color: #a0a0a0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+            <X :size="18" />
+          </button>
         </div>
 
         <!-- Desktop Table -->
