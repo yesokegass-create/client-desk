@@ -255,13 +255,15 @@
                       </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 16px;">
-                      <Lock v-if="element.locked" :size="18" style="color: #a0a0a0;" />
-                      <Unlock v-else :size="18" style="color: #a0a0a0;" />
-                      
-                      <button @click="toggleColumnVisibility(element)" :disabled="element.locked" style="background: none; border: none; cursor: pointer; color: #a0a0a0;" :style="{ opacity: element.locked ? 0.5 : 1, cursor: element.locked ? 'not-allowed' : 'pointer' }">
-                        <Eye v-if="element.visible" :size="18" />
-                        <EyeOff v-else :size="18" />
-                      </button>
+                      <button @click="toggleColumnLock(element)" :disabled="['no', 'nama', 'aksi'].includes(element.id)" style="background: none; border: none; cursor: pointer; color: #a0a0a0; display: flex; align-items: center; justify-content: center;" :style="{ opacity: ['no', 'nama', 'aksi'].includes(element.id) ? 0.5 : 1, cursor: ['no', 'nama', 'aksi'].includes(element.id) ? 'not-allowed' : 'pointer' }">
+                          <Lock v-if="element.locked" :size="18" />
+                          <Unlock v-else :size="18" />
+                        </button>
+                        
+                        <button @click="toggleColumnVisibility(element)" :disabled="['no', 'nama', 'aksi'].includes(element.id)" style="background: none; border: none; cursor: pointer; color: #a0a0a0; display: flex; align-items: center; justify-content: center;" :style="{ opacity: ['no', 'nama', 'aksi'].includes(element.id) ? 0.5 : 1, cursor: ['no', 'nama', 'aksi'].includes(element.id) ? 'not-allowed' : 'pointer' }">
+                          <Eye v-if="element.visible" :size="18" />
+                          <EyeOff v-else :size="18" />
+                        </button>
                     </div>
                   </div>
                 </template>
@@ -486,8 +488,14 @@ const openColumnModal = () => {
 };
 
 const toggleColumnVisibility = (col) => {
-  if (!col.locked) {
+  if (!['no', 'nama', 'aksi'].includes(col.id)) {
     col.visible = !col.visible;
+  }
+};
+
+const toggleColumnLock = (col) => {
+  if (!['no', 'nama', 'aksi'].includes(col.id)) {
+    col.locked = !col.locked;
   }
 };
 
