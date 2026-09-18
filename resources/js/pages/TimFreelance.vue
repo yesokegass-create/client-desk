@@ -108,51 +108,54 @@
         <!-- Desktop Table -->
         <div class="table-responsive desktop-only">
           <table class="data-table">
-            <thead>
-              <tr>
-                <th>NO.</th>
-                <th>NAMA</th>
-                <th>PERAN / ROLE</th>
-                <th>TAGS</th>
-                <th>PRICELIST</th>
-                <th>NOMOR WHATSAPP</th>
-                <th>STATUS</th>
-                <th class="text-right">AKSI</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(member, index) in filteredTeamMembers" :key="member.id">
-                <td>{{ index + 1 }}</td>
-                <td>
-                  <div class="user-cell">
-                    <div class="avatar">{{ member.nama.charAt(0).toUpperCase() }}</div>
-                    <span>{{ member.nama }}</span>
-                  </div>
-                </td>
-                <td><span class="role-pill" :style="getRoleStyle(member.peran)">{{ member.peran }}</span></td>
-                <td>
-                  <div class="tags-row">
-                    <span class="tag-pill-sm" v-for="(tag, i) in (member.tags || []).slice(0, 2)" :key="i">{{ tag }}</span>
-                    <span class="tag-pill-sm" v-if="member.tags && member.tags.length > 2">+{{ member.tags.length - 2 }}</span>
-                  </div>
-                </td>
-                <td>{{ member.pricelist ? member.pricelist.length : 0 }} item</td>
-                <td>{{ member.phone_country_code === 'ID' ? '+62' : '' }}{{ member.phone_number }}</td>
-                <td>
-                  <button class="status-badge" :class="member.status === 'Aktif' ? 'status-aktif' : 'status-nonaktif'" @click="toggleStatus(member)">
-                    {{ member.status }}
-                  </button>
-                </td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="btn-action btn-wa" title="WhatsApp" @click="openWhatsApp(member)"><MessageCircle :size="16" /></button>
-                    <button class="btn-action btn-edit" title="Edit" @click="editTeamMember(member)"><Edit2 :size="16" /></button>
-                    <button class="btn-action btn-delete" title="Hapus" @click="deleteTeamMember(member.id)"><Trash2 :size="16" /></button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+              <thead>
+                <tr>
+                  <th v-for="col in visibleColumns" :key="col.id" :class="{'text-right': col.id === 'aksi'}">
+                    {{ col.label.toUpperCase() }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(member, index) in filteredTeamMembers" :key="member.id">
+                  <td v-for="col in visibleColumns" :key="col.id">
+                    <template v-if="col.id === 'no'">{{ index + 1 }}</template>
+                    <template v-else-if="col.id === 'nama'">
+                      <div class="user-cell">
+                        <div class="avatar">{{ member.nama.charAt(0).toUpperCase() }}</div>
+                        <span>{{ member.nama }}</span>
+                      </div>
+                    </template>
+                    <template v-else-if="col.id === 'peran'">
+                      <span class="role-pill" :style="getRoleStyle(member.peran)">{{ member.peran }}</span>
+                    </template>
+                    <template v-else-if="col.id === 'tags'">
+                      <div class="tags-row">
+                        <span class="tag-pill-sm" v-for="(tag, i) in (member.tags || []).slice(0, 2)" :key="i" :style="getTagStyle(tag)">{{ tag }}</span>
+                        <span class="tag-pill-sm" v-if="member.tags && member.tags.length > 2">+{{ member.tags.length - 2 }}</span>
+                      </div>
+                    </template>
+                    <template v-else-if="col.id === 'pricelist'">
+                      {{ member.pricelist ? member.pricelist.length : 0 }} item
+                    </template>
+                    <template v-else-if="col.id === 'whatsapp'">
+                      {{ member.phone_country_code === 'ID' ? '+62' : '' }}{{ member.phone_number }}
+                    </template>
+                    <template v-else-if="col.id === 'status'">
+                      <button class="status-badge" :class="member.status === 'Aktif' ? 'status-aktif' : 'status-nonaktif'" @click="toggleStatus(member)">
+                        {{ member.status }}
+                      </button>
+                    </template>
+                    <template v-else-if="col.id === 'aksi'">
+                      <div class="action-buttons">
+                        <button class="btn-action btn-wa" title="WhatsApp" @click="openWhatsApp(member)"><MessageCircle :size="16" /></button>
+                        <button class="btn-action btn-edit" title="Edit" @click="editTeamMember(member)"><Edit2 :size="16" /></button>
+                        <button class="btn-action btn-delete" title="Hapus" @click="deleteTeamMember(member.id)"><Trash2 :size="16" /></button>
+                      </div>
+                    </template>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
         </div>
 
         <!-- Mobile Cards -->
@@ -226,6 +229,59 @@
         </template>
       </div>
 
+
+      
+      <!-- Column Configuration Modal -->
+      <transition name="modal-fade">
+        <div v-if="showColumnModal" class="modal-backdrop" @click="showColumnModal = false">
+          <div class="modal-content color-modal" @click.stop style="max-width: 600px;">
+            <div class="modal-header">
+              <div>
+                <h2 class="modal-title">Kelola Kolom Tim / Freelance</h2>
+                <p class="modal-subtitle">Atur kolom yang tampil di tabel tim atau freelance. Kolom Nama dan Aksi selalu tampil, serta lock-nya tidak bisa dimatikan.</p>
+              </div>
+              <button class="close-btn" @click="showColumnModal = false"><X :size="20" /></button>
+            </div>
+            
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto; padding-right: 8px;">
+              <draggable v-model="tempColumns" item-key="id" handle=".drag-handle" ghost-class="ghost">
+                <template #item="{ element }">
+                  <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                      <button class="drag-handle" style="background: rgba(255,255,255,0.05); border: none; padding: 8px; border-radius: 6px; cursor: grab; color: #a0a0a0; display: flex; align-items: center; justify-content: center;">
+                        <GripVertical :size="16" />
+                      </button>
+                      <div style="display: flex; flex-direction: column;">
+                        <span style="color: #fff; font-weight: 500; font-size: 14px;">{{ element.label }}</span>
+                        <span style="color: #888; font-size: 12px; margin-top: 2px;">{{ element.description }}</span>
+                      </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                      <Lock v-if="element.locked" :size="18" style="color: #a0a0a0;" />
+                      <Unlock v-else :size="18" style="color: #a0a0a0;" />
+                      
+                      <button @click="toggleColumnVisibility(element)" :disabled="element.locked" style="background: none; border: none; cursor: pointer; color: #a0a0a0;" :style="{ opacity: element.locked ? 0.5 : 1 }">
+                        <Eye v-if="element.visible" :size="18" />
+                        <EyeOff v-else :size="18" />
+                      </button>
+                    </div>
+                  </div>
+                </template>
+              </draggable>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px; display: flex; justify-content: space-between;">
+              <button class="btn-secondary" @click="resetColumns" style="display: flex; align-items: center; gap: 8px;">
+                <RotateCcw :size="16" /> Reset Lebar
+              </button>
+              <div style="display: flex; gap: 12px;">
+                <button class="btn-secondary" @click="showColumnModal = false">Tutup</button>
+                <button class="btn-primary" @click="saveColumns">Simpan</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
 
       <!-- Color Configuration Modal -->
       <transition name="modal-fade">
@@ -392,7 +448,7 @@ import { useTour } from '../composables/useTour';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { 
   ArrowUpDown, Plus, Palette, Users, X, ChevronDown, Search, Trash2, Check, SlidersHorizontal, MessageCircle, Edit2, ChevronLeft, ChevronRight, GripVertical, ArrowUp, ArrowDown
-} from 'lucide-vue-next';
+, Lock, Unlock, Eye, EyeOff, RotateCcw} from 'lucide-vue-next';
 
 const { isActive, currentStep, completeStep, endTour } = useTour();
 const router = useRouter();
@@ -406,6 +462,47 @@ const isSavingOrder = ref(false);
 const showColorModal = ref(false);
 const isSavingColors = ref(false);
 const roleTagColors = ref({ roles: {}, tags: {} });
+
+const defaultColumns = [
+  { id: 'no', label: 'No.', visible: true, locked: false, description: 'Tampil, tapi terkunci saat digeser.' },
+  { id: 'nama', label: 'Nama', visible: true, locked: true, description: 'Kolom ini selalu terkunci.' },
+  { id: 'whatsapp', label: 'Nomor WhatsApp', visible: true, locked: false, description: 'Tampil, tapi terkunci saat digeser.' },
+  { id: 'peran', label: 'Peran / Role', visible: true, locked: false, description: 'Tampil di tabel.' },
+  { id: 'tags', label: 'Tags', visible: true, locked: false, description: 'Tampil di tabel.' },
+  { id: 'pricelist', label: 'Pricelist', visible: true, locked: false, description: 'Tampil di tabel.' },
+  { id: 'status', label: 'Status', visible: true, locked: false, description: 'Tampil di tabel.' },
+  { id: 'aksi', label: 'Aksi', visible: true, locked: true, description: 'Kolom ini selalu terkunci.' }
+];
+
+const columns = ref([...defaultColumns]);
+const tempColumns = ref([]);
+const showColumnModal = ref(false);
+
+const visibleColumns = computed(() => {
+  return columns.value.filter(c => c.visible);
+});
+
+const openColumnModal = () => {
+  tempColumns.value = JSON.parse(JSON.stringify(columns.value));
+  showColumnModal.value = true;
+};
+
+const toggleColumnVisibility = (col) => {
+  if (!col.locked) {
+    col.visible = !col.visible;
+  }
+};
+
+const resetColumns = () => {
+  tempColumns.value = JSON.parse(JSON.stringify(defaultColumns));
+};
+
+const saveColumns = () => {
+  columns.value = JSON.parse(JSON.stringify(tempColumns.value));
+  localStorage.setItem('timFreelanceColumns', JSON.stringify(columns.value));
+  showColumnModal.value = false;
+};
+
 
 const availableRoles = [
   'Photographer', 'Videographer', 'Hybrid Shooter', 'WCC', 'Editor', 'Asisten', 'Lainnya'
@@ -526,6 +623,18 @@ const countries = ref([]);
 const selectedCountry = ref({ code: 'ID', name: 'Indonesia', dial_code: '+62' });
 
 onMounted(async () => {
+  const savedCols = localStorage.getItem('timFreelanceColumns');
+  if (savedCols) {
+    try {
+      columns.value = JSON.parse(savedCols);
+      const savedIds = columns.value.map(c => c.id);
+      defaultColumns.forEach(defCol => {
+        if (!savedIds.includes(defCol.id)) {
+          columns.value.push(defCol);
+        }
+      });
+    } catch (e) {}
+  }
   await fetchSettings();
   fetchTeamMembers();
 
