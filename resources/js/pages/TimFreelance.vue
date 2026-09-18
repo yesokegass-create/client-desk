@@ -133,7 +133,10 @@
               </tr>
             </thead>
               <tbody>
-                <tr v-for="(member, index) in filteredTeamMembers" :key="member.id">
+                <tr v-for="(member, index) in filteredTeamMembers" :key="member.id" :style="selectedMembers.includes(member.id) ? 'background-color: rgba(255,255,255,0.05);' : ''">
+                                    <td v-if="isManageMode" style="text-align: center;">
+                    <input type="checkbox" :value="member.id" v-model="selectedMembers" style="width: 16px; height: 16px; cursor: pointer;" />
+                  </td>
                   <td v-for="col in visibleColumns" :key="col.id">
                     <template v-if="col.id === 'no'">{{ index + 1 }}</template>
                     <template v-else-if="col.id === 'nama'">
@@ -177,8 +180,11 @@
 
         <!-- Mobile Cards -->
         <div class="mobile-cards-list mobile-only">
-          <div class="member-mobile-card" v-for="(member, index) in filteredTeamMembers" :key="member.id">
+          <div class="member-mobile-card" v-for="(member, index) in filteredTeamMembers" :key="member.id" :style="selectedMembers.includes(member.id) ? 'background-color: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.2);' : ''">
             <div class="mm-header">
+                            <div v-if="isManageMode" style="margin-right: 12px; display: flex; align-items: center;">
+                <input type="checkbox" :value="member.id" v-model="selectedMembers" style="width: 18px; height: 18px; cursor: pointer;" />
+              </div>
               <div class="mm-user">
                 <div class="avatar">{{ member.nama.charAt(0).toUpperCase() }}</div>
                 <div class="mm-name-role">
