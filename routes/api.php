@@ -111,6 +111,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Team Members
     Route::post('/team-members/reorder', [App\Http\Controllers\TeamMemberController::class, 'updateOrder']);
+    Route::post('/team-members/bulk-delete', [App\Http\Controllers\TeamMemberController::class, 'bulkDelete']);
     Route::get('/team-members', [App\Http\Controllers\TeamMemberController::class, 'index']);
     Route::post('/team-members', [App\Http\Controllers\TeamMemberController::class, 'store']);
     Route::put('/team-members/{id}', [App\Http\Controllers\TeamMemberController::class, 'update']);

@@ -99,9 +99,24 @@
             </select>
             <select class="filter-select" v-model="filterTag">
               <option value="">Semua Tag</option>
-              <!-- Optionally populate unique tags here later -->
+              <option v-for="tag in availableTags" :key="tag" :value="tag">{{ tag }}</option>
             </select>
-            <button class="btn-outline btn-filter"><SlidersHorizontal :size="16" /> Kelola</button>
+            <button v-if="!isManageMode" class="btn-outline btn-filter" @click="toggleManageMode"><SlidersHorizontal :size="16" /> Kelola</button>
+          </div>
+          
+          <div v-if="isManageMode" style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); padding: 12px 16px; border-radius: 12px; margin-top: 16px; border: 1px solid rgba(255,255,255,0.05);">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <span style="font-weight: 600; font-size: 14px;">{{ selectedMembers.length }} dipilih</span>
+              <button class="btn-outline" @click="selectAll" style="display: flex; align-items: center; gap: 8px; font-size: 13px; height: 32px; border-color: rgba(255,255,255,0.2);">
+                <CheckCheck :size="14" /> Pilih Semua
+              </button>
+              <button class="btn-primary" @click="deleteSelectedMembers" style="background: #ef4444; color: #fff; border: none; display: flex; align-items: center; gap: 8px; font-size: 13px; height: 32px;" :disabled="selectedMembers.length === 0">
+                <Trash2 :size="14" /> Hapus Terpilih
+              </button>
+            </div>
+            <button @click="toggleManageMode" style="background: none; border: none; color: #a0a0a0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+              <X :size="18" />
+            </button>
           </div>
         </div>
 
@@ -109,12 +124,14 @@
         <div class="table-responsive desktop-only">
           <table class="data-table">
               <thead>
-                <tr>
-                  <th v-for="col in visibleColumns" :key="col.id" :class="{'text-right': col.id === 'aksi'}">
+              <tr>
+                <th v-if="isManageMode" style="width: 40px; text-align: center;"></th>
+                <th v-for="col in visibleColumns" :key="col.id" :class="{'text-right': col.id === 'aksi'}">
                     {{ col.label.toUpperCase() }}
                   </th>
-                </tr>
-              </thead>
+                
+              </tr>
+            </thead>
               <tbody>
                 <tr v-for="(member, index) in filteredTeamMembers" :key="member.id">
                   <td v-for="col in visibleColumns" :key="col.id">
@@ -448,7 +465,7 @@ import { useTour } from '../composables/useTour';
 import DashboardLayout from '../layouts/DashboardLayout.vue';
 import { 
   ArrowUpDown, Plus, Palette, Users, X, ChevronDown, Search, Trash2, Check, SlidersHorizontal, MessageCircle, Edit2, ChevronLeft, ChevronRight, GripVertical, ArrowUp, ArrowDown
-, Lock, Unlock, Eye, EyeOff, RotateCcw} from 'lucide-vue-next';
+, Lock, Unlock, Eye, EyeOff, RotateCcw } from 'lucide-vue-next';
 
 const { isActive, currentStep, completeStep, endTour } = useTour();
 const router = useRouter();
@@ -641,6 +658,44 @@ const searchQuery = ref('');
 const filterStatus = ref('');
 const filterPeran = ref('');
 const filterTag = ref('');
+const isManageMode = ref(false);
+const selectedMembers = ref([]);
+
+const toggleManageMode = () => {
+  isManageMode.value = !isManageMode.value;
+  selectedMembers.value = [];
+};
+
+const selectAll = () => {
+  if (selectedMembers.value.length === filteredMembers.value.length) {
+    selectedMembers.value = [];
+  } else {
+    selectedMembers.value = filteredMembers.value.map(m => m.id);
+  }
+};
+
+const deleteSelectedMembers = async () => {
+  if (selectedMembers.value.length === 0) return;
+  if (!confirm(`Apakah Anda yakin ingin menghapus ${selectedMembers.value.length} anggota yang dipilih?`)) return;
+  
+  try {
+    const token = localStorage.getItem('auth_token');
+    await axios.post('/api/team-members/bulk-delete', {
+      ids: selectedMembers.value
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    
+    // update local state
+    teamMembers.value = teamMembers.value.filter(m => !selectedMembers.value.includes(m.id));
+    selectedMembers.value = [];
+    isManageMode.value = false;
+  } catch (error) {
+    console.error('Failed to bulk delete team members:', error);
+    alert('Gagal menghapus data secara massal');
+  }
+};
+
 
 const showAddModal = ref(false);
 const formErrors = ref({
@@ -1229,6 +1284,11 @@ const removeTag = (index) => {
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   background-size: 14px;
+}
+
+.filter-select option {
+  background-color: #1a1a1a;
+  color: #ffffff;
 }
 
 .btn-filter {
