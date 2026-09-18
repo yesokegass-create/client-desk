@@ -510,6 +510,11 @@ const enforceColumnOrder = (cols) => {
   const namaCol = cols.find(c => c.id === 'nama');
   const aksiCol = cols.find(c => c.id === 'aksi');
   
+  // Force mandatory columns to be permanently locked, regardless of localStorage
+  if (noCol) { noCol.locked = true; }
+  if (namaCol) { namaCol.locked = true; }
+  if (aksiCol) { aksiCol.locked = true; }
+  
   // Filter out locked columns
   const otherCols = cols.filter(c => !['no', 'nama', 'aksi'].includes(c.id));
   
