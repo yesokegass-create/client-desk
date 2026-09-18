@@ -251,7 +251,7 @@
                       <button class="drag-handle" :class="{ 'locked-drag-handle': element.locked }" style="background: rgba(255,255,255,0.05); border: none; padding: 8px; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" :style="{ cursor: element.locked ? 'not-allowed' : 'grab', opacity: element.locked ? 0.3 : 1, color: '#a0a0a0' }"><GripVertical :size="16" /></button>
                       <div style="display: flex; flex-direction: column;">
                         <span style="color: #fff; font-weight: 500; font-size: 14px;">{{ element.label }}</span>
-                        <span style="color: #888; font-size: 12px; margin-top: 2px;">{{ element.description }}</span>
+                        <span style="color: #888; font-size: 12px; margin-top: 2px;">{{ getColumnDescription(element) }}</span>
                       </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 16px;">
@@ -526,6 +526,23 @@ const enforceColumnOrder = (cols) => {
   if (aksiCol) result.push(aksiCol);
   
   return result;
+};
+
+
+const getColumnDescription = (col) => {
+  if (col.id === 'nama' || col.id === 'aksi') {
+    return 'Kolom ini selalu tampil dan tidak bisa digeser.';
+  }
+  if (!col.visible && col.locked) {
+    return 'Disembunyikan, tapi tetap terkunci saat ditampilkan.';
+  }
+  if (!col.visible && !col.locked) {
+    return 'Disembunyikan dari tabel.';
+  }
+  if (col.visible && col.locked) {
+    return 'Tampil, tapi terkunci saat digeser.';
+  }
+  return 'Tampil di tabel.';
 };
 
 const saveColumns = () => {
