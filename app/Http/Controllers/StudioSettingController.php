@@ -50,6 +50,7 @@ class StudioSettingController extends Controller
             'close_booking_outside_hours' => 'boolean',
             'working_days' => 'nullable|array',
             'form_booking_settings' => 'nullable|array',
+            'role_tag_colors' => 'nullable|array',
         ]);
 
         try {

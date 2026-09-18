@@ -13,7 +13,7 @@
             <ArrowUpDown :size="16" />
             {{ isReorderingMode ? 'Selesai Atur Urutan' : 'Atur Urutan' }}
           </button>
-          <button class="btn-outline">
+          <button class="btn-outline" @click="showColorModal = true">
             <Palette :size="16" />
             Warna Role & Tag
           </button>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="draggable-content">
                   <span class="d-name">{{ element.nama }}</span>
-                  <span class="role-pill">{{ element.peran }}</span>
+                  <span class="role-pill" :style="getRoleStyle(element.peran)">{{ element.peran }}</span>
                   <span class="d-status text-green" v-if="element.status === 'Aktif'">Aktif</span>
                   <span class="d-status text-gray" v-else>{{ element.status }}</span>
                 </div>
@@ -129,7 +129,7 @@
                     <span>{{ member.nama }}</span>
                   </div>
                 </td>
-                <td><span class="role-pill">{{ member.peran }}</span></td>
+                <td><span class="role-pill" :style="getRoleStyle(member.peran)">{{ member.peran }}</span></td>
                 <td>
                   <div class="tags-row">
                     <span class="tag-pill-sm" v-for="(tag, i) in (member.tags || []).slice(0, 2)" :key="i">{{ tag }}</span>
@@ -174,7 +174,7 @@
             <div class="mm-details">
               <div class="mm-row">
                 <span class="mm-label">Peran / Role</span>
-                <span class="role-pill">{{ member.peran }}</span>
+                <span class="role-pill" :style="getRoleStyle(member.peran)">{{ member.peran }}</span>
               </div>
               <div class="mm-row">
                 <span class="mm-label">Tags</span>
@@ -225,6 +225,58 @@
         </div>
         </template>
       </div>
+
+
+      <!-- Color Configuration Modal -->
+      <transition name="modal-fade">
+        <div v-if="showColorModal" class="modal-backdrop" @click="showColorModal = false">
+          <div class="modal-content color-modal" @click.stop style="max-width: 600px;">
+            <div class="modal-header">
+              <div>
+                <h2 class="modal-title">Warna Role & Tag</h2>
+                <p class="modal-subtitle">Atur warna global berdasarkan label role dan tag. Warna akan otomatis dipakai di seluruh anggota yang memiliki label sama.</p>
+              </div>
+              <button class="close-btn" @click="showColorModal = false"><X :size="20" /></button>
+            </div>
+            
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+              <h3 style="color: #fff; font-size: 14px; margin-bottom: 12px; font-weight: 600;">Role</h3>
+              <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+                <div v-for="role in availableRoles" :key="role" style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 8px;">
+                  <span class="role-pill" :style="getRoleStyle(role)">{{ role }}</span>
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <input type="color" v-model="roleTagColors.roles[role]" style="width: 32px; height: 32px; padding: 0; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; background: transparent; cursor: pointer;">
+                    <input type="text" v-model="roleTagColors.roles[role]" placeholder="#000000" style="width: 90px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 13px;">
+                    <button @click="roleTagColors.roles[role] = null" style="background: none; border: none; color: #a0a0a0; font-size: 13px; cursor: pointer;">Reset</button>
+                  </div>
+                </div>
+              </div>
+
+              <h3 style="color: #fff; font-size: 14px; margin-bottom: 12px; font-weight: 600;">Tag</h3>
+              <div v-if="availableTags.length === 0" style="color: #a0a0a0; font-size: 13px; padding: 16px; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; text-align: center;">
+                Belum ada tag untuk diatur warnanya.
+              </div>
+              <div v-else style="display: flex; flex-direction: column; gap: 12px;">
+                <div v-for="tag in availableTags" :key="tag" style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 8px;">
+                  <span class="tag-pill" :style="getTagStyle(tag)">{{ tag }}</span>
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <input type="color" v-model="roleTagColors.tags[tag]" style="width: 32px; height: 32px; padding: 0; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; background: transparent; cursor: pointer;">
+                    <input type="text" v-model="roleTagColors.tags[tag]" placeholder="#000000" style="width: 90px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 8px; border-radius: 6px; font-size: 13px;">
+                    <button @click="roleTagColors.tags[tag] = null" style="background: none; border: none; color: #a0a0a0; font-size: 13px; cursor: pointer;">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer" style="margin-top: 20px;">
+              <button class="btn-secondary" @click="showColorModal = false">Batal</button>
+              <button class="btn-primary" @click="saveColors" :disabled="isSavingColors">
+                {{ isSavingColors ? 'Menyimpan...' : 'Simpan Warna' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </transition>
 
       <!-- Add Member Modal -->
       <transition name="modal-fade">
@@ -351,6 +403,88 @@ const isSaving = ref(false);
 const isReorderingMode = ref(false);
 const isSavingOrder = ref(false);
 
+const showColorModal = ref(false);
+const isSavingColors = ref(false);
+const roleTagColors = ref({ roles: {}, tags: {} });
+
+const availableRoles = [
+  'Photographer', 'Videographer', 'Hybrid Shooter', 'WCC', 'Editor', 'Asisten', 'Lainnya'
+];
+
+const availableTags = computed(() => {
+  const tags = new Set();
+  teamMembers.value.forEach(member => {
+    if (member.tags && Array.isArray(member.tags)) {
+      member.tags.forEach(tag => tags.add(tag));
+    }
+  });
+  return Array.from(tags).sort();
+});
+
+const hexToRgb = (hex) => {
+  if (!hex || typeof hex !== 'string' || !hex.startsWith('#')) return null;
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+};
+
+const getRoleStyle = (role) => {
+  const hex = roleTagColors.value.roles[role];
+  if (!hex) return {};
+  const rgb = hexToRgb(hex);
+  return {
+    color: hex,
+    borderColor: hex,
+    backgroundColor: rgb ? `rgba(${rgb}, 0.1)` : 'transparent'
+  };
+};
+
+const getTagStyle = (tag) => {
+  const hex = roleTagColors.value.tags[tag];
+  if (!hex) return {};
+  const rgb = hexToRgb(hex);
+  return {
+    color: hex,
+    borderColor: hex,
+    backgroundColor: rgb ? `rgba(${rgb}, 0.1)` : 'transparent'
+  };
+};
+
+const fetchSettings = async () => {
+  try {
+    const token = localStorage.getItem('auth_token');
+    const response = await axios.get('/api/settings', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (response.data && response.data.role_tag_colors) {
+      roleTagColors.value = {
+        roles: response.data.role_tag_colors.roles || {},
+        tags: response.data.role_tag_colors.tags || {}
+      };
+    }
+  } catch (error) {
+    console.error('Failed to fetch settings', error);
+  }
+};
+
+const saveColors = async () => {
+  isSavingColors.value = true;
+  try {
+    const token = localStorage.getItem('auth_token');
+    await axios.post('/api/settings', {
+      role_tag_colors: roleTagColors.value
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    showColorModal.value = false;
+  } catch (error) {
+    console.error('Failed to save colors', error);
+    alert('Gagal menyimpan warna');
+  } finally {
+    isSavingColors.value = false;
+  }
+};
+
+
 const searchQuery = ref('');
 const filterStatus = ref('');
 const filterPeran = ref('');
@@ -392,6 +526,7 @@ const countries = ref([]);
 const selectedCountry = ref({ code: 'ID', name: 'Indonesia', dial_code: '+62' });
 
 onMounted(async () => {
+  await fetchSettings();
   fetchTeamMembers();
 
   try {

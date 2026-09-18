@@ -19,11 +19,13 @@ class StudioSetting extends Model
         'close_booking_outside_hours',
         'working_days',
         'form_booking_settings',
+        'role_tag_colors',
     ];
 
     protected $casts = [
         'working_days' => 'array',
         'form_booking_settings' => 'array',
+        'role_tag_colors' => 'array',
         'working_hours_enabled' => 'boolean',
         'close_booking_outside_hours' => 'boolean',
         'disable_slug' => 'boolean',
