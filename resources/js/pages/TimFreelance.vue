@@ -495,8 +495,28 @@ const resetColumns = () => {
   tempColumns.value = JSON.parse(JSON.stringify(defaultColumns));
 };
 
+
+const enforceColumnOrder = (cols) => {
+  // Extract locked columns
+  const noCol = cols.find(c => c.id === 'no');
+  const namaCol = cols.find(c => c.id === 'nama');
+  const aksiCol = cols.find(c => c.id === 'aksi');
+  
+  // Filter out locked columns
+  const otherCols = cols.filter(c => !['no', 'nama', 'aksi'].includes(c.id));
+  
+  // Reconstruct with enforced order
+  const result = [];
+  if (noCol) result.push(noCol);
+  if (namaCol) result.push(namaCol);
+  result.push(...otherCols);
+  if (aksiCol) result.push(aksiCol);
+  
+  return result;
+};
+
 const saveColumns = () => {
-  columns.value = JSON.parse(JSON.stringify(tempColumns.value));
+  columns.value = enforceColumnOrder(JSON.parse(JSON.stringify(tempColumns.value)));
   localStorage.setItem('timFreelanceColumns', JSON.stringify(columns.value));
   showColumnModal.value = false;
 };
@@ -631,7 +651,7 @@ onMounted(async () => {
   const savedCols = localStorage.getItem('timFreelanceColumns');
   if (savedCols) {
     try {
-      columns.value = JSON.parse(savedCols);
+      columns.value = enforceColumnOrder(JSON.parse(savedCols));
       const savedIds = columns.value.map(c => c.id);
       defaultColumns.forEach(defCol => {
         if (!savedIds.includes(defCol.id)) {
