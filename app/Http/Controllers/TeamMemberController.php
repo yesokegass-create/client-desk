@@ -17,30 +17,42 @@ class TeamMemberController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->has('phone_number') && !empty($request->phone_number)) {
-            $phone = preg_replace('/[^0-9]/', '', $request->phone_number);
-            if (str_starts_with($phone, '0')) {
-                $phone = '62' . substr($phone, 1);
-            } elseif (!str_starts_with($phone, '62')) {
-                $phone = '62' . $phone;
+        try {
+            if ($request->has('phone_number') && !empty($request->phone_number)) {
+                $phone = preg_replace('/[^0-9]/', '', $request->phone_number);
+                if (str_starts_with($phone, '0')) {
+                    $phone = '62' . substr($phone, 1);
+                } elseif (!str_starts_with($phone, '62')) {
+                    $phone = '62' . $phone;
+                }
+                $request->merge(['phone_number' => '+' . $phone]);
             }
-            $request->merge(['phone_number' => '+' . $phone]);
+
+            $request->validate([
+                'nama' => 'required|string',
+                'peran' => 'required|string',
+                'phone_country_code' => 'required|string',
+                'phone_number' => 'required|phone:ID,mobile',
+                'email' => 'nullable|email',
+                'tags' => 'nullable|array',
+                'pricelist' => 'nullable|array',
+            ]);
+
+            $member = $request->user()->teamMembers()->create($request->all());
+            $member->refresh();
+
+            return response()->json(['message' => 'Team member created successfully', 'data' => $member], 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'message' => 'Validation Failed',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error on create: ' . $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
         }
-
-        $request->validate([
-            'nama' => 'required|string',
-            'peran' => 'required|string',
-            'phone_country_code' => 'required|string',
-            'phone_number' => 'required|phone:ID,mobile',
-            'email' => 'nullable|email',
-            'tags' => 'nullable|array',
-            'pricelist' => 'nullable|array',
-        ]);
-
-        $member = $request->user()->teamMembers()->create($request->all());
-        $member->refresh();
-
-        return response()->json(['message' => 'Team member created successfully', 'data' => $member], 201);
     }
 
     public function update(Request $request, $id)
