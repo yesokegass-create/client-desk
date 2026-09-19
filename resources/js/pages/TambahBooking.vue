@@ -38,7 +38,8 @@
             <input type="text" class="form-control" placeholder="@username" v-model="form.instagram" />
           </div>
 
-          <template v-if="['Wedding', 'Akad', 'Resepsi', 'Lamaran', 'Prewedding'].includes(form.tipeAcara)">
+          <!-- Pasangan fields hidden for now 
+<template v-if="['Wedding', 'Akad', 'Resepsi', 'Lamaran', 'Prewedding'].includes(form.tipeAcara)">
             <div class="form-group mt-3">
               <label>Nama Pasangan <span class="text-danger">*</span></label>
               <input type="text" class="form-control" placeholder="Nama Pasangan" v-model="form.namaPasangan" />
@@ -52,6 +53,7 @@
               <input type="number" class="form-control" placeholder="Estimasi Tamu" v-model="form.estimasiTamu" />
             </div>
           </template>
+-->
         </div>
 
         <!-- DETAIL SESI/ACARA -->

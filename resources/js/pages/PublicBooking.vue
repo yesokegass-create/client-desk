@@ -151,7 +151,8 @@
               </div>
             </template>
 
-            <template v-if="['Wedding', 'Akad', 'Resepsi', 'Lamaran', 'Prewedding'].includes(mockupTipeAcara)">
+            <!-- Pasangan fields hidden for now 
+<template v-if="['Wedding', 'Akad', 'Resepsi', 'Lamaran', 'Prewedding'].includes(mockupTipeAcara)">
               <div class="mockup-field">
                 <label><User :size="16" /> Nama Pasangan <span class="req" :style="{ color: brandColor }">*</span></label>
                 <input type="text" id="field-namaPasangan" v-model="formData.namaPasangan" :class="['mockup-input', {'has-error': errors.namaPasangan}]" placeholder="Nama Pasangan" />
@@ -165,6 +166,7 @@
                 </div>
               </div>
             </template>
+-->
 
             <template v-if="['Wedding', 'Akad', 'Resepsi', 'Lamaran'].includes(mockupTipeAcara)">
               <div class="mockup-field">
@@ -278,10 +280,10 @@
                   <div class="summary-label"><User :size="16" /> Nama Klien</div>
                   <div class="summary-value">{{ formData.namaLengkap || '-' }}</div>
                 </div>
-                <div class="summary-row" v-if="formData.namaPasangan">
+                <!-- <div class="summary-row" v-if="formData.namaPasangan">
                   <div class="summary-label"><User :size="16" /> Nama Pasangan</div>
                   <div class="summary-value">{{ formData.namaPasangan }}</div>
-                </div>
+                  </div> -->
                 <div class="summary-row">
                   <div class="summary-label"><Phone :size="16" /> WhatsApp</div>
                   <div class="summary-value">{{ formData.noWhatsapp || '-' }}</div>
@@ -1228,6 +1230,7 @@ onMounted(async () => {
   margin-bottom: 1.25rem;
 }
 
+.mockup-field-label,
 .mockup-field label {
   display: flex;
   align-items: center;
