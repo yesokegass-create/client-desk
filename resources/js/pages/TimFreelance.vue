@@ -675,18 +675,18 @@ const toggleManageMode = () => {
 };
 
 const selectAll = () => {
-  if (selectedMembers.value.length === filteredMembers.value.length) {
+  if (selectedMembers.value.length === filteredTeamMembers.value.length) {
     selectedMembers.value = [];
   } else {
-    selectedMembers.value = filteredMembers.value.map(m => m.id);
+    selectedMembers.value = filteredTeamMembers.value.map(m => m.id);
   }
 };
 
 const deleteSelectedMembers = async () => {
-  if (selectedMembers.value.length === 0) return;
-  if (!confirm(`Apakah Anda yakin ingin menghapus ${selectedMembers.value.length} anggota yang dipilih?`)) return;
-  
-  try {
+    if (selectedMembers.value.length === 0) return;
+    
+    isDeletingBulk.value = true;
+    try {
     const token = localStorage.getItem('auth_token');
     await axios.post('/api/team-members/bulk-delete', {
       ids: selectedMembers.value
@@ -698,6 +698,8 @@ const deleteSelectedMembers = async () => {
     teamMembers.value = teamMembers.value.filter(m => !selectedMembers.value.includes(m.id));
     selectedMembers.value = [];
     isManageMode.value = false;
+      showDeleteConfirmModal.value = false;
+      isDeletingBulk.value = false;
   } catch (error) {
     console.error('Failed to bulk delete team members:', error);
     alert('Gagal menghapus data secara massal');
