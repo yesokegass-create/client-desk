@@ -107,8 +107,8 @@
                 </div>
               </div>
 
-              <!-- QRIS -->
-              <div class="method-card" :class="{ active: activePaymentMethods.qris }">
+              <!-- QRIS (Hidden) -->
+              <div class="method-card" :class="{ active: activePaymentMethods.qris }" v-if="false">
                 <div class="method-header" @click="togglePaymentMethod('qris')">
                   <div class="method-info">
                     <div class="method-icon-wrap"><QrCode :size="18" /></div>
@@ -121,8 +121,8 @@
                 </div>
               </div>
 
-              <!-- Cash -->
-              <div class="method-card" :class="{ active: activePaymentMethods.cash }">
+              <!-- Cash (Hidden) -->
+              <div class="method-card" :class="{ active: activePaymentMethods.cash }" v-if="false">
                 <div class="method-header" @click="togglePaymentMethod('cash')">
                   <div class="method-info">
                     <div class="method-icon-wrap"><Banknote :size="18" /></div>
@@ -135,8 +135,8 @@
                 </div>
               </div>
 
-              <!-- Online Payment -->
-              <div class="method-card" :class="{ active: activePaymentMethods.online_payment }">
+              <!-- Online Payment (Hidden) -->
+              <div class="method-card" :class="{ active: activePaymentMethods.online_payment }" v-if="false">
                 <div class="method-header" @click="togglePaymentMethod('online_payment')">
                   <div class="method-info">
                     <div class="method-icon-wrap"><Globe :size="18" /></div>
@@ -193,7 +193,8 @@
               </div>
             </div>
 
-            <div class="config-box mt-3">
+            <!-- QRIS Config (Hidden) -->
+            <div class="config-box mt-3" v-if="false">
               <div class="qris-header">
                 <h5><QrCode :size="14" class="inline-icon" /> QRIS</h5>
                 <button class="btn-small" @click="connectGoogleDrive" v-if="!isGoogleDriveConnected">Hubungkan Google Drive</button>

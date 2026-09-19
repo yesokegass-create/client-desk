@@ -84,8 +84,8 @@
                 </div>
               </div>
 
-              <!-- QRIS (Inactive) -->
-              <div class="method-card">
+              <!-- QRIS (Inactive) (Hidden) -->
+              <div class="method-card" v-if="false">
                 <div class="method-header">
                   <div class="method-info">
                     <div class="method-icon-wrap"><QrCode :size="18" /></div>
@@ -98,8 +98,8 @@
                 </div>
               </div>
 
-              <!-- Cash (Inactive) -->
-              <div class="method-card">
+              <!-- Cash (Inactive) (Hidden) -->
+              <div class="method-card" v-if="false">
                 <div class="method-header">
                   <div class="method-info">
                     <div class="method-icon-wrap"><Banknote :size="18" /></div>
@@ -112,8 +112,8 @@
                 </div>
               </div>
 
-              <!-- Online Payment (Inactive) -->
-              <div class="method-card">
+              <!-- Online Payment (Inactive) (Hidden) -->
+              <div class="method-card" v-if="false">
                 <div class="method-header">
                   <div class="method-info">
                     <div class="method-icon-wrap"><Globe :size="18" /></div>
