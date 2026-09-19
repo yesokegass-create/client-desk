@@ -895,10 +895,7 @@ const totalValidBankAccountsCount = computed(() => {
 
 const ringkasanPembayaran = computed(() => {
   const methods = [];
-  if (activePaymentMethods.value.qris) methods.push('QRIS');
   if (activePaymentMethods.value.transfer_bank) methods.push('Transfer Bank');
-  if (activePaymentMethods.value.cash) methods.push('Cash');
-  if (activePaymentMethods.value.online_payment) methods.push('Online Payment');
 
   if (methods.length === 0) {
     return 'Ringkasan: belum ada metode aktif.';
@@ -908,11 +905,6 @@ const ringkasanPembayaran = computed(() => {
 
   if (activePaymentMethods.value.transfer_bank) {
     text += ` Rekening aktif: ${activeBankAccountsCount.value}.`;
-  }
-
-  if (activePaymentMethods.value.qris) {
-    const qrisStatus = qrisImagePreview.value ? 'QRIS siap ditampilkan.' : 'QRIS belum diupload.';
-    text += ` ${qrisStatus}`;
   }
 
   return text;
