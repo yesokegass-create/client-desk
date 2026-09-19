@@ -306,6 +306,28 @@
         </div>
       </transition>
 
+      <!-- Delete Confirmation Modal -->
+      <transition name="modal-fade">
+        <div v-if="showDeleteConfirmModal" class="modal-backdrop" @click="showDeleteConfirmModal = false">
+          <div class="modal-content" @click.stop style="max-width: 400px;">
+            <div class="modal-header">
+              <div>
+                <h2 class="modal-title">Konfirmasi</h2>
+                <p class="modal-subtitle">{{ selectedMembers.length }} anggota tim akan dihapus.</p>
+              </div>
+              <button class="close-btn" @click="showDeleteConfirmModal = false"><X :size="20" /></button>
+            </div>
+            
+            <div class="modal-footer" style="margin-top: 0; border-top: none;">
+              <button class="btn-secondary" @click="showDeleteConfirmModal = false">Batal</button>
+              <button class="btn-primary" @click="deleteSelectedMembers" style="background: #ef4444; color: #fff; border: none;" :disabled="isDeletingBulk">
+                {{ isDeletingBulk ? 'Menghapus...' : 'Hapus Terpilih' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </transition>
+
       <!-- Color Configuration Modal -->
       <transition name="modal-fade">
         <div v-if="showColorModal" class="modal-backdrop" @click="showColorModal = false">
