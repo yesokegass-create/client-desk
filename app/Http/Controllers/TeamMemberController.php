@@ -79,6 +79,18 @@ class TeamMemberController extends Controller
         return response()->json(['message' => 'Team member deleted successfully']);
     }
 
+    public function bulkDelete(Request $request)
+    {
+        $ids = $request->input('ids');
+        if (!is_array($ids) || empty($ids)) {
+            return response()->json(['message' => 'Invalid data format'], 400);
+        }
+
+        $request->user()->teamMembers()->whereIn('id', $ids)->delete();
+
+        return response()->json(['message' => 'Team members deleted successfully']);
+    }
+
     public function updateOrder(Request $request)
     {
         $orders = $request->input('orders');
