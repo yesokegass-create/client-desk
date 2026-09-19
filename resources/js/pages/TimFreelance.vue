@@ -155,7 +155,7 @@
                       </div>
                     </template>
                     <template v-else-if="col.id === 'pricelist'">
-                      {{ member.pricelist ? member.pricelist.length : 0 }} item
+                      {{ member.pricelist ? member.pricelist.length : 0 }} paket
                     </template>
                     <template v-else-if="col.id === 'whatsapp'">
                       {{ member.phone_country_code === 'ID' ? '+62' : '' }}{{ member.phone_number }}
@@ -211,7 +211,7 @@
               </div>
               <div class="mm-row">
                 <span class="mm-label">Pricelist</span>
-                <span>{{ member.pricelist ? member.pricelist.length : 0 }} item</span>
+                <span>{{ member.pricelist ? member.pricelist.length : 0 }} paket</span>
               </div>
               <div class="mm-row">
                 <span class="mm-label">Nomor WhatsApp</span>
@@ -441,28 +441,51 @@
               </div>
 
               <div class="form-group pricelist-group">
-                <div class="pricelist-header">
-                  <label>Pricelist</label>
-                  <span class="help-text-inline">Tambah item dan isi harga. Harga otomatis format Rupiah (contoh: 700.000).</span>
-                  <button class="btn-sm btn-outline btn-add-item" @click="addPricelistItem">+ Item</button>
+                <div class="pricelist-header" style="justify-content: space-between; align-items: center; display: flex; width: 100%;">
+                  <div>
+                    <label style="margin-bottom:0;">Pricelist Per Paket</label>
+                    <p class="help-text-inline" style="margin-top: 4px; margin-bottom: 0;">Buat paket (misal: Paket Wedding) dan tambahkan item di dalamnya.</p>
+                  </div>
+                  <button type="button" class="btn-sm btn-outline btn-add-item" style="display: flex; align-items: center; gap: 4px;" @click="addPricelistPackage">
+                    <Plus :size="14" /> Tambah Paket
+                  </button>
                 </div>
                 
                 <div v-if="form.pricelist.length === 0" class="pricelist-empty">
-                  Belum ada item. Tambah item untuk mengisi harga.
+                  Belum ada paket pricelist. Silakan Tambah Paket terlebih dahulu.
                 </div>
                 
-                <div v-else class="pricelist-items">
-                  <div v-for="(item, index) in form.pricelist" :key="index" class="pricelist-item-box">
-                    <label>Item Pricelist</label>
-                    <div class="input-with-action">
-                      <input type="text" class="form-control" v-model="item.nama" placeholder="Item 1" />
-                      <button class="btn-icon btn-trash" @click="removePricelistItem(index)"><Trash2 :size="16" /></button>
+                <div v-else class="pricelist-items" style="display: flex; flex-direction: column; gap: 1rem;">
+                  <div v-for="(pkg, pkgIndex) in form.pricelist" :key="pkgIndex" class="package-box" style="border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; background: rgba(0,0,0,0.1);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                      <div style="flex: 1; margin-right: 1rem;">
+                        <label style="font-size: 0.85rem; color: #a0a0a0; margin-bottom: 4px;">Nama Paket</label>
+                        <input type="text" class="form-control" v-model="pkg.nama_paket" placeholder="Misal: Paket Prewedding" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);" />
+                      </div>
+                      <button type="button" class="btn-icon btn-trash" style="margin-top: 1.5rem;" @click="removePricelistPackage(pkgIndex)" title="Hapus Paket"><Trash2 :size="16" /></button>
                     </div>
                     
-                    <label class="mt-3">Harga</label>
-                    <div class="input-prefix">
-                      <span class="prefix">Rp</span>
-                      <input type="tel" maxlength="13" class="form-control" :value="formatRupiah(item.harga)" @input="e => updateHarga(index, e)" placeholder="0" />
+                    <div class="package-items-container" style="border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 1rem;">
+                      <div v-for="(item, itemIndex) in pkg.items" :key="itemIndex" class="pricelist-item-box" style="margin-bottom: 1rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end;">
+                          <div>
+                            <label style="font-size: 0.8rem; margin-bottom: 4px;">Item Layanan</label>
+                            <input type="text" class="form-control" v-model="item.nama" placeholder="Misal: Foto 1 Hari" />
+                          </div>
+                          <div>
+                            <label style="font-size: 0.8rem; margin-bottom: 4px;">Harga</label>
+                            <div class="input-prefix">
+                              <span class="prefix" style="padding: 0.5rem 0.75rem;">Rp</span>
+                              <input type="tel" maxlength="13" class="form-control" :value="formatRupiah(item.harga)" @input="e => updateHarga(pkgIndex, itemIndex, e)" placeholder="0" style="padding: 0.5rem 0.75rem;" />
+                            </div>
+                          </div>
+                          <button type="button" class="btn-icon btn-trash" @click="removePricelistItem(pkgIndex, itemIndex)" style="padding: 0.5rem;"><X :size="16" /></button>
+                        </div>
+                      </div>
+                      
+                      <button type="button" class="btn-sm btn-outline btn-add-item" style="margin-top: 0.5rem; display: flex; align-items: center; gap: 4px;" @click="addPricelistItem(pkgIndex)">
+                        <Plus :size="12" /> Tambah Item
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1037,12 +1060,22 @@ const deleteTeamMember = async (id) => {
   }
 };
 
-const addPricelistItem = () => {
-  form.value.pricelist.push({ nama: '', harga: '' });
+const addPricelistPackage = () => {
+  form.value.pricelist.push({ nama_paket: '', items: [{ nama: '', harga: '' }] });
 };
 
-const removePricelistItem = (index) => {
-  form.value.pricelist.splice(index, 1);
+const removePricelistPackage = (pkgIndex) => {
+  if (confirm('Hapus paket ini beserta semua item di dalamnya?')) {
+    form.value.pricelist.splice(pkgIndex, 1);
+  }
+};
+
+const addPricelistItem = (pkgIndex) => {
+  form.value.pricelist[pkgIndex].items.push({ nama: '', harga: '' });
+};
+
+const removePricelistItem = (pkgIndex, itemIndex) => {
+  form.value.pricelist[pkgIndex].items.splice(itemIndex, 1);
 };
 
 const formatRupiah = (value) => {
@@ -1061,10 +1094,10 @@ const formatRupiah = (value) => {
   return rupiah;
 };
 
-const updateHarga = (index, event) => {
+const updateHarga = (pkgIndex, itemIndex, event) => {
   const value = event.target.value;
   const cleanValue = value.replace(/\D/g, ''); // Strip all non-digits
-  form.value.pricelist[index].harga = cleanValue;
+  form.value.pricelist[pkgIndex].items[itemIndex].harga = cleanValue;
   event.target.value = formatRupiah(cleanValue);
 };
 
