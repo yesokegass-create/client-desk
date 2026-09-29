@@ -887,9 +887,9 @@ const validateStep1 = () => {
     if (!formData.value.lokasi) errors.value.lokasi = true;
   }
   
-  if (['Wedding', 'Akad', 'Resepsi', 'Lamaran', 'Prewedding'].includes(mockupTipeAcara.value)) {
-    if (!formData.value.namaPasangan) errors.value.namaPasangan = true;
-  }
+  // if (['Wedding', 'Akad', 'Resepsi', 'Lamaran', 'Prewedding'].includes(mockupTipeAcara.value)) {
+    //   if (!formData.value.namaPasangan) errors.value.namaPasangan = true;
+    // }
   
   const firstErrorKey = Object.keys(errors.value)[0];
   if (firstErrorKey) {
