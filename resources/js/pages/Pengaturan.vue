@@ -369,7 +369,7 @@
         </div>
 
         <!-- Sticky Bottom Bar -->
-        <div class="sticky-action-bar">
+        <div class="sticky-action-bar mt-6" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
           <button class="btn-primary" @click="saveSettings" :disabled="isSaving">
             <span v-if="isSaving">Menyimpan...</span>
             <span v-else><Save :size="16" class="mr-2 inline" /> Simpan</span>
@@ -482,7 +482,7 @@
           </div>
 
           <!-- Bottom Save Actions -->
-          <div class="settings-actions">
+          <div class="settings-actions mt-6" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
             <button class="btn-primary" @click="saveSettings('google')">
               <Save :size="16" class="mr-2" /> Simpan
             </button>
