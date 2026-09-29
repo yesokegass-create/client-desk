@@ -57,7 +57,7 @@
             <div class="form-group">
               <label>Minimum DP: {{ selectedEventType }}</label>
               <div class="dp-toggle">
-                <button class="toggle-btn" :class="{ active: dpSettings[selectedEventType].type === 'percentage' }" @click="dpSettings[selectedEventType].type = 'percentage'">Persentase (%)</button>
+                <button class="toggle-btn" :class="{ active: dpSettings[selectedEventType, requireTnc, tncTextBefore, tncTextLink, tncTextAfter, tncContent].type === 'percentage' }" @click="dpSettings[selectedEventType].type = 'percentage'">Persentase (%)</button>
                 <button class="toggle-btn" :class="{ active: dpSettings[selectedEventType].type === 'nominal' }" @click="dpSettings[selectedEventType].type = 'nominal'">Nominal (Rp)</button>
               </div>
               
@@ -353,17 +353,17 @@
             <div class="tnc-form disabled">
               <div class="form-group">
                 <label>Teks sebelum hyperlink</label>
-                <input type="text" class="form-control" value="Saya telah membaca & setuju terhadap" disabled />
+                <input type="text" class="form-control" v-model="tncTextBefore" />
               </div>
               
               <div class="form-row">
                 <div class="form-group flex-1">
                   <label>Teks hyperlink</label>
-                  <input type="text" class="form-control" value="Syarat & Ketentuan" disabled />
+                  <input type="text" class="form-control" v-model="tncTextLink" />
                 </div>
                 <div class="form-group flex-1">
                   <label>Teks sesudah hyperlink</label>
-                  <input type="text" class="form-control" value="yang sudah ada." disabled />
+                  <input type="text" class="form-control" v-model="tncTextAfter" />
                 </div>
               </div>
               
@@ -382,7 +382,7 @@
                     <button><AlignRight :size="14" /></button>
                     <button><Image :size="14" /></button>
                   </div>
-                  <div class="editor-content disabled"></div>
+                  <textarea class="editor-content form-control w-full" v-model="tncContent" placeholder="Masukkan Syarat & Ketentuan di sini..."></textarea>
                 </div>
                 <p class="input-hint">Isi teks ini mendukung format dasar seperti bold, italic, underline, bullet list, numbering, heading, dan quote.</p>
               </div>
@@ -689,6 +689,11 @@ const brandColor = ref('#000000');
 const currentHost = ref(window.location.host);
 const customGreetingText = ref('');
 const formLanguage = ref('ID');
+const requireTnc = ref(false);
+const tncTextBefore = ref('Saya telah membaca & setuju terhadap');
+const tncTextLink = ref('Syarat & Ketentuan');
+const tncTextAfter = ref('yang sudah ada.');
+const tncContent = ref('');
 
 const defaultGreetingText = computed(() => {
   return formLanguage.value === 'EN' 
@@ -983,6 +988,11 @@ const saveSettings = async (silent = false) => {
       brandColor: brandColor.value,
       customGreetingText: customGreetingText.value,
       formLanguage: formLanguage.value,
+        requireTnc: requireTnc.value,
+        tncTextBefore: tncTextBefore.value,
+        tncTextLink: tncTextLink.value,
+        tncTextAfter: tncTextAfter.value,
+        tncContent: tncContent.value,
       selectedEventType: selectedEventType.value
     };
 
@@ -1046,6 +1056,12 @@ onMounted(async () => {
       vendorLogo.value = settingsRes.data.logo_url || '';
       customUrl.value = settingsRes.data.custom_url || '';
       if (settingsRes.data.form_booking_settings) {
+          const fbs = settingsRes.data.form_booking_settings;
+          if (fbs.requireTnc !== undefined) requireTnc.value = fbs.requireTnc;
+          if (fbs.tncTextBefore) tncTextBefore.value = fbs.tncTextBefore;
+          if (fbs.tncTextLink) tncTextLink.value = fbs.tncTextLink;
+          if (fbs.tncTextAfter) tncTextAfter.value = fbs.tncTextAfter;
+          if (fbs.tncContent) tncContent.value = fbs.tncContent;
         const fb = settingsRes.data.form_booking_settings;
         if (fb.activePaymentMethods) activePaymentMethods.value = fb.activePaymentMethods;
         if (fb.dpSettings) dpSettings.value = fb.dpSettings;
