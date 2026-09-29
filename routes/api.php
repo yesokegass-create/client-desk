@@ -117,3 +117,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/team-members/{id}', [App\Http\Controllers\TeamMemberController::class, 'update']);
     Route::delete('/team-members/{id}', [App\Http\Controllers\TeamMemberController::class, 'destroy']);
 });
+
+Route::get('/migrate-db', function() {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return response()->json(['message' => 'Database migrated successfully']);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()]);
+    }
+});
