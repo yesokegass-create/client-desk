@@ -489,8 +489,9 @@
       <p style="color: #6b7280; font-size: 1rem; margin-bottom: 0.5rem; text-align: center;">Kode Booking Anda:</p>
       <h3 style="font-size: 2.5rem; font-weight: 800; color: #111827; margin-bottom: 2rem; letter-spacing: 0.05em; text-align: center;">{{ confirmedInvoice }}</h3>
       <p style="color: #6b7280; font-size: 1rem; margin-bottom: 2.5rem; max-width: 450px; text-align: center;">
-        Silakan konfirmasi booking Anda ke admin melalui WhatsApp untuk proses lebih lanjut.
-      </p>
+          Silakan konfirmasi booking Anda ke admin melalui WhatsApp untuk proses lebih lanjut.<br/><br/>
+          <i>Anda akan dialihkan ke WhatsApp secara otomatis dalam 3 detik...</i>
+        </p>
       
       <a :href="whatsappLink" target="_blank" style="background-color: #25D366; color: white; border: none; padding: 1.25rem 2.5rem; font-size: 1.1rem; font-weight: 700; border-radius: 12px; text-decoration: none; display: flex; align-items: center; justify-content: center; width: auto; box-shadow: 0 4px 6px rgba(37, 211, 102, 0.2); transition: all 0.2s;">
         <Phone :size="20" style="margin-right: 0.75rem;" /> Konfirmasi via WhatsApp
@@ -762,7 +763,12 @@ const submitBooking = async () => {
     whatsappLink.value = generateWhatsappMessage(invoice, vendorPhone);
     
     submitSuccess.value = true;
-    currentStep.value = 5; // Go to success step
+      currentStep.value = 5; // Go to success step
+      
+      // Auto redirect to WhatsApp
+      setTimeout(() => {
+        window.location.href = whatsappLink.value;
+      }, 3000);
   } catch (err) {
     console.error('Error submitting booking:', err);
     if (err.response && err.response.data) {
