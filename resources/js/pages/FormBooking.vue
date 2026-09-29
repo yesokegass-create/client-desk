@@ -21,7 +21,7 @@
         <AlertTriangle :size="20" class="alert-icon" />
         <div class="alert-content">
           <h4 class="alert-title">Nama Studio belum diatur</h4>
-          <p class="alert-desc">Form booking memerlukan Nama Studio untuk membuat URL. Silakan atur Nama Studio di <router-link to="/pengaturan?tab=umum" class="alert-link">Halaman Pengaturan</router-link> terlebih dahulu, lalu kembali ke sini.</p>
+          <p class="alert-desc">Form booking memerlukan Nama Studio untuk membuat URL. Silakan atur Nama Studio di <a href="/pengaturan?tab=umum" class="alert-link">Halaman Pengaturan</a> terlebih dahulu, lalu kembali ke sini.</p>
         </div>
       </div>
 
