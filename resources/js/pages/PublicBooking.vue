@@ -1080,14 +1080,14 @@ onMounted(async () => {
         const todaySetting = data.working_days ? data.working_days.find(d => d.name === currentDayName) : null;
         
         if (!todaySetting || !todaySetting.active) {
-          isFormClosed.value = true;
-        } else {
-          const openTime = todaySetting.open;
-          const closeTime = todaySetting.close;
-          if (currentTimeStr < openTime || currentTimeStr > closeTime) {
-            isFormClosed.value = true;
+            // isFormClosed.value = true; // Temporary disabled by request
+          } else {
+            const openTime = todaySetting.open;
+            const closeTime = todaySetting.close;
+            if (currentTimeStr < openTime || currentTimeStr > closeTime) {
+              // isFormClosed.value = true; // Temporary disabled by request
+            }
           }
-        }
         
         if (data.working_days) {
           activeWorkingDays.value = data.working_days.filter(d => d.active);
