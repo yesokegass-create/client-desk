@@ -776,7 +776,7 @@ const saveSettings = async () => {
     }, 1000); // Redirect after 1 second
   } catch (error) {
     console.error('Error saving settings:', error);
-    alert('Failed to save settings.');
+    alert('Gagal menyimpan: ' + (error.response?.data?.message || error.message || 'Unknown error'));
   } finally {
     isSaving.value = false;
   }
