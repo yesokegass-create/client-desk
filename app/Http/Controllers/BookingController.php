@@ -95,10 +95,17 @@ class BookingController extends Controller
         $vendorPhone = $vendorSettings->phone_number ?? '';
         $vendorCountryCode = $vendorSettings->phone_country_code ?? '62';
         
+        // Ensure country code only contains numbers (remove 'ID +', '+', spaces, etc)
+        $cleanCountryCode = preg_replace('/[^0-9]/', '', $vendorCountryCode);
+        if (empty($cleanCountryCode)) {
+            $cleanCountryCode = '62';
+        }
+
         $fullVendorPhone = $vendorPhone;
         if ($fullVendorPhone) {
+            // Remove leading zero from local phone number
             $fullVendorPhone = ltrim($fullVendorPhone, '0');
-            $fullVendorPhone = $vendorCountryCode . $fullVendorPhone;
+            $fullVendorPhone = $cleanCountryCode . $fullVendorPhone;
         }
 
         return response()->json([
