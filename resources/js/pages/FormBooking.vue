@@ -1023,10 +1023,11 @@ const saveSettings = async (silent = false) => {
         if (isActive.value) endTour();
         window.location.href = '/dashboard';
       } else {
-        // Remove alert, use success state on button instead
+        // Use success state on button and show popup
         setTimeout(() => {
           isSuccess.value = false;
         }, 2000);
+        alert('Pengaturan berhasil disimpan!');
       }
     }
   } catch (error) {
