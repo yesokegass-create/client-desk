@@ -346,11 +346,11 @@
             
             <div class="switch-item mb-3">
               <label class="font-bold">Aktifkan T&C</label>
-              <div class="switch"></div>
+              <div class="switch" :class="{ active: requireTnc }" @click="requireTnc = !requireTnc"></div>
             </div>
             <p class="input-hint mb-4">Pastikan opsi klik ini mewajibkan klien setuju sebelum booking bisa diklik.</p>
             
-            <div class="tnc-form disabled">
+            <div class="tnc-form" :class="{ disabled: !requireTnc }">
               <div class="form-group">
                 <label>Teks sebelum hyperlink</label>
                 <input type="text" class="form-control" v-model="tncTextBefore" />
@@ -1023,7 +1023,7 @@ const saveSettings = async (silent = false) => {
 
 let debounceTimeout = null;
 watch(
-  [activePaymentMethods, dpSettings, bankAccounts, qrisImagePreview, brandColor, customGreetingText, formLanguage, selectedEventType],
+  [activePaymentMethods, dpSettings, bankAccounts, qrisImagePreview, brandColor, customGreetingText, formLanguage, selectedEventType, requireTnc, tncTextBefore, tncTextLink, tncTextAfter, tncContent],
   () => {
     if (debounceTimeout) clearTimeout(debounceTimeout);
     debounceTimeout = setTimeout(() => {
