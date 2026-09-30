@@ -103,8 +103,17 @@ class BookingController extends Controller
 
         $fullVendorPhone = $vendorPhone;
         if ($fullVendorPhone) {
-            // Remove leading zero from local phone number
+            // Clean phone number from any +, spaces, dashes, etc
+            $fullVendorPhone = preg_replace('/[^0-9]/', '', $fullVendorPhone);
+            
+            // Remove leading zero if present
             $fullVendorPhone = ltrim($fullVendorPhone, '0');
+            
+            // Re-check if it starts with 62 so we don't duplicate it if the user somehow bypassed the frontend
+            if (str_starts_with($fullVendorPhone, '62') && $cleanCountryCode === '62') {
+                $fullVendorPhone = substr($fullVendorPhone, 2);
+            }
+            
             $fullVendorPhone = $cleanCountryCode . $fullVendorPhone;
         }
 
