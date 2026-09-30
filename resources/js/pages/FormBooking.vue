@@ -57,7 +57,7 @@
             <div class="form-group">
               <label>Minimum DP: {{ selectedEventType }}</label>
               <div class="dp-toggle">
-                <button class="toggle-btn" :class="{ active: dpSettings[selectedEventType, requireTnc, tncTextBefore, tncTextLink, tncTextAfter, tncContent].type === 'percentage' }" @click="dpSettings[selectedEventType].type = 'percentage'">Persentase (%)</button>
+                <button class="toggle-btn" :class="{ active: dpSettings[selectedEventType].type === 'percentage' }" @click="dpSettings[selectedEventType].type = 'percentage'">Persentase (%)</button>
                 <button class="toggle-btn" :class="{ active: dpSettings[selectedEventType].type === 'nominal' }" @click="dpSettings[selectedEventType].type = 'nominal'">Nominal (Rp)</button>
               </div>
               
