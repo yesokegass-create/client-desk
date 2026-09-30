@@ -490,7 +490,7 @@
       <h3 style="font-size: 2.5rem; font-weight: 800; color: #111827; margin-bottom: 2rem; letter-spacing: 0.05em; text-align: center;">{{ confirmedInvoice }}</h3>
       <p style="color: #6b7280; font-size: 1rem; margin-bottom: 2.5rem; max-width: 450px; text-align: center;">
           Silakan konfirmasi booking Anda ke admin melalui WhatsApp untuk proses lebih lanjut.<br/><br/>
-          <i>Anda akan dialihkan ke WhatsApp secara otomatis dalam 3 detik...</i>
+          <i>Anda sedang dialihkan ke WhatsApp secara otomatis...</i>
         </p>
       
       <a :href="whatsappLink" target="_blank" style="background-color: #25D366; color: white; border: none; padding: 1.25rem 2.5rem; font-size: 1.1rem; font-weight: 700; border-radius: 12px; text-decoration: none; display: flex; align-items: center; justify-content: center; width: auto; box-shadow: 0 4px 6px rgba(37, 211, 102, 0.2); transition: all 0.2s;">
@@ -717,20 +717,45 @@ const generateWhatsappMessage = (invoice, vendorPhone) => {
   if (payMethodText === 'qris') payMethodText = 'QRIS';
   if (payMethodText === 'cash') payMethodText = 'Cash';
 
+  let sumberPembayaran = '-';
+  if (formData.value.paymentMethod === 'transfer_bank' && selectedBankIndex.value !== null && bankAccounts.value[selectedBankIndex.value]) {
+    sumberPembayaran = bankAccounts.value[selectedBankIndex.value].bank_name;
+  } else if (formData.value.paymentMethod === 'qris') {
+    sumberPembayaran = 'QRIS';
+  } else if (formData.value.paymentMethod === 'cash') {
+    sumberPembayaran = 'Cash';
+  }
+
   const text = `Halo ${vendorName.value}, saya ${formData.value.namaLengkap} sudah mengisi form booking.
 
-Nomor WhatsApp: ${formData.value.noWhatsapp}
 Kode Booking: ${invoice}
-Paket: ${pkgNames}
-Add-on: ${addonNames}
-Total Add-on: Rp ${formatNumber(totalAddonsPrice.value)}
+
+*Detail Pemesan:*
+Nama: ${formData.value.namaLengkap}
+WhatsApp: ${formData.value.noWhatsapp}
+Instagram: ${formData.value.instagram || '-'}
+Nama Pasangan: ${formData.value.namaPasangan || '-'}
+IG Pasangan: ${formData.value.instagramPasangan || '-'}
+
+*Detail Acara:*
+Tipe Acara: ${mockupTipeAcara.value || '-'}
 Jadwal: ${tgl}
 Jam: ${jam}
-Total: Rp ${formatNumber(total)}
-DP: Rp ${formatNumber(dp)}
+Lokasi: ${formData.value.lokasi || '-'}
+Detail Lokasi: ${formData.value.detailLokasi || '-'}
+Estimasi Tamu: ${formData.value.estimasiTamu || '-'}
+Catatan: ${formData.value.catatan || '-'}
+
+*Detail Pesanan:*
+Paket: ${pkgNames}
+Add-on: ${addonNames}
+
+*Detail Pembayaran:*
+Total Keseluruhan: Rp ${formatNumber(total)}
+DP Dibayarkan: Rp ${formatNumber(dp)}
 Sisa Pelunasan: Rp ${formatNumber(sisa)}
-Metode pembayaran: ${payMethodText}
-Sumber pembayaran: ${payMethodText}
+Metode Pembayaran: ${payMethodText}
+Sumber Pembayaran: ${sumberPembayaran}
 
 Mohon konfirmasi booking saya. Terima kasih.`;
 
@@ -765,10 +790,8 @@ const submitBooking = async () => {
     submitSuccess.value = true;
       currentStep.value = 5; // Go to success step
       
-      // Auto redirect to WhatsApp
-      setTimeout(() => {
-        window.location.href = whatsappLink.value;
-      }, 3000);
+      // Auto redirect to WhatsApp immediately
+      window.location.href = whatsappLink.value;
   } catch (err) {
     console.error('Error submitting booking:', err);
     if (err.response && err.response.data) {
