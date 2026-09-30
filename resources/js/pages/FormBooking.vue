@@ -391,7 +391,9 @@
           
           <!-- Action Buttons -->
           <div class="action-buttons-bottom">
-            <button class="btn-primary" @click="saveSettings">Simpan Pengaturan</button>
+            <button class="btn-primary" @click="saveSettings(false)" :disabled="isSaving" :class="{ 'btn-success': isSuccess }">
+              {{ isSaving ? 'Menyimpan...' : (isSuccess ? 'Tersimpan!' : 'Simpan Pengaturan') }}
+            </button>
             <button class="btn-text">
               <RefreshCcw :size="14" class="mr-1" /> Reset Default
             </button>
@@ -694,6 +696,8 @@ const tncTextBefore = ref('Saya telah membaca & setuju terhadap');
 const tncTextLink = ref('Syarat & Ketentuan');
 const tncTextAfter = ref('yang sudah ada.');
 const tncContent = ref('');
+const isSaving = ref(false);
+const isSuccess = ref(false);
 
 const defaultGreetingText = computed(() => {
   return formLanguage.value === 'EN' 
@@ -978,6 +982,11 @@ const saveSettings = async (silent = false) => {
     }
   }
 
+  if (!silent) {
+    isSaving.value = true;
+    isSuccess.value = false;
+  }
+
   try {
     const token = localStorage.getItem('auth_token');
     const formSettings = {
@@ -1007,17 +1016,25 @@ const saveSettings = async (silent = false) => {
     completeStep('setup-form');
     
     if (!silent) {
-
+      isSaving.value = false;
+      isSuccess.value = true;
+      
       if (isActive.value || isFirstSetup) {
         if (isActive.value) endTour();
         window.location.href = '/dashboard';
       } else {
-        alert('Pengaturan berhasil disimpan!');
+        // Remove alert, use success state on button instead
+        setTimeout(() => {
+          isSuccess.value = false;
+        }, 2000);
       }
     }
   } catch (error) {
     console.error('Failed to save settings', error);
-    if (!silent) alert('Gagal menyimpan pengaturan.');
+    if (!silent) {
+      isSaving.value = false;
+      alert('Gagal menyimpan pengaturan.');
+    }
   }
 };
 
@@ -2274,6 +2291,11 @@ select.form-control option {
 
 .btn-primary:hover {
   opacity: 0.9;
+}
+
+.btn-success {
+  background-color: #10b981 !important;
+  color: white !important;
 }
 
 .btn-text {
